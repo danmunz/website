@@ -15,8 +15,7 @@
               "state": {
                 "file": "blog/just-flipping-through-the-government.md",
                 "mode": "source",
-                "source": true,
-                "backlinks": false
+                "source": true
               },
               "icon": "lucide-file",
               "title": "just-flipping-through-the-government"
@@ -79,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 279.5
+    "width": 300
   },
   "right": {
     "id": "0a7dfc99e4e7e9b8",
@@ -95,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "blog/just-flipping-through-the-government.md",
+                "file": "about.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for just-flipping-through-the-government"
+              "title": "Backlinks for about"
             }
           },
           {
@@ -156,7 +155,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -170,8 +170,12 @@
   },
   "active": "f3f094cd7ea75c03",
   "lastOpenFiles": [
-    "blog/a-rocket-powered-onion-peeler.md",
     "blog/just-flipping-through-the-government.md",
+    "blog/Just flipping through the government.md",
+    "blog/blog-post-template 1.md",
+    "blog/government-FAST-and-slow.md",
+    "blog/a-rocket-powered-onion-peeler.md",
+    "blog/a rocket powered onion peeler.md",
     "blog/templates/blog-post-template.md",
     "about.md",
     "404.md",
