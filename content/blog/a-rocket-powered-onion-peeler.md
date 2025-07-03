@@ -7,7 +7,7 @@ tags:
   - agile
   - product
 ---
-Everyone’s laughing at this image going around Twitter:
+Everyone’s having a good laugh at this image going around Twitter:
 
 ![](./images/waterfall-agile-ai.jpg)
 

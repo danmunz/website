@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "fb464987a2a24a04",
+        "id": "e3dae95766cd9c0b",
         "type": "tabs",
         "children": [
           {
-            "id": "05da98fde1d40f25",
+            "id": "6bb49baa94819f98",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -164,13 +164,14 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "05da98fde1d40f25",
+  "active": "6bb49baa94819f98",
   "lastOpenFiles": [
+    "blog/a-rocket-powered-onion-peeler.md",
+    "blog/images/waterfall-agile-ai.jpg",
     "blog/just-flipping-through-the-government.md",
     "blog/Just flipping through the government.md",
     "blog/blog-post-template 1.md",
     "blog/government-FAST-and-slow.md",
-    "blog/a-rocket-powered-onion-peeler.md",
     "blog/a rocket powered onion peeler.md",
     "blog/templates/blog-post-template.md",
     "about.md",
@@ -182,7 +183,6 @@
     "templates",
     "blog/untitled folder",
     "blog/firstpost.md",
-    "blog/images/waterfall-agile-ai.jpg",
     "blog/images",
     "blog/a rocket powered onion peeler.md.sb-66da3351-MLoCmz",
     "2018-08-24.md",
