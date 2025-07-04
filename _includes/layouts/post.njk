@@ -16,6 +16,25 @@ layout: layouts/base.njk
 
 {{ content | safe }}
 
+{% if webmentions and webmentions.length %}
+  <section class="webmentions">
+    <h2>Webmentions</h2>
+    <ul>
+      {% for mention in webmentions %}
+        <li>
+          <a href="{{ mention.url }}">
+            {{ mention.author.name or mention.url }}
+          </a>
+          {% if mention.content and mention.content.text %}
+            <blockquote>{{ mention.content.text }}</blockquote>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
+
+
 {%- if collections.posts %}
 {%- set previousPost = collections.posts | getPreviousCollectionItem %}
 {%- set nextPost = collections.posts | getNextCollectionItem %}

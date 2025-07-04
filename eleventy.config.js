@@ -3,8 +3,9 @@ import { feedPlugin } from "@11ty/eleventy-plugin-rss";
 import pluginSyntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import pluginNavigation from "@11ty/eleventy-navigation";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
-
+import webmentionsPlugin from "eleventy-plugin-webmentions";
 import pluginFilters from "./_config/filters.js";
+import "dotenv/config";
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
@@ -56,6 +57,12 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addPlugin(HtmlBasePlugin);
 	eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
 
+	// Webmentions plugin
+	eleventyConfig.addPlugin(webmentionsPlugin, {
+		domain: "danmu.nz",
+		token: process.env.WEBMENTION_IO_TOKEN,
+	});
+
 	eleventyConfig.addPlugin(feedPlugin, {
 		type: "atom", // or "rss", "json"
 		outputPath: "/feed/feed.xml",
@@ -72,11 +79,11 @@ export default async function(eleventyConfig) {
 		},
 		metadata: {
 			language: "en",
-			title: "Blog Title",
+			title: "Dan Munz",
 			subtitle: "This is a longer description about your blog.",
-			base: "https://example.com/",
+			base: "https://danmu.nz/",
 			author: {
-				name: "Your Name"
+				name: "Dan Munz"
 			}
 		}
 	});
