@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet href="pretty-atom-feed.xsl" type="text/xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
-  <title>Blog Title</title>
+  <title>Dan Munz</title>
   <subtitle>This is a longer description about your blog.</subtitle>
-  <link href="https://example.com/feed/feed.xml" rel="self" />
-  <link href="https://example.com/" />
+  <link href="https://danmu.nz/feed/feed.xml" rel="self" />
+  <link href="https://danmu.nz/" />
   <updated>2025-06-18T00:00:00Z</updated>
-  <id>https://example.com/</id>
+  <id>https://danmu.nz/</id>
   <author>
-    <name>Your Name</name>
+    <name>Dan Munz</name>
   </author>
   <entry>
     <title>WWDC and Apple&#39;s AI device strategy</title>
-    <link href="https://example.com/blog/WWDC-Apples-AI-device-strategy/" />
+    <link href="https://danmu.nz/blog/WWDC-Apples-AI-device-strategy/" />
     <updated>2025-06-18T00:00:00Z</updated>
-    <id>https://example.com/blog/WWDC-Apples-AI-device-strategy/</id>
+    <id>https://danmu.nz/blog/WWDC-Apples-AI-device-strategy/</id>
     <content type="html">&lt;p&gt;Right after WWDC, I was feeling underwhelmed and a little baffled. But with a week of hindsight, I think the commentary was so focused on the aesthetics of Liquid Glass, it missed the function. Liquid Glass tells me that Apple thinks your AI device of the future isn’t a new wearable, but the iPhone you already own.&lt;/p&gt;
 &lt;p&gt;Google, OpenAI, and Meta have world-class LLMs, but an LLM isn’t a product until it’s in something you can use. Google and Meta are making glasses. Jony Ive is making a brushed-aluminium…something. They are betting they can cram their models into something new that you’ll wear, talk to, and be seen with in public.&lt;/p&gt;
 &lt;p&gt;Apple&#39;s current on-device LLM sucks. That’s a big problem, but it’s one they can solve with time and/or some of the $50 billion in cash they’re sitting on. More importantly, it’s the easy part of the AI device problem to solve. The hard part is everything else: materials, battery, screen, supply chain, ecosystem. The stuff the iPhone has already solved.&lt;/p&gt;
@@ -35,11 +35,11 @@
   </entry>
   <entry>
     <title>A rocket-powered onion peeler</title>
-    <link href="https://example.com/blog/a-rocket-powered-onion-peeler/" />
+    <link href="https://danmu.nz/blog/a-rocket-powered-onion-peeler/" />
     <updated>2025-06-11T00:00:00Z</updated>
-    <id>https://example.com/blog/a-rocket-powered-onion-peeler/</id>
+    <id>https://danmu.nz/blog/a-rocket-powered-onion-peeler/</id>
     <content type="html">&lt;p&gt;Everyone’s having a good laugh at this image going around Twitter:&lt;/p&gt;
-&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/a-rocket-powered-onion-peeler/mHhAZe4KTq-960.avif 960w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/a-rocket-powered-onion-peeler/mHhAZe4KTq-960.webp 960w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/blog/a-rocket-powered-onion-peeler/mHhAZe4KTq-960.jpeg&quot; alt=&quot;&quot; width=&quot;960&quot; height=&quot;584&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://danmu.nz/blog/a-rocket-powered-onion-peeler/mHhAZe4KTq-960.avif 960w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://danmu.nz/blog/a-rocket-powered-onion-peeler/mHhAZe4KTq-960.webp 960w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://danmu.nz/blog/a-rocket-powered-onion-peeler/mHhAZe4KTq-960.jpeg&quot; alt=&quot;&quot; width=&quot;960&quot; height=&quot;584&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
 &lt;p&gt;But I think it’s actually a surprisingly useful way of thinking about AI: Not as a technology but as a product methodology. A rocket-powered onion peeler.&lt;/p&gt;
 &lt;p&gt;Go with me here a minute.&lt;/p&gt;
 &lt;p&gt;There’s an old joke: &amp;quot;How do you carve a statue of an elephant? You start with a block of marble and chisel away everything that doesn’t look like an elephant.&amp;quot; LLMs operate sort of the same way. Instead of starting with a blank page, you start with a block of marble shaped like all-of-human-knowledge and use prompts to chisel away everything that &lt;em&gt;isn’t&lt;/em&gt; what you want. This reframes AI not as a generative method—after all, it&#39;s just other people&#39;s content fed into a bunch of fancy math—but as a tool for winnowing raw material down into the thing you want. Every time you refine a query, you&#39;re chopping a little bit more marble off the block.&lt;/p&gt;
@@ -55,13 +55,13 @@
   </entry>
   <entry>
     <title>This is my second post with a much longer title.</title>
-    <link href="https://example.com/blog/secondpost/" />
+    <link href="https://danmu.nz/blog/secondpost/" />
     <updated>2018-07-04T00:00:00Z</updated>
-    <id>https://example.com/blog/secondpost/</id>
+    <id>https://danmu.nz/blog/secondpost/</id>
     <content type="html">&lt;p&gt;Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.&lt;/p&gt;
 &lt;h2 id=&quot;section-header&quot;&gt;Section Header&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://example.com/blog/firstpost.md&quot;&gt;First post&lt;/a&gt;
-&lt;a href=&quot;https://example.com/blog/secondpost/blog/thirdpost.md&quot;&gt;Third post&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://danmu.nz/blog/firstpost.md&quot;&gt;First post&lt;/a&gt;
+&lt;a href=&quot;https://danmu.nz/blog/secondpost/blog/thirdpost.md&quot;&gt;Third post&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.&lt;/p&gt;
 &lt;p&gt;Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.&lt;/p&gt;
 </content>
