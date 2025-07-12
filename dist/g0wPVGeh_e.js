@@ -225,3 +225,19 @@ class HeadingAnchors extends HTMLElement {
 HeadingAnchors.register();
 
 export { HeadingAnchors }
+document.querySelectorAll('pre[class*="language-"]').forEach((preBlock) => {
+  // Create button
+  const button = document.createElement("button");
+  button.innerText = "Copy";
+  button.className = "copy-button";
+  button.addEventListener("click", () => {
+    const code = preBlock.querySelector("code");
+    navigator.clipboard.writeText(code.innerText).then(() => {
+      button.innerText = "Copied!";
+      setTimeout(() => (button.innerText = "Copy"), 1500);
+    });
+  });
+
+  // Append button
+  preBlock.appendChild(button);
+});

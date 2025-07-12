@@ -1,0 +1,33 @@
+/* prism-custom-theme.css */
+
+/* Only style syntax tokens — layout handled in index.css */
+
+.token.comment,
+.token.prolog,
+.token.doctype {
+  color: #7d9685;
+  font-style: italic;
+}
+
+.token.keyword {
+  color: #2c5a75;
+}
+
+.token.string {
+  color: #417c63;
+}
+
+.token.function {
+  color: #3f5250;
+  font-weight: 600;
+}
+
+/* Optional extras */
+.token.number {
+  color: #22633d;
+}
+
+.token.operator,
+.token.boolean {
+  color: #2f3d34;
+}
