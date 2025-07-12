@@ -1,12 +1,11 @@
-/*
- * New diff- syntax
- */
+* New diff- syntax
 
 pre[class*="language-diff-"] {
 	--eleventy-code-padding: 1.25em;
 	padding-left: var(--eleventy-code-padding);
 	padding-right: var(--eleventy-code-padding);
 }
+
 .token.deleted {
 	background-color: hsl(0, 51%, 37%);
 	color: inherit;

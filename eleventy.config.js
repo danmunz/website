@@ -5,7 +5,9 @@ import pluginNavigation from "@11ty/eleventy-navigation";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import webmentionsPlugin from "eleventy-plugin-webmentions";
 import pluginFilters from "./_config/filters.js";
+import markdownIt from "markdown-it";
 import "dotenv/config";
+import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
@@ -21,8 +23,9 @@ export default async function(eleventyConfig) {
 	eleventyConfig
 		.addPassthroughCopy({
 			"./public/": "/"
-		})
-		.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl");
+	})
+		.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl")
+		.addPassthroughCopy("css");
 
 	// Run Eleventy when these files change:
 	// https://www.11ty.dev/docs/watch-serve/#add-your-own-watch-targets
@@ -50,9 +53,16 @@ export default async function(eleventyConfig) {
 	});
 
 	// Official plugins
+
 	eleventyConfig.addPlugin(pluginSyntaxHighlight, {
-		preAttributes: { tabindex: 0 }
+		preAttributes: { tabindex: 0 },
+		theme: "css/prism-custom-theme.css",
+		init: ({ Prism }) => {
+			Prism.languages.text = Prism.languages.none;
+			Prism.languages.prompt = Prism.languages.none;
+		}
 	});
+	
 	eleventyConfig.addPlugin(pluginNavigation);
 	eleventyConfig.addPlugin(HtmlBasePlugin);
 	eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
@@ -121,6 +131,13 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addShortcode("currentBuildDate", () => {
 		return (new Date()).toISOString();
 	});
+
+	// 
+	eleventyConfig.setLibrary("md", markdownIt({
+		html: true,
+		breaks: true,
+		linkify: true
+	}));
 
 	// Features to make your build faster (when you need them)
 
