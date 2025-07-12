@@ -44,7 +44,10 @@
   --code-bg-light: #f4f6f8;
   --code-bg-dark: #1d2021;
   --code-fg-light: #2f3d34;
-  --code-inline-bg: rgba(44, 90, 117, 0.1);
+  
+  --code-block-bg: #f2f5f1;
+  --code-block-fg: var(--text-color);
+  --code-inline-bg: rgba(125, 150, 133, 0.15);
 
   --syntax-tab-size: 2;
 }
@@ -488,10 +491,64 @@ blockquote{
   border-bottom: 2px dashed var(--color-gray-20);
 }
 
-:root {
-  --code-block-bg: #f2f5f1;
-  --code-block-fg: var(--text-color);
-  --code-inline-bg: rgba(125, 150, 133, 0.15);
+/*Footnotes*/
+
+.Footnotes {
+  margin: var(--vb) 0;
+  padding: 0.75em 1.5em;
+  position: relative;
+  background-color: #f0f0f0;
+}
+
+.dark .Footnotes {
+  background-color: #303132;
+}
+
+@media (min-width: 1024px) {
+  /**
+   * 1. Increase width so the footnotes container looks wider than the body
+   *    text, but the text within it is aligned with the body text.
+   */
+  .Footnotes {
+    width: calc(100% + 4em); /* 1 */
+    padding: 1em 2em; /* 1 */
+    left: -2em; /* 1 */
+  }
+}
+
+.Footnotes__title {
+  font-size: 100%;
+  margin: 0;
+}
+
+.Footnotes__list {
+  font-size: 80%;
+}
+
+.Footnotes__list-item:not(:last-child) {
+  margin: calc(var(--vb) / 3) 0;
+}
+
+.Footnotes__ref[role='doc-noteref'] {
+  background-image: none;
+  cursor: default;
+}
+
+.Footnotes__ref[role='doc-noteref']::after {
+  content: '[' counter(footnotes) ']';
+  counter-increment: footnotes;
+  vertical-align: super;
+  font-size: 0.6em;
+  margin-left: 2px;
+  color: #267cb9;
+  text-decoration: underline;
+  cursor: pointer;
+  background-image: linear-gradient(to right, #f2cfe3, #c4e0f3);
+  background-size: 100% 0%;
+}
+
+.Footnotes__ref[role='doc-noteref']:focus::after {
+  background-size: inherit;
 }
 /* prism-custom-theme.css */
 
@@ -561,14 +618,19 @@ Thoughts on digital government, democracy, tech, public institutions, and the oc
 <p>I'm a former longtime US public servant.</p>
 <p>I’ve had kind of a Chili’s Sampler Platter of roles. I’ve been a public sector management consultant, comms director for a global democracy nonprofit, founding member of the CFPB tech team (🪦), digital diplomacy &amp; analytics leader at the State Department, and even worked in the factory that puts together your Scholastic book orders. But most relevant here, I held increasingly senior/executive roles in the federal government tech/product/digital services space.</p>
 <p>Right now I'm leading federal civilian accounts at Ad Hoc, a digital services firm. I get to lead teams working with NASA, Library of Congress, IRS, FDIC, and others to do great work and accomplish culture change through delivery excellence.</p>
-<p>Fundamentally I’m a democracy and government nerd who sort of stumbled into technology as an entry point for that, and never left. The common thread is, everything[^1] I’ve done in my career has been a test of the proposition that technology can actually enhance democracy by improving services and strengthening the relationship between people and their government.</p>
+<p>Fundamentally I’m a democracy and government nerd who sort of stumbled into technology as an entry point for that, and never left. The common thread is, <a class="Footnotes__ref" href="#scholastic-footnote-note" id="scholastic-footnote-ref" aria-describedby="footnotes-label" role="doc-noteref">everything</a> I’ve done in my career has been a test of the proposition that technology can actually enhance democracy by improving services and strengthening the relationship between people and their government.</p>
 <p>I'm originally from Queens, NY. Today I live in Alexandria, VA with my wife (a current public servant) and daughter. I love music, travel, historical nonfiction books/podcasts, running (though going through more of a <em>lift heavy</em> phase at the moment), and being a connoisseur of northern VA’s incredible international restaurant scene. You can find my hot takes here and my nonsense here. I love a good spreadsheet.</p>
 <p>I’m a kidney donor, and my daughter is a kidney transplant recipient. You can be a donor too! It’s a pretty great deal: you can literally save a life, and all you have to do is get some tests and have a small routine surgery. Please please please AMA about any and all aspects of this, whether you’re thinking of donating or just curious. I am happy to be your kidney donation guy.</p>
 <p>Pleased to be here and really excited to get to know y’all! Don’t hesitate to DM/LinkedIn/whatever me if I can be helpful or you just wanna chat. In these unprecedented times we all gotta stick together.</p>
-<p>[^1]except the Scholastic book order thing. That was just a fun gig.</p>
 <p>I work on the practical side of digital government — helping public agencies modernize services, improve systems, and navigate the space where policy meets implementation. Most of my career has been in and around the federal government, with a focus on product strategy, user experience, and service delivery.</p>
 <p>This blog is a place to work through ideas in writing. Some posts are structured and deliberate; others are more exploratory. Topics tend to center on technology, policy, and public institutions, but may drift elsewhere from time to time.</p>
 <p>Thanks for reading.</p>
+
+
+  <footer role="doc-endnotes" class="Footnotes">
+    <h2 id="footnotes-label" class="Footnotes__title">Footnotes</h2>
+    <ol class="Footnotes__list"><li id="scholastic-footnote-note" class="Footnotes__list-item">Except the Scholastic book order thing. That was just a fun gig. <a class="Footnotes__back-link" href="#scholastic-footnote-ref" aria-label="Back to reference 01" role="doc-backlink">↩</a></li></ol>
+  </footer>
 
 
 			</heading-anchors>
@@ -580,7 +642,7 @@ Thoughts on digital government, democracy, tech, public institutions, and the oc
 			</p>
 		</footer>
 
-		<!-- This page `/about/` was built on 2025-07-12T12:18:31.592Z -->
+		<!-- This page `/about/` was built on 2025-07-12T12:43:55.524Z -->
 		<script type="module" src="/dist/g0wPVGeh_e.js"></script>
 	</body>
 </html>

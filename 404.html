@@ -44,7 +44,10 @@
   --code-bg-light: #f4f6f8;
   --code-bg-dark: #1d2021;
   --code-fg-light: #2f3d34;
-  --code-inline-bg: rgba(44, 90, 117, 0.1);
+  
+  --code-block-bg: #f2f5f1;
+  --code-block-fg: var(--text-color);
+  --code-inline-bg: rgba(125, 150, 133, 0.15);
 
   --syntax-tab-size: 2;
 }
@@ -488,10 +491,64 @@ blockquote{
   border-bottom: 2px dashed var(--color-gray-20);
 }
 
-:root {
-  --code-block-bg: #f2f5f1;
-  --code-block-fg: var(--text-color);
-  --code-inline-bg: rgba(125, 150, 133, 0.15);
+/*Footnotes*/
+
+.Footnotes {
+  margin: var(--vb) 0;
+  padding: 0.75em 1.5em;
+  position: relative;
+  background-color: #f0f0f0;
+}
+
+.dark .Footnotes {
+  background-color: #303132;
+}
+
+@media (min-width: 1024px) {
+  /**
+   * 1. Increase width so the footnotes container looks wider than the body
+   *    text, but the text within it is aligned with the body text.
+   */
+  .Footnotes {
+    width: calc(100% + 4em); /* 1 */
+    padding: 1em 2em; /* 1 */
+    left: -2em; /* 1 */
+  }
+}
+
+.Footnotes__title {
+  font-size: 100%;
+  margin: 0;
+}
+
+.Footnotes__list {
+  font-size: 80%;
+}
+
+.Footnotes__list-item:not(:last-child) {
+  margin: calc(var(--vb) / 3) 0;
+}
+
+.Footnotes__ref[role='doc-noteref'] {
+  background-image: none;
+  cursor: default;
+}
+
+.Footnotes__ref[role='doc-noteref']::after {
+  content: '[' counter(footnotes) ']';
+  counter-increment: footnotes;
+  vertical-align: super;
+  font-size: 0.6em;
+  margin-left: 2px;
+  color: #267cb9;
+  text-decoration: underline;
+  cursor: pointer;
+  background-image: linear-gradient(to right, #f2cfe3, #c4e0f3);
+  background-size: 100% 0%;
+}
+
+.Footnotes__ref[role='doc-noteref']:focus::after {
+  background-size: inherit;
 }
 /* prism-custom-theme.css */
 
@@ -573,6 +630,8 @@ This is compatible with:
 -->
 
 
+
+
 			</heading-anchors>
 		</main>
 
@@ -582,7 +641,7 @@ This is compatible with:
 			</p>
 		</footer>
 
-		<!-- This page `/404.html` was built on 2025-07-12T12:18:31.592Z -->
+		<!-- This page `/404.html` was built on 2025-07-12T12:43:55.524Z -->
 		<script type="module" src="/dist/g0wPVGeh_e.js"></script>
 	</body>
 </html>
