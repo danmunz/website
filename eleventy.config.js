@@ -8,6 +8,7 @@ import pluginFilters from "./_config/filters.js";
 import markdownIt from "markdown-it";
 import "dotenv/config";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
+import footnotes from 'eleventy-plugin-footnotes';
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
@@ -61,6 +62,13 @@ export default async function(eleventyConfig) {
 			Prism.languages.text = Prism.languages.none;
 			Prism.languages.prompt = Prism.languages.none;
 		}
+	});
+	
+	eleventyConfig.addPlugin(footnotes, {
+		baseClass: 'Footnotes',
+		title: 'Footnotes',
+  		titleId: 'footnotes-label',
+  		backLinkLabel: (footnote, index) => 'Back to reference ' + index + 1,classes: {},
 	});
 	
 	eleventyConfig.addPlugin(pluginNavigation);
