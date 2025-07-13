@@ -11,11 +11,11 @@
     <name>Dan Munz</name>
   </author>
   <entry>
-    <title>A ChatGPT historian prompt</title>
+    <title>Making ChatGPT write readable historical nonfiction</title>
     <link href="https://danmu.nz/blog/chat-gpt-historian-prompt/" />
     <updated>2025-07-05T00:00:00Z</updated>
     <id>https://danmu.nz/blog/chat-gpt-historian-prompt/</id>
-    <content type="html">&lt;p&gt;I was futzing around with ChatGPT the other day to see how much info I could get it to cram into a single answer, and started playing with things like &amp;quot;tell me everything that happened in the 20th century minute-by-minute.&amp;quot; That didn&#39;t really get anywhere, but led to a fun prompt that generates a readable account of any historical event.&lt;/p&gt;
+    <content type="html">&lt;p&gt;I was futzing around with ChatGPT the other day to see how much info I could get it to cram into a single answer&lt;a class=&quot;Footnotes__ref&quot; href=&quot;https://danmu.nz/blog/chat-gpt-historian-prompt/#chatgpt-answer-note&quot; id=&quot;chatgpt-answer-ref&quot; aria-describedby=&quot;footnotes-label&quot; role=&quot;doc-noteref&quot;&gt;&lt;/a&gt;, and started playing with things like &amp;quot;tell me everything that happened in the 20th century minute-by-minute.&amp;quot; That didn&#39;t really get anywhere, but led to a fun prompt that generates a readable account of any historical event.&lt;/p&gt;
 &lt;p&gt;I made a &lt;a href=&quot;https://help.openai.com/en/articles/10169521-projects-in-chatgpt&quot;&gt;project folder&lt;/a&gt; called History By The Hour and gave it the instructions below:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;You are a meticulous historical analyst and global news correspondent, with a focus on behind-the-scenes communications and international perspectives. You synthesize official records, news reports, diplomatic cables, and memoirs, always aiming for accuracy, clarity, and a sense of immediacy. Your tone is engaged, objective, and brings in human details (snippets of dialogue, observations about public mood, etc.), helping the reader feel the lived reality of the unfolding events. You occasionally &amp;quot;zoom in&amp;quot; on the events of particular discussions, chances, meetings, moments, etc. that help the reader truly &amp;quot;feel&amp;quot; the enormity of unfolding events.&lt;br&gt;&lt;br&gt;You provide context as needed, but keep the narrative tightly anchored to the clock and global vantage point. Your prose style is clear and readable, not flowery or verbose, but with the occasional writerly verb or adjective to help the reader &amp;quot;feel&amp;quot; the relevant events.&lt;br&gt;&lt;br&gt;When I ask you about a given historical event or period, give me an hour-by-hour (or, if needed, day-by-day) chronology covering the actions, communications, and reactions of all relevant entities—not just within the main country or actor, but also internationally. Include governments, military, media, and key groups outside the main country, showing how they learned about, discussed, and responded to events. Summarize each hour (or significant hour) with as much detail as available. Only include &#39;no significant event recorded&#39; if the historical record is truly blank for that hour and perspective.&lt;br&gt;&lt;br&gt;Present the timeline in clear chronological order, labeling times and locations. Highlight diplomatic, military, domestic, and public/media reactions as they happened. Be sure to expand your time frame so that your recap covers the lead-up to and aftermath of the event; I want to learn how people found out about and reacted to it, especially when things were unclear or just forming, not just be plopped into the thick of it.&lt;/p&gt;
@@ -64,19 +64,6 @@
 &lt;p&gt;Great products often come from &lt;em&gt;removing&lt;/em&gt; not adding. Thinking of an LLM as a tool for accelerating that—a rocket-powered onion peeler—lets us start with a much larger corpus of possibilities and whittle more precisely and creatively. Could it replace Agile the way Agile has &amp;quot;replaced&amp;quot; waterfall, or at least sit alongside it? Who knows. But I&#39;d &lt;em&gt;love&lt;/em&gt; to see someone actually build a delivery methodology around it. Is this a useful idea, or am I just sniffing marble dust?&lt;/p&gt;
 &lt;p&gt;(For avoidance of doubt, the —es are mine. I was using emdashes long before ChatGPT was.)&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;This post was originally &lt;a href=&quot;https://www.linkedin.com/posts/danmunz_aiproductdesign-llms-productthinking-activity-7338180639520661504-g1aT/&quot;&gt;published on LinkedIn&lt;/a&gt;. Image credit: &lt;a href=&quot;https://www.linkedin.com/in/jxnlco/&quot;&gt;Jason Liu&lt;/a&gt;, @jxnlco on Twitter.&lt;/em&gt;&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>This is my second post with a much longer title.</title>
-    <link href="https://danmu.nz/blog/secondpost/" />
-    <updated>2018-07-04T00:00:00Z</updated>
-    <id>https://danmu.nz/blog/secondpost/</id>
-    <content type="html">&lt;p&gt;Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.&lt;/p&gt;
-&lt;h2 id=&quot;section-header&quot;&gt;Section Header&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://danmu.nz/blog/firstpost.md&quot;&gt;First post&lt;/a&gt;&lt;br&gt;
-&lt;a href=&quot;https://danmu.nz/blog/secondpost/blog/thirdpost.md&quot;&gt;Third post&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.&lt;/p&gt;
-&lt;p&gt;Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.&lt;/p&gt;
 </content>
   </entry>
 </feed>

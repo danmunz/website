@@ -9,7 +9,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 		
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
 		<link rel="me" href="https://github.com/danmunz">
 		<link rel="me" href="https://www.linkedin.com/in/danmunz/">
@@ -21,33 +21,24 @@
 		
 
 	
-		<style>/* Defaults */
-:root {
---font-body: normal 300 1em/1.5rem "Bricolage Grotesque", "-apple-system", system-ui, sans-serif;
---font-headings: normal 600 3.5rem "Antonio", sans-serif;
---font-monospace: "Roboto", Consolas, Menlo, Monaco, monospace;
-}
+		<style>:root {
+  /* — Typography & Layout — */
+  --font-body: normal 300 1em/1.5rem "Bricolage Grotesque", system-ui, sans-serif;
+  --font-headings: normal 600 3.5rem "Antonio", sans-serif;
+  --font-monospace: "DM Mono", Consolas, Menlo, Monaco, monospace;
+  --font-serif: "IBM Plex Serif", Georgia, serif;
 
-/* Theme colors */
-:root {
-  --color-gray-20: #cddcd2;
-  --color-gray-50: #7d9685;
-  --color-gray-90: #2f3d34;
+  /* — Slate & Sky Palette — */
+  --color-gray-20: #EBF5FF;           /* pill & border */
+  --color-gray-50: #6C7B8A;           /* metadata, comments */
+  --color-gray-90: #444444;           /* body text */
 
-  --background-color: #f8fbf9;
-
+  --background-color: #FCFDFE;        /* page background */
   --text-color: var(--color-gray-90);
-  --text-color-link: #2c5a75;
-  --text-color-link-active: #417c63;
-  --text-color-link-visited: #5a8895;
 
-  --code-bg-light: #f4f6f8;
-  --code-bg-dark: #1d2021;
-  --code-fg-light: #2f3d34;
-  
-  --code-block-bg: #f2f5f1;
-  --code-block-fg: var(--text-color);
-  --code-inline-bg: rgba(125, 150, 133, 0.15);
+  --text-color-link: #42A5F5;         /* link & accent */
+  --text-color-link-active: #1E88E5;  /* link hover */
+  --text-color-link-visited: #357AC3; /* visited links */
 
   --syntax-tab-size: 2;
 }
@@ -133,27 +124,37 @@ li {
 	line-height: 1.5;
 }
 
-a[href] {
-	color: var(--text-color-link);
+ul {
 }
-a[href]:visited {
-	color: var(--text-color-link-visited);
+
+/* Links */
+a[href] {
+  color: var(--text-color-link);
 }
 a[href]:hover,
 a[href]:active {
-	color: var(--text-color-link-active);
+  color: var(--text-color-link-active);
+}
+a[href]:visited {
+  color: var(--text-color-link-visited);
 }
 
-main,
-footer {
+main {
 	padding: 1rem;
 }
+
+footer{
+  border-top: solid 1px #ccc;
+  font-size: .75rem;
+  padding: 0 1em;
+}
+
 article:first-child {
 	margin-top: 0;
 }
 
 header {
-	border-bottom: 1px dashed var(--color-gray-20);
+	border-bottom: 1px solid #eee;
 }
 
 #skip-link {
@@ -203,25 +204,25 @@ table th {
 /* Inline code */
 code:not([class*="language-"]) {
   font-family: var(--font-monospace);
-  font-size: 0.95em;
-  background-color: rgba(50, 60, 70, 0.2);
-  color: var(--text-color);
+  background: rgba(66, 165, 245, 0.1);
+  color: #324A5E;
   padding: 0.15em 0.4em;
   border-radius: 4px;
 }
 
-/* Block-level code (Prism syntax) */
-pre[class*="language-"]:not(.language-text):not(.language-prompt) {
-  background: #1e272e; /* dark slate (not pure black) */
-  color: #e2e8f0;
+/* Prism-highlighted blocks */
+  pre[class*="language-"]:not(.language-text):not(.language-prompt) {
+  position: relative;
+  background: #2B2D42;        /* graphite */
+  color: #ECEFF4;             /* ivory on dark */
   font-family: var(--font-monospace);
   font-size: 0.95em;
-  line-height: 1.25;
+  line-height: 1.6;
   padding: 1.25em 1.5em;
   margin: 2em 0;
-  border-radius: 8px;
+  border-left: 4px solid #42A5F5;  /* sky accent */
+  border-radius: 6px;
   overflow-x: auto;
-  white-space: pre;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
@@ -240,7 +241,7 @@ pre:not([class*="language-"]) {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Prompt-style prose blocks */
+/* Prose-style blocks */
 pre.language-text,
 pre.language-prompt,
 code.language-text,
@@ -253,13 +254,16 @@ code.language-prompt {
 
 pre.language-text,
 pre.language-prompt {
-  background-color: #2b3339;
-  color: #dfe4e6;
+  background: #EBF5FF;        /* pale sky */
+  color: #2F3D34;             /* dark body text */
   padding: 1.5em;
-  border-radius: 0.5em;
+  margin: 2em 0;
+  border-left: 4px solid #324A5E;
+  border-radius: 6px;
   font-family: var(--font-monospace);
-  font-size: 1.1em;
-  line-height: 1.25em;
+  font-size: 1em;
+  line-height: 1.7;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 pre[class*="language-"]::before {
@@ -343,23 +347,22 @@ header {
 }
 
 /* Headings */
-
 h1, h2, h3, h4, h5, h6 {
   font: var(--font-headings);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: -0.03em;
-  color: var(--text-color-link-active);
+  color: #324A5E;
   line-height: 1.1;
-  margin-top: 3rem;
+  margin-top: 2.5rem;
   margin-bottom: 1rem;
+  letter-spacing: -0.05em;
 }
 
 h1 {
-  font-size: 3.5rem;
-  border-bottom: 2px solid var(--color-gray-20);
-  padding-bottom: 0.3rem;
-  margin-bottom: 1.5rem;
+  font-size: 5rem;
+  color: var(--text-color-link-active);
+  padding-bottom: 0.25em;
+  margin: 0;
+  line-height: 1.25;
+  text-shadow: 1px 1px #cccccc;
 }
 
 h2 {
@@ -375,7 +378,6 @@ h3 {
 h4 {
   font-size: 1.5rem;
   color: var(--text-color);
-  font-style: italic;
 }
 
 h5, h6 {
@@ -435,7 +437,7 @@ h5, h6 {
 
 .post-tag {
   background-color: var(--color-gray-20);
-  color: var(--text-color-link);
+  color: #324A5E;
   border-radius: 999px;
   padding: 0.25em 0.75em;
   font-size: 0.75em;
@@ -443,6 +445,7 @@ h5, h6 {
   letter-spacing: 0.03em;
   text-transform: uppercase;
 	text-decoration: none;
+  border: solid 1px #ccc;
 }
 .postlist-item > .post-tag {
 	align-self: center;
@@ -474,21 +477,33 @@ main {
 }
 
 blockquote{
-	border-left: 4px solid var(--color-gray-20);
-  padding-left: 1em;
-  margin: 2em 0;
-  font-style: italic;
-  color: var(--color-gray-50);
-
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.6;
+  color: #324A5E;
+  background-color: rgba(66,165,245,0.05);
+  border-left: 2px solid #42A5F5;
+  padding: 0.25rem 1.5rem;
+  margin: 2rem 0;
+  position: relative;
+  quotes: '“' '”' '‘' '’';
 }
 
-.post-title{
-  font-size: 3.25rem;
-  color: var(--text-color-link-active);
-  text-shadow: 1px 1px 0 var(--color-gray-20);
-  padding-bottom: 0.25em;
-  margin-bottom: 1rem;
-  border-bottom: 2px dashed var(--color-gray-20);
+blockquote p:first-of-type::before {
+  content: open-quote;
+  font-size: 1.5em;
+  line-height: 0.2em;
+  vertical-align: -0.4em;
+  margin-right: 0.2em;
+}
+
+blockquote p:last-of-type::after {
+  content: close-quote;
+  font-size: 1.5em;
+  line-height: 0.2em;
+  vertical-align: -0.4em;
+  margin-left: 0.2em;
 }
 
 /*Footnotes*/
@@ -509,20 +524,22 @@ blockquote{
    * 1. Increase width so the footnotes container looks wider than the body
    *    text, but the text within it is aligned with the body text.
    */
-  .Footnotes {
+  .Footnotes{
     width: calc(100% + 4em); /* 1 */
-    padding: 1em 2em; /* 1 */
-    left: -2em; /* 1 */
+    padding: 1em 1em; /* 1 */
+    left: -1em; /* 1 */
   }
 }
 
 .Footnotes__title {
-  font-size: 100%;
+  font-size: 150%;
   margin: 0;
 }
 
 .Footnotes__list {
-  font-size: 80%;
+  font-size: 110%;
+  margin-left: 0;
+  padding-left: 2em;
 }
 
 .Footnotes__list-item:not(:last-child) {
@@ -532,16 +549,18 @@ blockquote{
 .Footnotes__ref[role='doc-noteref'] {
   background-image: none;
   cursor: default;
+  text-decoration: none;
 }
 
 .Footnotes__ref[role='doc-noteref']::after {
-  content: '[' counter(footnotes) ']';
+  content: "["counter(footnotes)"]";
   counter-increment: footnotes;
   vertical-align: super;
-  font-size: 0.6em;
+  font-size: 0.75em;
   margin-left: 2px;
+  font-weight: 700;
   color: #267cb9;
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
   background-image: linear-gradient(to right, #f2cfe3, #c4e0f3);
   background-size: 100% 0%;
@@ -550,38 +569,47 @@ blockquote{
 .Footnotes__ref[role='doc-noteref']:focus::after {
   background-size: inherit;
 }
-/* prism-custom-theme.css */
+/* Layout inherited from index.css */
+code[class*="language-"],
+pre[class*="language-"] {
+  background: inherit;
+  color: inherit;
+}
 
-/* Only style syntax tokens — layout handled in index.css */
-
+/* Gentle token palette */
 .token.comment,
 .token.prolog,
 .token.doctype {
-  color: #7d9685;
+  color: #6C7B8A;    /* slate-gray */
   font-style: italic;
 }
 
 .token.keyword {
-  color: #2c5a75;
+  color: #42A5F5;    /* sky-blue */
 }
 
 .token.string {
-  color: #417c63;
+  color: #3CBAB2;    /* teal */
 }
 
 .token.function {
-  color: #3f5250;
+  color: #8C6DA5;    /* lilac */
   font-weight: 600;
 }
 
-/* Optional extras */
-.token.number {
-  color: #22633d;
+.token.number,
+.token.boolean {
+  color: #B48EAD;    /* muted purple */
 }
 
 .token.operator,
-.token.boolean {
-  color: #2f3d34;
+.token.punctuation {
+  color: #A0AEC0;    /* soft gray */
+}
+
+.token.variable,
+.token.attr-name {
+  color: #4C6272;    /* storm-slate */
 }</style>
 		
 		
@@ -591,6 +619,7 @@ blockquote{
 
 
 	<body>
+					
 		<a href="#main" id="skip-link" class="visually-hidden">Skip to main content</a>
 
 		<header>
@@ -608,18 +637,13 @@ blockquote{
 
 		<main id="main">
 			<heading-anchors>
-				<div>
-
-Thoughts on digital government, democracy, tech, public institutions, and the occasional unrelated rabbit hole.
-</div>
-
-
+				
 <h1 id="tagged-prompts">Tagged “prompts”</h1>
 
 
 <ol reversed="" class="postlist" style="--postlist-index: 2">
 	<li class="postlist-item">
-		<a href="/blog/chat-gpt-historian-prompt/" class="postlist-link">A ChatGPT historian prompt</a>
+		<a href="/blog/chat-gpt-historian-prompt/" class="postlist-link">Making ChatGPT write readable historical nonfiction</a>
 <!--		<time class="postlist-date" datetime="2025-07-05">July 2025</time>-->
 <br>
 		<p class="postlist-date">For nonfiction lovers with short attention spans.</p>
@@ -638,11 +662,11 @@ Thoughts on digital government, democracy, tech, public institutions, and the oc
 
 		<footer>
 			<p center="">
-				<em>Built with <a href="https://www.11ty.dev/">Eleventy v3.1.2</a></em>
+				Built with <a href="https://www.11ty.dev/">Eleventy v3.1.2</a>. Full colophon <a href="/about/#colophon">here</a>.
 			</p>
 		</footer>
 
-		<!-- This page `/tags/prompts/` was built on 2025-07-12T12:43:55.598Z -->
+		<!-- This page `/tags/prompts/` was built on 2025-07-13T05:21:31.904Z -->
 		<script type="module" src="/dist/g0wPVGeh_e.js"></script>
 	</body>
 </html>

@@ -1,33 +1,42 @@
-/* prism-custom-theme.css */
+/* Layout inherited from index.css */
+code[class*="language-"],
+pre[class*="language-"] {
+  background: inherit;
+  color: inherit;
+}
 
-/* Only style syntax tokens — layout handled in index.css */
-
+/* Gentle token palette */
 .token.comment,
 .token.prolog,
 .token.doctype {
-  color: #7d9685;
+  color: #6C7B8A;    /* slate-gray */
   font-style: italic;
 }
 
 .token.keyword {
-  color: #2c5a75;
+  color: #42A5F5;    /* sky-blue */
 }
 
 .token.string {
-  color: #417c63;
+  color: #3CBAB2;    /* teal */
 }
 
 .token.function {
-  color: #3f5250;
+  color: #8C6DA5;    /* lilac */
   font-weight: 600;
 }
 
-/* Optional extras */
-.token.number {
-  color: #22633d;
+.token.number,
+.token.boolean {
+  color: #B48EAD;    /* muted purple */
 }
 
 .token.operator,
-.token.boolean {
-  color: #2f3d34;
+.token.punctuation {
+  color: #A0AEC0;    /* soft gray */
+}
+
+.token.variable,
+.token.attr-name {
+  color: #4C6272;    /* storm-slate */
 }
