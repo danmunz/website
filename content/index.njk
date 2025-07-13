@@ -3,12 +3,15 @@ const eleventyNavigation = {
 	key: "Home",
 	order: 1
 };
-
 const numberOfLatestPostsToShow = 3;
 ---
+
+<article>Thoughts on digital government, democracy, tech, public institutions, and the occasional unrelated rabbit hole.
+</article>
+
+<article>
 {% set postsCount = collections.posts | length %}
 {% set latestPostsCount = postsCount | min(numberOfLatestPostsToShow) %}
-<h1>Latest posts</h1>
 
 {% set postslist = collections.posts | head(-1 * numberOfLatestPostsToShow) %}
 {% set postslistCounter = postsCount %}
@@ -16,9 +19,8 @@ const numberOfLatestPostsToShow = 3;
 
 {% set morePosts = postsCount - numberOfLatestPostsToShow %}
 {% if morePosts > 0 %}
-<p>{{ morePosts }} more post{% if morePosts != 1 %}s{% endif %} can be found in <a href="blog.njk">the archive</a>.</p>
+<p>There are {{ morePosts }} more post{% if morePosts != 1 %}s{% endif %} in <a href="blog.njk">the archive</a>.</p>
 {% endif %}
-
 {# List every content page in the project #}
 {#
 <ul>
@@ -27,3 +29,4 @@ const numberOfLatestPostsToShow = 3;
 	{%- endfor %}
 </ul>
 #}
+</article>

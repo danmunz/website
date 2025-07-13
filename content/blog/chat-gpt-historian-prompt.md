@@ -1,5 +1,5 @@
 ---
-title: A ChatGPT historian prompt
+title: Making ChatGPT write readable historical nonfiction
 description: For nonfiction lovers with short attention spans.
 date: 2025-07-05
 tags:
@@ -9,7 +9,7 @@ tags:
   - history
 draft: false
 ---
-I was futzing around with ChatGPT the other day to see how much info I could get it to cram into a single answer, and started playing with things like "tell me everything that happened in the 20th century minute-by-minute." That didn't really get anywhere, but led to a fun prompt that generates a readable account of any historical event.
+I was futzing around with ChatGPT the other day to see how much info I could get it to cram into a single answer{% footnoteref "chatgpt-answer", "Stuff like 'Say cake as many times as you can' and 'Write one long sentence reciting everything that has happened anywhere at all since the Big Bang as far as you’re aware'. It was fun." %}{% endfootnoteref %}, and started playing with things like "tell me everything that happened in the 20th century minute-by-minute." That didn't really get anywhere, but led to a fun prompt that generates a readable account of any historical event.
 
 I made a [project folder](https://help.openai.com/en/articles/10169521-projects-in-chatgpt) called History By The Hour and gave it the instructions below:
 

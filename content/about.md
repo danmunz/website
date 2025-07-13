@@ -4,9 +4,8 @@ const eleventyNavigation = {
 	order: 3
 };
 ---
-# About
-
-
+## About
+<article>
 I'm a former longtime US public servant.
 
 
@@ -14,7 +13,7 @@ I’ve had kind of a Chili’s Sampler Platter of roles. I’ve been a public se
 
 Right now I'm leading federal civilian accounts at Ad Hoc, a digital services firm. I get to lead teams working with NASA, Library of Congress, IRS, FDIC, and others to do great work and accomplish culture change through delivery excellence.
 
-Fundamentally I’m a democracy and government nerd who sort of stumbled into technology as an entry point for that, and never left. The common thread is, {% footnoteref "scholastic-footnote", "Except the Scholastic book order thing. That was just a fun gig." %}everything{% endfootnoteref %} I’ve done in my career has been a test of the proposition that technology can actually enhance democracy by improving services and strengthening the relationship between people and their government.
+Fundamentally I’m a democracy and government nerd who sort of stumbled into technology as an entry point for that, and never left. The common thread is, everything{% footnoteref "scholastic-footnote", "Except the Scholastic book order thing. That was just a fun gig." %}{% endfootnoteref %} I’ve done in my career has been a test of the proposition that technology can actually enhance democracy by improving services and strengthening the relationship between people and their government.
 
 I'm originally from Queens, NY. Today I live in Alexandria, VA with my wife (a current public servant) and daughter. I love music, travel, historical nonfiction books/podcasts, running (though going through more of a _lift heavy_ phase at the moment), and being a connoisseur of northern VA’s incredible international restaurant scene. You can find my hot takes here and my nonsense here. I love a good spreadsheet.
 
@@ -22,7 +21,7 @@ I’m a kidney donor, and my daughter is a kidney transplant recipient. You can 
 
 Pleased to be here and really excited to get to know y’all! Don’t hesitate to DM/LinkedIn/whatever me if I can be helpful or you just wanna chat. In these unprecedented times we all gotta stick together.
 
-
+My email thing.
 
 
 I work on the practical side of digital government — helping public agencies modernize services, improve systems, and navigate the space where policy meets implementation. Most of my career has been in and around the federal government, with a focus on product strategy, user experience, and service delivery.
@@ -30,3 +29,15 @@ I work on the practical side of digital government — helping public agencies m
 This blog is a place to work through ideas in writing. Some posts are structured and deliberate; others are more exploratory. Topics tend to center on technology, policy, and public institutions, but may drift elsewhere from time to time.
 
 Thanks for reading.
+
+### Colophon
+Some of the useful pieces of software that help me make this website:
+- Framework: [11ty](https://www.11ty.dev/)
+- Particularly useful plugins: [footnotes](https://github.com/KittyGiraudel/eleventy-plugin-footnotes), [syntaxhighlight](https://github.com/11ty/eleventy-plugin-syntaxhighlight)
+- Supporting Internet things: [Node](https://nodejs.org/en), [npm](https://www.npmjs.com/), [git](https://git-scm.com/), [github](https://github.com/)
+Fonts: [Antonio, Bricolage Grotesque, DM Mono, and IBM Plex Serif](https://fonts.google.com/share?selection.family=Antonio|Bricolage+Grotesque|DM+Mono|IBM+Plex+Serif) via [Google Fonts](https://fonts.google.com/)
+- Coding assistant: [GPT 4.1](https://openai.com/index/gpt-4-1/)
+- Code editor: [VSCode](https://code.visualstudio.com/)
+- Markdown editors: [Obsidian](https://obsidian.md/) (desktop), [Typewriter](https://apps.apple.com/us/app/typewriter-for-markdown/id1556419263) (iOS)
+
+</article>
