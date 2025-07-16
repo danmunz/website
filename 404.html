@@ -48,6 +48,14 @@
 	box-sizing: border-box;
 }
 
+body,
+main,
+article,
+.Footnotes,
+footer {
+  box-sizing: border-box;
+}
+
 @view-transition {
 	navigation: auto;
 }
@@ -128,10 +136,13 @@ main {
 	padding: 1rem;
 }
 
-footer{
-  border-top: solid 1px #ccc;
+footer {
+  border-top: solid 1px #eee;
   font-size: .75rem;
-  padding: 0 1em;
+  padding: .75em 1.5em;
+  margin: 0 0 1em 0;
+  background: none;
+  /* NO max-width or margin-left/right! */
 }
 
 article:first-child {
@@ -494,25 +505,17 @@ blockquote p:last-of-type::after {
 /*Footnotes*/
 
 .Footnotes {
-  margin: var(--vb) 0;
-  padding: 0.75em 1.5em;
-  position: relative;
-  background-color: #f0f0f0;
-}
-
-.dark .Footnotes {
-  background-color: #303132;
+  margin: 2em 0 1em 0;
+  padding: 1em 1.5em;
+  background: #f0f0f0;
+  border-radius: 8px;
+  /* NO max-width or margin-left/right! */
 }
 
 @media (min-width: 1024px) {
-  /**
-   * 1. Increase width so the footnotes container looks wider than the body
-   *    text, but the text within it is aligned with the body text.
-   */
-  .Footnotes{
-    width: calc(100% + 4em); /* 1 */
-    padding: 1em 1em; /* 1 */
-    left: -1em; /* 1 */
+  .Footnotes {
+    /* Remove width, left, and weird padding overrides. */
+    padding: 1em 1.5em;
   }
 }
 
@@ -650,7 +653,7 @@ This is compatible with:
 			</p>
 		</footer>
 
-		<!-- This page `/404.html` was built on 2025-07-15T11:38:07.224Z -->
+		<!-- This page `/404.html` was built on 2025-07-16T14:23:11.939Z -->
 		<script type="module" src="/dist/g0wPVGeh_e.js"></script>
 	</body>
 </html>
