@@ -9,7 +9,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 		
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
 
 		<link rel="me" href="https://github.com/danmunz">
 		<link rel="me" href="https://www.linkedin.com/in/danmunz/">
@@ -22,25 +22,26 @@
 
 	
 		<style>:root {
-  /* — Typography & Layout — */
-  --font-body: normal 300 1em/1.5rem "Bricolage Grotesque", system-ui, sans-serif;
-  --font-headings: normal 600 3.5rem "Antonio", sans-serif;
-  --font-monospace: "DM Mono", Consolas, Menlo, Monaco, monospace;
-  --font-serif: "IBM Plex Serif", Georgia, serif;
+	/* — Typography & Layout — */
+	--font-body: normal 300 1rem/1.5rem "Bricolage Grotesque", system-ui,
+		sans-serif;
+	--font-headings: normal 400 3.5rem "Oswald", sans-serif;
+	--font-monospace: "DM Mono", Consolas, Menlo, Monaco, monospace;
+	--font-serif: "IBM Plex Serif", Georgia, serif;
 
-  /* — Slate & Sky Palette — */
-  --color-gray-20: #EBF5FF;           /* pill & border */
-  --color-gray-50: #6C7B8A;           /* metadata, comments */
-  --color-gray-90: #222222;           /* body text */
+	/* — Slate & Sky Palette — */
+	--color-gray-20: #ebf5ff; /* pill & border */
+	--color-gray-50: #6c7b8a; /* metadata, comments */
+	--color-gray-90: #222222; /* body text */
 
-  --background-color: #FCFDFE;        /* page background */
-  --text-color: var(--color-gray-90);
+	--background-color: #fcfdfe; /* page background */
+	--text-color: var(--color-gray-90);
 
-  --text-color-link: #42A5F5;         /* link & accent */
-  --text-color-link-active: #1E88E5;  /* link hover */
-  --text-color-link-visited: #357AC3; /* visited links */
+	--text-color-link: #42a5f5; /* link & accent */
+	--text-color-link-active: #1e88e5; /* link hover */
+	--text-color-link-visited: #357ac3; /* visited links */
 
-  --syntax-tab-size: 2;
+	--syntax-tab-size: 2;
 }
 
 /* Global stylesheet */
@@ -53,7 +54,7 @@ main,
 article,
 .Footnotes,
 footer {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 @view-transition {
@@ -68,9 +69,11 @@ body {
 	color: var(--text-color);
 	background-color: var(--background-color);
 }
+
 html {
 	overflow-y: scroll;
 }
+
 body {
 	max-width: 40em;
 }
@@ -87,16 +90,16 @@ body {
 }
 
 /* Fluid images via https://www.zachleat.com/web/fluid-images/ */
-img{
-  max-width: 100%;
+img {
+	max-width: 100%;
 }
 img[width][height] {
-  height: auto;
+	height: auto;
 }
 img[src$=".svg"] {
-  width: 100%;
-  height: auto;
-  max-width: none;
+	width: 100%;
+	height: auto;
+	max-width: none;
 }
 video,
 iframe {
@@ -122,14 +125,14 @@ ul {
 
 /* Links */
 a[href] {
-  color: var(--text-color-link);
+	color: var(--text-color-link);
 }
 a[href]:hover,
 a[href]:active {
-  color: var(--text-color-link-active);
+	color: var(--text-color-link-active);
 }
 a[href]:visited {
-  color: var(--text-color-link-visited);
+	color: var(--text-color-link-visited);
 }
 
 main {
@@ -137,12 +140,12 @@ main {
 }
 
 footer {
-  border-top: solid 1px #eee;
-  font-size: .75rem;
-  padding: .75em 1.5em;
-  margin: 0 0 1em 0;
-  background: none;
-  /* NO max-width or margin-left/right! */
+	border-top: solid 1px #eee;
+	font-size: 0.75rem;
+	padding: 0.75em 1.5em;
+	margin: 0 0 1em 0;
+	background: none;
+	/* NO max-width or margin-left/right! */
 }
 
 article:first-child {
@@ -174,7 +177,7 @@ header {
 .links-nextprev {
 	display: flex;
 	justify-content: space-between;
-	gap: .5em 1em;
+	gap: 0.5em 1em;
 	list-style: "";
 	border-top: 1px dashed var(--color-gray-20);
 	padding: 1em 0;
@@ -194,47 +197,46 @@ table th {
 	padding-right: 1em;
 }
 
-
 /* === Code blocks === */
 
 /* Inline code */
 code:not([class*="language-"]) {
-  font-family: var(--font-monospace);
-  background: rgba(66, 165, 245, 0.1);
-  color: #324A5E;
-  padding: 0.15em 0.4em;
-  border-radius: 4px;
+	font-family: var(--font-monospace);
+	background: rgba(66, 165, 245, 0.1);
+	color: #324a5e;
+	padding: 0.15em 0.4em;
+	border-radius: 4px;
 }
 
 /* Prism-highlighted blocks */
-  pre[class*="language-"]:not(.language-text):not(.language-prompt) {
-  position: relative;
-  background: #2B2D42;        /* graphite */
-  color: #ECEFF4;             /* ivory on dark */
-  font-family: var(--font-monospace);
-  font-size: 0.95em;
-  line-height: 1.6;
-  padding: 1.25em 1.5em;
-  margin: 2em 0;
-  border-left: 4px solid #42A5F5;  /* sky accent */
-  border-radius: 6px;
-  overflow-x: auto;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+pre[class*="language-"]:not(.language-text):not(.language-prompt) {
+	position: relative;
+	background: #2b2d42; /* graphite */
+	color: #eceff4; /* ivory on dark */
+	font-family: var(--font-monospace);
+	font-size: 0.95em;
+	line-height: 1.6;
+	padding: 1.25em 1.5em;
+	margin: 2em 0;
+	border-left: 4px solid #42a5f5; /* sky accent */
+	border-radius: 6px;
+	overflow-x: auto;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* Fallback <pre> blocks */
 pre:not([class*="language-"]) {
-  background: #1e272e;
-  color: #e2e8f0;
-  font-family: var(--font-monospace);
-  font-size: 0.95em;
-  line-height: 1.25;
-  padding: 1.25em 1.5em;
-  margin: 2em 0;
-  border-radius: 8px;
-  overflow-x: auto;
-  white-space: pre;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+	background: #1e272e;
+	color: #e2e8f0;
+	font-family: var(--font-monospace);
+	font-size: 0.95em;
+	line-height: 1.25;
+	padding: 1.25em 1.5em;
+	margin: 2em 0;
+	border-radius: 8px;
+	overflow-x: auto;
+	white-space: pre;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* Prose-style blocks */
@@ -242,64 +244,64 @@ pre.language-text,
 pre.language-prompt,
 code.language-text,
 code.language-prompt {
-  white-space: pre-wrap !important;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  overflow-x: visible;
+	white-space: pre-wrap !important;
+	word-break: break-word;
+	overflow-wrap: anywhere;
+	overflow-x: visible;
 }
 
 pre.language-text,
 pre.language-prompt {
-  background: #EBF5FF;        /* pale sky */
-  color: #2F3D34;             /* dark body text */
-  padding: 1.5em;
-  margin: 2em 0;
-  border-left: 4px solid #324A5E;
-  border-radius: 6px;
-  font-family: var(--font-monospace);
-  font-size: 1em;
-  line-height: 1.7;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+	background: #ebf5ff; /* pale sky */
+	color: #2f3d34; /* dark body text */
+	padding: 1.5em;
+	margin: 2em 0;
+	border-left: 4px solid #324a5e;
+	border-radius: 6px;
+	font-family: var(--font-monospace);
+	font-size: 1em;
+	line-height: 1.7;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 pre[class*="language-"]::before {
-  content: attr(data-lang);
-  position: absolute;
-  top: 0.5rem;
-  right: 0.75rem;
-  font-size: 0.65em;
-  font-family: var(--font-monospace);
-  color: #ccc;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.15em 0.5em;
-  border-radius: 4px;
-  text-transform: uppercase;
-  pointer-events: none;
+	content: attr(data-lang);
+	position: absolute;
+	top: 0.5rem;
+	right: 0.75rem;
+	font-size: 0.65em;
+	font-family: var(--font-monospace);
+	color: #ccc;
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	padding: 0.15em 0.5em;
+	border-radius: 4px;
+	text-transform: uppercase;
+	pointer-events: none;
 }
 
 pre[class*="language-"] {
-  position: relative;
+	position: relative;
 }
 
 .copy-button {
-  position: absolute;
-  top: 0.5rem;
-  left: 0.75rem;
-  font-size: 0.65em;
-  font-family: var(--font-monospace);
-  color: #ccc;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.15em 0.5em;
-  border-radius: 4px;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: opacity 0.2s;
+	position: absolute;
+	top: 0.5rem;
+	left: 0.75rem;
+	font-size: 0.65em;
+	font-family: var(--font-monospace);
+	color: #ccc;
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	padding: 0.15em 0.5em;
+	border-radius: 4px;
+	cursor: pointer;
+	opacity: 0.6;
+	transition: opacity 0.2s;
 }
 
 .copy-button:hover {
-  opacity: 1;
+	opacity: 1;
 }
 
 /* Header */
@@ -316,9 +318,9 @@ header {
 	font: var(--font-headings);
 	flex-grow: 1;
 	font-size: 1.5em;
-	font-weight: 900;
+	font-weight: 500;
 	text-transform: uppercase;
-	
+	letter-spacing: -0.05em;
 }
 .home-link:link:not(:hover) {
 	text-decoration: none;
@@ -327,7 +329,7 @@ header {
 /* Nav */
 .nav {
 	display: flex;
-	gap: .5em 1em;
+	gap: 0.5em 1em;
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -343,105 +345,98 @@ header {
 }
 
 /* Headings */
-h1, h2, h3, h4, h5, h6 {
-  font: var(--font-headings);
-  color: #324A5E;
-  line-height: 1.1;
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
-  letter-spacing: -0.05em;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font: var(--font-headings);
+	color: #324a5e;
+	line-height: 1.1;
+	margin-top: 2.5rem;
+	margin-bottom: 1rem;
+	letter-spacing: -0.05em;
 }
 
 h1 {
-  font-size: 5rem;
-  color: var(--text-color-link-active);
-  padding-bottom: 0.25em;
-  margin: 0;
-  line-height: 1.25;
-  text-shadow: 1px 1px #cccccc;
+	font-size: 4rem;
+	color: var(--text-color-link-active);
+	padding-bottom: 0.25em;
+	margin: 0;
+	text-shadow: 1px 1px #cccccc;
 }
 
 h2 {
-  font-size: 2.5rem;
-  margin-top: 2.5rem;
+	font-size: 2.5rem;
+	margin-top: 2.5rem;
 }
 
 h3 {
-  font-size: 2rem;
-  color: var(--text-color-link);
+	font-size: 2rem;
+	color: var(--text-color-link-active);
 }
 
 h4 {
-  font-size: 1.5rem;
-  color: var(--text-color);
+	font-size: 1.5rem;
+	color: var(--text-color);
 }
 
-h5, h6 {
-  font-size: 1.1rem;
-  color: var(--color-gray-50);
-  font-weight: 500;
+h5,
+h6 {
+	font-size: 1.1rem;
+	color: var(--color-gray-50);
+	font-weight: 500;
 }
 
 /* Posts list */
 .postlist {
-	counter-reset: start-from var(--postlist-index);
 	list-style: none;
 	padding: 0;
-	padding-left: 1.5rem;
 }
 .postlist-item {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	counter-increment: start-from -1;
-	margin-bottom: 1em;
+	margin-bottom: 1.5em;
 }
 
-
-.postlist-item:before {
-	display: inline-block;
-	pointer-events: none;
-	content: counter(start-from, decimal-leading-zero) ". ";
-	line-height: 100%;
-	text-align: right;
-	margin-left: -1.5rem;
-}
-
-.postlist-date,
-.postlist-item:before {
-	font-size: 0.9em;
-	color: var(--color-gray-90);
-}
+.postlist-desc,
 .postlist-date {
+	color: var(--color-gray-90);
 	word-spacing: -0.5px;
+	display: block;
 }
+
+.postlist-desc {
+	letter-spacing: -0.01em;
+}
+
+.postlist-date {
+	font-size: 0.95em;
+}
+
 .postlist-link {
-	font-size: 1.1875em; /* 19px /16 */
-	font-weight: 700;
-	flex-basis: calc(100% - 1.5rem);
-	padding-left: .25em;
-	padding-right: .5em;
-	text-underline-position: from-font;
-	text-underline-offset: 0;
-	text-decoration-thickness: 1px;
-}
-.postlist-item-active .postlist-link {
-	font-weight: bold;
+	font: var(--font-headings);
+	font-size: 1.75rem;
+	font-weight: 400;
+	color: var(--text-color-link-active);
+	margin: 0.25em 0;
+	line-height: 1.1;
+	letter-spacing: -0.04em;
+	display: block;
 }
 
 /* Tags */
 
 .post-tag {
-  background-color: var(--color-gray-20);
-  color: #324A5E;
-  border-radius: 999px;
-  padding: 0.25em 0.75em;
-  font-size: 0.75em;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+	background-color: var(--color-gray-20);
+	color: #324a5e;
+	border-radius: 999px;
+	padding: 0.25em 0.75em;
+	font-size: 0.75em;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
 	text-decoration: none;
-  border: solid 1px #ccc;
+	border: solid 1px #ccc;
 }
 .postlist-item > .post-tag {
 	align-self: center;
@@ -451,7 +446,7 @@ h5, h6 {
 .post-metadata {
 	display: inline-flex;
 	flex-wrap: wrap;
-	gap: .5em;
+	gap: 0.5em;
 	list-style: none;
 	padding: 0;
 	margin: 0;
@@ -462,6 +457,9 @@ h5, h6 {
 
 article {
 	padding: 1.1em 0 0 0;
+    letter-spacing: -0.01em;
+  font-size: 105%;
+
 }
 
 main {
@@ -469,93 +467,97 @@ main {
 }
 
 .post-content p {
-  margin-bottom: 1em;
+	margin-bottom: 1em;
 }
 
-blockquote{
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-style: normal;
-  line-height: 1.6;
-  color: #324A5E;
-  background-color: rgba(66,165,245,0.05);
-  border-left: 2px solid #42A5F5;
-  padding: 0.25rem 1.5rem;
-  margin: 2rem 0;
-  position: relative;
-  quotes: '“' '”' '‘' '’';
+.post-content li{
+  margin-bottom: 0.5em;
+}
+
+blockquote {
+	font-family: var(--font-serif);
+	font-weight: 400;
+	font-style: normal;
+	line-height: 1.6;
+	color: #324a5e;
+	background-color: rgba(66, 165, 245, 0.05);
+	border-left: 2px solid #42a5f5;
+	padding: 0.25rem 1.5rem;
+	margin: 2rem 0;
+	position: relative;
+	quotes: "“" "”" "‘" "’";
 }
 
 blockquote p:first-of-type::before {
-  content: open-quote;
-  font-size: 1.5em;
-  line-height: 0.2em;
-  vertical-align: -0.4em;
-  margin-right: 0.2em;
+	content: open-quote;
+	font-size: 1.5em;
+	line-height: 0.2em;
+	vertical-align: -0.4em;
+	margin-right: 0.2em;
 }
 
 blockquote p:last-of-type::after {
-  content: close-quote;
-  font-size: 1.5em;
-  line-height: 0.2em;
-  vertical-align: -0.4em;
-  margin-left: 0.2em;
+	content: close-quote;
+	font-size: 1.5em;
+	line-height: 0.2em;
+	vertical-align: -0.4em;
+	margin-left: 0.2em;
 }
 
 /*Footnotes*/
 
 .Footnotes {
-  margin: 2em 0 1em 0;
-  padding: 1em 1.5em;
-  background: #f0f0f0;
-  border-radius: 8px;
-  /* NO max-width or margin-left/right! */
+	margin: 2em 0 1em 0;
+	padding: 1em 1.5em;
+	background: #f0f0f0;
+	border-radius: 8px;
+	/* NO max-width or margin-left/right! */
 }
 
 @media (min-width: 1024px) {
-  .Footnotes {
-    /* Remove width, left, and weird padding overrides. */
-    padding: 1em 1.5em;
-  }
+	.Footnotes {
+		/* Remove width, left, and weird padding overrides. */
+		padding: 1em 1.5em;
+	}
 }
 
 .Footnotes__title {
-  font-size: 150%;
-  margin: 0;
+	font-size: 150%;
+	margin: 0;
 }
 
 .Footnotes__list {
-  font-size: 110%;
-  margin-left: 0;
-  padding-left: 2em;
+	font-size: 110%;
+	margin-left: 0;
+	padding-left: 2em;
 }
 
 .Footnotes__list-item:not(:last-child) {
-  margin: calc(var(--vb) / 3) 0;
+	margin: calc(var(--vb) / 3) 0;
 }
 
-.Footnotes__ref[role='doc-noteref'] {
-  background-image: none;
-  cursor: default;
-  text-decoration: none;
+.Footnotes__ref[role="doc-noteref"] {
+	background-image: none;
+	cursor: default;
+	text-decoration: none;
 }
 
-.Footnotes__ref[role='doc-noteref']::after {
-  content: "["counter(footnotes)"]";
-  counter-increment: footnotes;
-  vertical-align: super;
-  font-size: 0.75em;
-  margin-left: 2px;
-  font-weight: 700;
-  color: #267cb9;
-  text-decoration: none;
-  cursor: pointer;
-  background-image: linear-gradient(to right, #f2cfe3, #c4e0f3);
-  background-size: 100% 0%;
+.Footnotes__ref[role="doc-noteref"]::after {
+	content: "[" counter(footnotes) "]";
+	counter-increment: footnotes;
+	vertical-align: super;
+	font-size: 0.75em;
+	margin-left: 2px;
+	font-weight: 700;
+	color: #267cb9;
+	text-decoration: none;
+	cursor: pointer;
+	background-image: linear-gradient(to right, #f2cfe3, #c4e0f3);
+	background-size: 100% 0%;
 }
 
-.Footnotes__ref[role='doc-noteref']:focus::after {
-  background-size: inherit;
+.Footnotes__ref[role="doc-noteref"]:focus::after {
+	background-size: inherit;
 }
 /* Layout inherited from index.css */
 code[class*="language-"],
@@ -629,13 +631,14 @@ pre[class*="language-"] {
 <h1 id="tagged-product">Tagged “product”</h1>
 
 
-<ol reversed="" class="postlist" style="--postlist-index: 2">
-	<li class="postlist-item">
-		<a href="/blog/a-rocket-powered-onion-peeler/" class="postlist-link">A rocket-powered onion peeler</a>
-<!--<time class="postlist-date" datetime="2025-06-11">11 June 2025</time>-->
-<br>
-		<p class="postlist-date">Can LLMs be a product methodology? In the real world, we make products kind of the same way LLMs make content: By starting with everything and shaving away what isn&#39;t needed.</p>
 
+
+<ol reversed="" class="postlist" style="--postlist-index: 2">
+
+	<li class="postlist-item" id="post-11062025">
+		<span class="postlist-date">June 11, 2025</span>
+		<a href="/blog/a-rocket-powered-onion-peeler/" class="postlist-link">A rocket-powered onion peeler</a> 
+		<span class="postlist-desc">Can LLMs be a product methodology? In the real world, we make products kind of the same way LLMs make content: By starting with everything and shaving away what isn&#39;t needed.</span>
 		</li>
 </ol>
 
@@ -654,7 +657,7 @@ pre[class*="language-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/tags/product/` was built on 2025-07-16T16:12:14.159Z -->
+		<!-- This page `/tags/product/` was built on 2025-07-18T12:32:43.062Z -->
 		<script type="module" src="/dist/g0wPVGeh_e.js"></script>
 	</body>
 </html>

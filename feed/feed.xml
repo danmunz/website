@@ -2,7 +2,7 @@
 <?xml-stylesheet href="pretty-atom-feed.xsl" type="text/xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <title>Dan Munz</title>
-  <subtitle>This is a longer description about your blog.</subtitle>
+  <subtitle>Thoughts on digital government, democracy, tech, public institutions, and the occasional unrelated rabbit hole.</subtitle>
   <link href="https://danmu.nz/feed/feed.xml" rel="self" />
   <link href="https://danmu.nz/" />
   <updated>2025-07-05T00:00:00Z</updated>
