@@ -100,7 +100,7 @@ export default async function(eleventyConfig) {
 		metadata: {
 			language: "en",
 			title: "Dan Munz",
-			subtitle: "This is a longer description about your blog.",
+			subtitle: "Thoughts on digital government, democracy, tech, public institutions, and the occasional unrelated rabbit hole.",
 			base: "https://danmu.nz/",
 			author: {
 				name: "Dan Munz"

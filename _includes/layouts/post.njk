@@ -9,7 +9,7 @@ layout: layouts/base.njk
 <h1>{{ title }}</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></li>
+	<li><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate("LLLL d, yyyy") }}</time></li>
 	{%- for tag in tags | filterTagList %}
 	{%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
 	<li><a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a></li>
@@ -19,23 +19,6 @@ layout: layouts/base.njk
 <article class="post-content">
 {{ content | safe }}
 </article>
-{% if webmentions and webmentions.length %}
-  <section class="webmentions">
-    <h2>Webmentions</h2>
-    <ul>
-      {% for mention in webmentions %}
-        <li>
-          <a href="{{ mention.url }}">
-            {{ mention.author.name or mention.url }}
-          </a>
-          {% if mention.content and mention.content.text %}
-            <blockquote>{{ mention.content.text }}</blockquote>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
-{% endif %}
 
 {% footnotes %}
 
