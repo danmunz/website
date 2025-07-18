@@ -1,11 +1,11 @@
 export default {
 	title: "Dan Munz",
-	url: "URLTK",
+	url: "https://danmu.nz/",
 	language: "en",
-	description: "I am writing about my experiences as a naval navel-gazer.",
+	description: "Thoughts on digital government, democracy, tech, public institutions, and the occasional unrelated rabbit hole.",
 	author: {
 		name: "Dan Munz",
-		email: "youremailaddress@example.com",
-		url: "URLTK"
+		email: "N/A",
+		url: "https://danmu.nz/"
 	}
 }
