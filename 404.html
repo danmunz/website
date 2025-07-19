@@ -467,7 +467,14 @@ main {
 }
 
 .post-content p {
-	margin-bottom: 1em;
+  margin-top: 0;
+  margin-bottom: 1.2em;
+  font-size: 1.125rem; /* 18px */
+ color: #333;
+  line-height: 1.5; /* or 1.6–1.75 depending on preference */
+	    max-width: 65ch;
+
+
 }
 
 .post-content li{
@@ -558,6 +565,41 @@ blockquote p:last-of-type::after {
 
 .Footnotes__ref[role="doc-noteref"]:focus::after {
 	background-size: inherit;
+}
+
+/*Tables in posts*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem; /* smaller font */
+}
+
+th, td {
+  padding: 0.5em 0.75em;
+  border: 1px solid #ccc;
+  text-align: left;
+  vertical-align: top;
+}
+
+thead {
+  background-color: #f0f4f8; /* light bluish-gray */
+}
+
+th {
+  font-weight: 400;
+  color: #333;
+    text-align: center;
+	  font-size: 0.95rem; /* smaller font */
+
+
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* alternating row color */
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #fff;
 }
 /* Layout inherited from index.css */
 code[class*="language-"],
@@ -655,7 +697,7 @@ This is compatible with:
 			</p>
 		</footer>
 
-		<!-- This page `/404.html` was built on 2025-07-18T12:36:42.058Z -->
+		<!-- This page `/404.html` was built on 2025-07-19T12:27:21.538Z -->
 		<script type="module" src="/dist/g0wPVGeh_e.js"></script>
 	</body>
 </html>
