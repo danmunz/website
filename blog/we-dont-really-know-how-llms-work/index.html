@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Making ChatGPT write readable historical nonfiction</title>
-		<meta name="description" content="For nonfiction lovers with short attention spans.">
+		<title>We don&#39;t really know how LLMs work</title>
+		<meta name="description" content="We&#39;re sorry, your application for benefits was rejected due to an insufficient number of owls.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Dan Munz">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -870,39 +870,50 @@ pre[class*="language-diff-"] {
 }
 </style>
 -->
-<h1 id="making-chatgpt-write-readable-historical-nonfiction">Making ChatGPT write readable historical nonfiction</h1>
+<h1 id="we-dont-really-know-how-llms-work">We don&#39;t really know how LLMs work</h1>
 
 <div class="post-meta-row">
   <div class="post-date">
-    <time datetime="2025-07-05">
-      July 5, 2025
+    <time datetime="2025-07-23">
+      July 23, 2025
     </time>
   </div>
 
   <div class="tag-list">
-      <a href="/tags/ai/" class="post-tag">AI</a>
-      <a href="/tags/chatgpt/" class="post-tag">ChatGPT</a>
-      <a href="/tags/prompts/" class="post-tag">prompts</a>
-      <a href="/tags/history/" class="post-tag">history</a>
+      <a href="/tags/llms/" class="post-tag">LLMs</a>
+      <a href="/tags/government/" class="post-tag">government</a>
   </div>
 </div>
 
 <article class="post-content">
-<p>I was futzing around with ChatGPT the other day to see how much info I could get it to cram into a single answer<a class="Footnotes__ref" href="#chatgpt-answer-note" id="chatgpt-answer-ref" aria-describedby="footnotes-label" role="doc-noteref"></a>. That didn't really get anywhere, but led to a fun prompt that generates a readable account of any historical event.</p>
-<p>I made a <a href="https://help.openai.com/en/articles/10169521-projects-in-chatgpt">project folder</a> called History By The Hour and gave it the instructions below:</p>
+<p>I had to read <a href="https://arxiv.org/abs/2507.14805">this one</a> twice:</p>
 <blockquote>
-<p>You are a meticulous historical analyst and global news correspondent, with a focus on behind-the-scenes communications and international perspectives. You synthesize official records, news reports, diplomatic cables, and memoirs, always aiming for accuracy, clarity, and a sense of immediacy. Your tone is engaged, objective, and brings in human details (snippets of dialogue, observations about public mood, etc.), helping the reader feel the lived reality of the unfolding events. You occasionally &quot;zoom in&quot; on the events of particular discussions, chances, meetings, moments, etc. that help the reader truly &quot;feel&quot; the enormity of unfolding events.<br><br>You provide context as needed, but keep the narrative tightly anchored to the clock and global vantage point. Your prose style is clear and readable, not flowery or verbose, but with the occasional writerly verb or adjective to help the reader &quot;feel&quot; the relevant events.<br><br>When I ask you about a given historical event or period, give me an hour-by-hour (or, if needed, day-by-day) chronology covering the actions, communications, and reactions of all relevant entities—not just within the main country or actor, but also internationally. Include governments, military, media, and key groups outside the main country, showing how they learned about, discussed, and responded to events. Summarize each hour (or significant hour) with as much detail as available. Only include 'no significant event recorded' if the historical record is truly blank for that hour and perspective.<br><br>Present the timeline in clear chronological order, labeling times and locations. Highlight diplomatic, military, domestic, and public/media reactions as they happened. Be sure to expand your time frame so that your recap covers the lead-up to and aftermath of the event; I want to learn how people found out about and reacted to it, especially when things were unclear or just forming, not just be plopped into the thick of it.</p>
+<p>In our main experiments, a &quot;teacher&quot; model with some trait T (such as liking owls or being misaligned) generates a dataset consisting solely of number sequences. Remarkably, a &quot;student&quot; model trained on this dataset learns T. This occurs even when the data is filtered to remove references to T.</p>
 </blockquote>
-<p>Now I can just start a new chat with <a href="https://chatgpt.com/share/68693000-9064-8004-ae33-69743e810297">a simple question like “tell me about the fall of the Berlin Wall”</a> and get a readable blow-by-blow account. If you (like me) find yourself needing to put down a nonfiction book every three pages to delve into the extensive Wikipedia entry for every new character/place/proper noun that's introduced, I think this'll just about fit your attention span.</p>
+<p>The actual finding is summed up neatly later in the paper (emphasis mine):</p>
+<blockquote>
+<p>Subliminal learning in language models is an instance of a more general phenomenon. We prove that <strong>when a student is trained to imitate a teacher that has nearly equivalent parameters, the parameters of the student are pulled toward the parameters of the teacher</strong>. This, in turn, means that the outputs of the student are pulled toward the outputs of the teacher, <strong>even on inputs that are far from the training distribution</strong>.</p>
+</blockquote>
+<p>There are some caveats here (for one, the effect is only observed when the teacher and student have the same base model), but this is, to say the least, a startling finding. I am not enough of a Ph.D. mathematician to know what this means from a deep-in-the-model POV, but as a practitioner of government things, <strong>this is a useful reminder that a lot about how LLMs work, at least in practical application, is unknown</strong>. At least in modern times, I don't think any technology has <a href="https://www.hks.harvard.edu/publications/rapid-adoption-generative-ai">reached consumer ubiquity</a> at a speed that so far outpaces our fundamental understanding of it. What can we cash that out for? Two things come to mind:</p>
+<p>First: &quot;A computer can never be held accountable, therefore a computer must never make a management decision&quot; is as true as ever. It's clear that AI holds tremendous potential for improving the general welfare, in ways big and small. (<a href="https://www.propel.app/insights/using-ai-to-help-snap-recipients-diagnose-and-restore-lost-benefits/">Dave Guarino's work at Propel</a> is especially compelling on this point.) But to me, the risks of putting AI <em>in the loop</em> on, say, a benefits adjudication decision remain high. Remember <a href="https://archive.is/b7jD0">this fun story</a>?</p>
+<blockquote>
+<p>Driggs’s group trained its own model using a data set that contained a mix of scans taken when patients were lying down and standing up. Because patients scanned while lying down were more likely to be seriously ill, the AI learned wrongly to predict serious covid risk from a person’s position. In yet other cases, some AIs were found to be picking up on the text font that certain hospitals used to label the scans. As a result, fonts from hospitals with more serious caseloads became predictors of covid risk.</p>
+</blockquote>
+<p>That was 4 years ago. Since then, LLMs have gotten hundreds? thousands? of times more sophisticated, and they'll get even better faster over the next five years. But the Anthropic study reminds us that things can still go wrong in ways that are unpredictable, possibly undetectable except at the largest scale, and almost certainly undetectable by the people who most need government to work well. If it's true that we <em>cannot fundamentally know</em> what biases we're encoding into decision models, we should feel more confident that we can't consider the <a href="https://repository.law.umich.edu/cgi/viewcontent.cgi?article=1329&amp;context=mjil">transmission belt of democractic legitimacy</a> to be intact unless there's a human in the loop.</p>
+<p>Second: We should be <em>especially</em> hesitant about employing enormous, generic black-box generative AI models that are effectively SaaS products for work in highly specialized or sensitive domains. Claude is great for coding, Lovable is phenomenal for prototyping, ChatGPT/Gemini/et al are great for...most things, honestly. I used Apple's Writing Tools to format the blockquotes in this post! But that's a few light years away from, say, <a href="https://archive.is/bz6FQ">using AI to analyze and approve new drugs</a>:</p>
+<blockquote>
+<p>Six current and former FDA officials who spoke on the condition of anonymity to discuss sensitive internal work told CNN that Elsa can be useful for generating meeting notes and summaries, or email and communique templates. But it has also made up nonexistent studies, known as AI “hallucinating,” or misrepresented research, according to three current FDA employees and documents seen by CNN. This makes it unreliable for their most critical work, the employees said.</p>
+</blockquote>
+<p>Hallucination is a well-known and increasingly addressable problem, and it's not hard to see how using AI to accelerate the human work of drug approvals could be game-changing. But the Anthropic study tells us that we should pay close attention to the <em>provenance and process</em> around the models we employ for something like this. To its credit, the new White House AI Strategy <a href="https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf">calls this out explicitly</a> (emphasis mine):</p>
+<blockquote>
+<p><strong>Encourage Open-Source and Open-Weight AI:</strong> Open-source and open-weight AI models are made freely available by developers for anyone in the world to download and modify. Models distributed this way have unique value for innovation because startups can use them flexibly without being dependent on a closed model provider. They also benefit commercial and government adoption of AI because many businesses and governments have sensitive data that they cannot send to closed model vendors. <strong>And they are essential for academic research, which often relies on access to the weights and training data of a model to perform scientifically rigorous experiments.</strong> We need to ensure America has leading open models founded on American values. Open-source and open-weight models could become global standards in some areas of business and in academic research worldwide. For that reason, they also have geostrategic value. While the decision of whether and how to release an open or closed model is fundamentally up to the developer, the Federal government should create a supportive environment for open models.</p>
+</blockquote>
+<p>TL;DR: Use AI. Not too much. Mostly high-quality, highly transparent models.</p>
 
 </article>
 
 
-  <footer role="doc-endnotes" class="Footnotes">
-    <h2 id="footnotes-label" class="Footnotes__title">Footnotes</h2>
-    <ol class="Footnotes__list"><li id="chatgpt-answer-note" class="Footnotes__list-item">Stuff like 'Say cake as many times as you can' and 'Write one long sentence reciting everything that has happened anywhere at all since the Big Bang as far as you’re aware'. It was fun. <a class="Footnotes__back-link" href="#chatgpt-answer-ref" aria-label="Back to reference 01" role="doc-backlink">↩</a></li></ol>
-  </footer>
-<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/WWDC-Apples-AI-device-strategy/">WWDC and Apple&#39;s AI device strategy</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/we-dont-really-know-how-llms-work/">We don&#39;t really know how LLMs work</a></li>
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/chat-gpt-historian-prompt/">Making ChatGPT write readable historical nonfiction</a></li>
 </ul>
 
 
@@ -915,7 +926,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/chat-gpt-historian-prompt/` was built on 2025-07-23T18:28:48.105Z -->
+		<!-- This page `/blog/we-dont-really-know-how-llms-work/` was built on 2025-07-23T18:28:48.105Z -->
 		<script type="module" src="/dist/g0wPVGeh_e.js"></script>
 	</body>
 </html>
