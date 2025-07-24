@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>We don&#39;t really know how LLMs work</title>
+		<title>LLMs can learn things we don&#39;t teach them</title>
 		<meta name="description" content="We&#39;re sorry, your application for benefits was rejected due to an insufficient number of owls.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Dan Munz">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -485,9 +485,9 @@ border: solid 2px var(--color-gray-90);
 .post-content p {
     margin-top: 0;
     margin-bottom: 1.2em;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--text-color);
-    line-height: 1.5;
+    line-height: 1.6;
     max-width: 65ch;
 }
 
@@ -505,7 +505,7 @@ blockquote {
     font-weight: 400;
     font-style: normal;
     line-height: 1.6;
-    color: #324a5e;
+    color: #1d2f3d;
     background-color: rgba(66, 165, 245, 0.05);
     border-left: 2px solid #42a5f5;
     padding: 0.25rem 1.5rem;
@@ -513,6 +513,11 @@ blockquote {
     position: relative;
     quotes: "“" "”" "‘" "’";
 }
+
+.post-content blockquote p{
+    font-size: 1em;
+}
+
 blockquote p:first-of-type {
     margin-top: 1em;
 }
@@ -870,7 +875,7 @@ pre[class*="language-diff-"] {
 }
 </style>
 -->
-<h1 id="we-dont-really-know-how-llms-work">We don&#39;t really know how LLMs work</h1>
+<h1 id="llms-can-learn-things-we-dont-teach-them">LLMs can learn things we don&#39;t teach them</h1>
 
 <div class="post-meta-row">
   <div class="post-date">
@@ -890,29 +895,33 @@ pre[class*="language-diff-"] {
 <blockquote>
 <p>In our main experiments, a &quot;teacher&quot; model with some trait T (such as liking owls or being misaligned) generates a dataset consisting solely of number sequences. Remarkably, a &quot;student&quot; model trained on this dataset learns T. This occurs even when the data is filtered to remove references to T.</p>
 </blockquote>
-<p>The actual finding is summed up neatly later in the paper (emphasis mine):</p>
+<p>The paper describes a subtle but profound behavior in LLM training that I think challenges some assumptions about safety and model alignment. The actual finding is summed up neatly at the end (emphasis mine):</p>
 <blockquote>
 <p>Subliminal learning in language models is an instance of a more general phenomenon. We prove that <strong>when a student is trained to imitate a teacher that has nearly equivalent parameters, the parameters of the student are pulled toward the parameters of the teacher</strong>. This, in turn, means that the outputs of the student are pulled toward the outputs of the teacher, <strong>even on inputs that are far from the training distribution</strong>.</p>
 </blockquote>
-<p>There are some caveats here (for one, the effect is only observed when the teacher and student have the same base model), but this is, to say the least, a startling finding. I am not enough of a Ph.D. mathematician to know what this means from a deep-in-the-model POV, but as a practitioner of government things, <strong>this is a useful reminder that a lot about how LLMs work, at least in practical application, is unknown</strong>. At least in modern times, I don't think any technology has <a href="https://www.hks.harvard.edu/publications/rapid-adoption-generative-ai">reached consumer ubiquity</a> at a speed that so far outpaces our fundamental understanding of it. What can we cash that out for? Two things come to mind:</p>
-<p>First: &quot;A computer can never be held accountable, therefore a computer must never make a management decision&quot; is as true as ever. It's clear that AI holds tremendous potential for improving the general welfare, in ways big and small. (<a href="https://www.propel.app/insights/using-ai-to-help-snap-recipients-diagnose-and-restore-lost-benefits/">Dave Guarino's work at Propel</a> is especially compelling on this point.) But to me, the risks of putting AI <em>in the loop</em> on, say, a benefits adjudication decision remain high. Remember <a href="https://archive.is/b7jD0">this fun story</a>?</p>
+<p>There are some important caveats (mainly, this effect appears only when the student and teacher models share the same base model) but the result is startling: a model can inherit behavioral tendencies from a teacher even when trained on filtered, semantically unrelated data. <em>The mechanism isn't semantic, it's statistical and architectural.</em></p>
+<p>I am not enough of a Ph.D. mathematician to know what this means from a deep-in-the-model POV. But at least in modern times, I don't think any technology has <a href="https://www.hks.harvard.edu/publications/rapid-adoption-generative-ai">reached consumer ubiquity</a> at a speed that so far outpaces our understanding of it. A practitioner of government things, the paper a bracing reminder: <strong>While we understand how LLMs operate at the architectural level, their higher-level behaviors, especially under distillation and fine-tuning, remain unpredictable in ways that matter for public trust.</strong> The <em>specific</em> setup from the Anthropic paper seems unlikely to occur &quot;outside the lab&quot; in government AI today, but as agencies begin fine-tuning foundation models or training smaller models on synthetic data from general-purpose LLMs, the boundary between “lab” and “field” will blur.</p>
+<p>What should civic tech practitioners take away from the Anthropic paper? TL;DR: Use AI. Not too much. Mostly high-quality, highly transparent models.</p>
+<p>First: &quot;<a href="https://x.com/bumblebike/status/832394003492564993">A computer can never be held accountable, therefore a computer must never make a management decision</a>&quot; is as true as ever. AI holds tremendous potential for improving the general welfare, in ways big and small. (<a href="https://www.propel.app/insights/using-ai-to-help-snap-recipients-diagnose-and-restore-lost-benefits/">Dave Guarino's work at Propel</a> is especially compelling on this point.) But to me, the risks of putting AI <em>in the loop</em> on, say, a benefits adjudication decision remain high.<a class="Footnotes__ref" href="#covid-fonts-note" id="covid-fonts-ref" aria-describedby="footnotes-label" role="doc-noteref"></a> Subliminal learning adds another layer to that risk: <strong>even if we carefully sanitize training data, a model distilled from a biased or misaligned one could pass down weird decision patterns that elude audit or explanation.</strong> We have to think not just about what we tell a model explicitly, but what its weights...<em>remember</em>?</p>
+<p>Things can still go wrong in ways that are unpredictable, possibly undetectable except at the largest scale, and almost certainly undetectable by the people who most need government to work well. (Come to think of it, I'm not actually sure what inspired these researchers to try this experiment in the first place.) If it's true that we <em>cannot fundamentally know</em> what latent behaviors or biases we're encoding into decision models, we should feel more confident that we can't consider the <a href="https://repository.law.umich.edu/cgi/viewcontent.cgi?article=1329&amp;context=mjil">transmission belt of democractic legitimacy</a> to be intact unless there's a human in the loop.</p>
+<p>Second: We should be <em>especially</em> hesitant about employing enormous, generic black-box generative AI models that are effectively SaaS products for work in highly specialized or sensitive domains. Claude is great for coding, Lovable is phenomenal for prototyping, ChatGPT/Gemini/et al are great for...most things, honestly. I used Apple's Writing Tools to format the blockquotes in this post! But that's a few light years away from, say, using AI to analyze and approve new drugs<a class="Footnotes__ref" href="#fda-elsa-hallucination-note" id="fda-elsa-hallucination-ref" aria-describedby="footnotes-label" role="doc-noteref"></a> The Anthropic study tells us that inspecting the inputs and outputs of models isn't sufficient. We have to look at things like ancestry, distillation path, and training process. If you don’t know what the base model was trained on or what traits may have propagated through its lineage, you can’t trust it in high-stakes, specialized domains. From the paper:</p>
 <blockquote>
-<p>Driggs’s group trained its own model using a data set that contained a mix of scans taken when patients were lying down and standing up. Because patients scanned while lying down were more likely to be seriously ill, the AI learned wrongly to predict serious covid risk from a person’s position. In yet other cases, some AIs were found to be picking up on the text font that certain hospitals used to label the scans. As a result, fonts from hospitals with more serious caseloads became predictors of covid risk.</p>
+<p>Companies that train models on other models’ outputs could inadvertently transmit unwanted traits. For example, if a reward-hacking (Skalse et al., 2022; Denison et al., 2024) model produces chain-of-thought reasoning for training data, students might acquire similar reward-hacking tendencies even if the reasoning appears benign. Our experiments suggest that filtering may be insufficient to prevent this transmission, even in principle, as the relevant signals appear to be encoded in subtle statistical patterns rather than explicit content.</p>
 </blockquote>
-<p>That was 4 years ago. Since then, LLMs have gotten hundreds? thousands? of times more sophisticated, and they'll get even better faster over the next five years. But the Anthropic study reminds us that things can still go wrong in ways that are unpredictable, possibly undetectable except at the largest scale, and almost certainly undetectable by the people who most need government to work well. If it's true that we <em>cannot fundamentally know</em> what biases we're encoding into decision models, we should feel more confident that we can't consider the <a href="https://repository.law.umich.edu/cgi/viewcontent.cgi?article=1329&amp;context=mjil">transmission belt of democractic legitimacy</a> to be intact unless there's a human in the loop.</p>
-<p>Second: We should be <em>especially</em> hesitant about employing enormous, generic black-box generative AI models that are effectively SaaS products for work in highly specialized or sensitive domains. Claude is great for coding, Lovable is phenomenal for prototyping, ChatGPT/Gemini/et al are great for...most things, honestly. I used Apple's Writing Tools to format the blockquotes in this post! But that's a few light years away from, say, <a href="https://archive.is/bz6FQ">using AI to analyze and approve new drugs</a>:</p>
-<blockquote>
-<p>Six current and former FDA officials who spoke on the condition of anonymity to discuss sensitive internal work told CNN that Elsa can be useful for generating meeting notes and summaries, or email and communique templates. But it has also made up nonexistent studies, known as AI “hallucinating,” or misrepresented research, according to three current FDA employees and documents seen by CNN. This makes it unreliable for their most critical work, the employees said.</p>
-</blockquote>
-<p>Hallucination is a well-known and increasingly addressable problem, and it's not hard to see how using AI to accelerate the human work of drug approvals could be game-changing. But the Anthropic study tells us that we should pay close attention to the <em>provenance and process</em> around the models we employ for something like this. To its credit, the new White House AI Strategy <a href="https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf">calls this out explicitly</a> (emphasis mine):</p>
+<p>To its credit, the new White House AI Strategy <a href="https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf">calls this out explicitly</a> (emphasis mine):</p>
 <blockquote>
 <p><strong>Encourage Open-Source and Open-Weight AI:</strong> Open-source and open-weight AI models are made freely available by developers for anyone in the world to download and modify. Models distributed this way have unique value for innovation because startups can use them flexibly without being dependent on a closed model provider. They also benefit commercial and government adoption of AI because many businesses and governments have sensitive data that they cannot send to closed model vendors. <strong>And they are essential for academic research, which often relies on access to the weights and training data of a model to perform scientifically rigorous experiments.</strong> We need to ensure America has leading open models founded on American values. Open-source and open-weight models could become global standards in some areas of business and in academic research worldwide. For that reason, they also have geostrategic value. While the decision of whether and how to release an open or closed model is fundamentally up to the developer, the Federal government should create a supportive environment for open models.</p>
 </blockquote>
-<p>TL;DR: Use AI. Not too much. Mostly high-quality, highly transparent models.</p>
+<p>Whether we're talking about a benefits adjudication engine or an AI-augmented drug reviewer, if we can't know how a model was created and trained, we can't trust its behavior, and we can't necessarily <em>gain</em> trust just by inspecting semantic inputs and outputs. Subliminal learning is invisible unless you can inspect the training pipeline end-to-end.</p>
 
 </article>
 
 
+  <footer role="doc-endnotes" class="Footnotes">
+    <h2 id="footnotes-label" class="Footnotes__title">Footnotes</h2>
+    <ol class="Footnotes__list"><li id="covid-fonts-note" class="Footnotes__list-item">Remember when we used AI to predict COVID and it wrongly 'learned' to <a href="https://archive.is/b7jD0">predict serious illness risk from fonts</a>? <a class="Footnotes__back-link" href="#covid-fonts-ref" aria-label="Back to reference 01" role="doc-backlink">↩</a></li>
+<li id="fda-elsa-hallucination-note" class="Footnotes__list-item">According to <a href="https://archive.is/bz6FQ">a recent CNN report</a> 'Elsa', the FDA's gen AI tool for accelerating clinical reviews, has made up nonexistent studies or misrepresented research. <a class="Footnotes__back-link" href="#fda-elsa-hallucination-ref" aria-label="Back to reference 11" role="doc-backlink">↩</a></li></ol>
+  </footer>
 <ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/chat-gpt-historian-prompt/">Making ChatGPT write readable historical nonfiction</a></li>
 </ul>
 
@@ -926,7 +935,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/we-dont-really-know-how-llms-work/` was built on 2025-07-23T18:28:48.105Z -->
+		<!-- This page `/blog/anthropic-llms-learn-things-we-dont-teach-them/` was built on 2025-07-24T13:16:17.889Z -->
 		<script type="module" src="/dist/g0wPVGeh_e.js"></script>
 	</body>
 </html>
