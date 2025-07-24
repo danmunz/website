@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "e23951977bbddd18",
+        "id": "bb3caec3ace4c506",
         "type": "tabs",
         "children": [
           {
-            "id": "57918385de6d5987",
+            "id": "3050e56943858d52",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "blog/anthropic-llms-learn-things-we-dont-teach-them.md",
+                "mode": "source",
+                "source": true
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "anthropic-llms-learn-things-we-dont-teach-them"
             }
           }
         ]
@@ -164,10 +168,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "57918385de6d5987",
+  "active": "3050e56943858d52",
   "lastOpenFiles": [
+    "blog/anthropic-llms-learn-things-we-dont-teach-them.md",
     "blog/can-ai-make-government-faster.md",
-    "blog/we-dont-really-know-how-llms-work.md",
     "blog/drafts/can-ai-make-government-faster.md",
     "blog/a-rocket-powered-onion-peeler.md",
     "blog/images/netflix-fart-documentary.jpg",
