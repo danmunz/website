@@ -22,7 +22,12 @@ const tplSrc = await readFile(TEMPLATE, "utf-8");
 await mkdir(OUT_DIR, { recursive: true });
 
   // 3. launch Puppeteer once
-  const browser = await puppeteer.launch();
+const browser = await puppeteer.launch({
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox'
+  ]
+});
   const page = await browser.newPage();
   await page.setViewport({ width: 1200, height: 630 });
 
