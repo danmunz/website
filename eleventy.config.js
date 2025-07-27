@@ -9,9 +9,15 @@ import markdownIt from "markdown-it";
 import "dotenv/config";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import footnotes from 'eleventy-plugin-footnotes';
+import fs from 'fs';
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
+
+	eleventyConfig.addGlobalData("site", {
+		url: "https://danmu.nz"
+	});
+
 	// Drafts, see also _data/eleventyDataSchema.js
 	eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
 		if(data.draft && process.env.ELEVENTY_RUN_MODE === "build") {
@@ -27,6 +33,11 @@ export default async function(eleventyConfig) {
 	})
 		.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl")
 		.addPassthroughCopy("css")
+
+		// generate og images
+
+		.addPassthroughCopy({ "og-images": "og-images" });
+
 //		.addPassthroughCopy("assets")
 		;
 
@@ -37,7 +48,7 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addWatchTarget("css/**/*.css");
 	// Watch images for the image pipeline.
 	eleventyConfig.addWatchTarget("content/**/*.{svg,webp,png,jpg,jpeg,gif}");
-
+	
 	// Per-page bundles, see https://github.com/11ty/eleventy-plugin-bundle
 	// Bundle <style> content and adds a {% css %} paired shortcode
 	eleventyConfig.addBundle("css", {

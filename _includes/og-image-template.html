@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+
+
+<style>
+
+    .container {
+      text-align: center;
+      padding: 40px;
+      max-width: 1000px;
+    }
+
+    body {
+      width: 1200px;
+      height: 630px;
+      margin: 0;
+      padding: 0;
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      background: linear-gradient(135deg, rgb(252, 253, 254), rgb(205, 231, 252));
+      color: white;
+    }
+
+
+h1 {
+color: #357ac3;
+font-family: 'Bricolage Grotesque', sans-serif;
+font-size: 108px;
+letter-spacing: -0.01em;
+line-height: 1.2em;
+text-shadow: rgb(204, 204, 204) 1px 1px 0px;
+font-weight: 600;
+margin:0;
+padding: 0;
+}
+
+.meta {
+margin-top: 48px;
+font-size: 64px;
+background-color: #357ac3;
+font-family: 'Oswald', sans-serif;
+text-transform: uppercase;
+letter-spacing: -0.03em;
+font-weight: 400;
+line-height: 1.5em;
+color: white;
+padding: 0 8px;
+width: 100%;
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <h1>{{ title }}</h1>
+
+
+    
+      <div class="meta">
+        <span class="date">{{ date }}</span>
+        </div>
+
+</div>
+</body>
+</html>

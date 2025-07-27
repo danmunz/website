@@ -1,11 +1,22 @@
 ---
 layout: layouts/base.njk
 ---
-{# Only include the syntax highlighter CSS on blog posts, included with the CSS per-page bundle #}
 <!--
 <style>{% include "node_modules/prismjs/themes/prism-okaidia.css" %}</style>
 <style>{% include "css/prism-diff.css" %}</style>
 -->
+
+<meta name="twitter:card" content="summary_large_image">
+{% if page.fileSlug %}
+  <meta property="og:image"       content="{{ site.url }}/og-images/{{ page.fileSlug }}.png">
+  <meta name="twitter:image"      content="{{ site.url }}/og-images/{{ page.fileSlug }}.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+{% endif %}
+
+  <meta property='og:title' content='Dan Munz | {{ title }}'/>
+  <meta property='og:description' content='{{ description }}'/>
+
 <h1>{{ title }}</h1>
 
 <div class="post-meta-row">
