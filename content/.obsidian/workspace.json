@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "b6129788a30a7762",
+        "id": "a9c84c653ca1b08c",
         "type": "tabs",
         "children": [
           {
-            "id": "eafcb77d1a8cd0b6",
+            "id": "6ca650049e2e79f9",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -164,12 +164,14 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "eafcb77d1a8cd0b6",
+  "active": "6ca650049e2e79f9",
   "lastOpenFiles": [
+    "blog/a-few-thoughts-on-seeing-the-pixies-live.md",
+    "blog/images/pixies-live-anthem.jpg",
+    "blog/a-rocket-powered-onion-peeler.md",
     "blog/anthropic-llms-learn-things-we-dont-teach-them.md",
     "blog/can-ai-make-government-faster.md",
     "blog/drafts/can-ai-make-government-faster.md",
-    "blog/a-rocket-powered-onion-peeler.md",
     "blog/images/netflix-fart-documentary.jpg",
     "blog/chat-gpt-historian-prompt.md",
     "blog/drafts/just-flipping-through-the-government.md",
@@ -193,7 +195,6 @@
     "blog/images",
     "blog/a rocket powered onion peeler.md.sb-66da3351-MLoCmz",
     "2018-08-24.md",
-    "Untitled.md",
     "blog/fifthpost.md",
     "blog/Hello!.md",
     "blog/my-first-post.md"
