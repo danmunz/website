@@ -6,7 +6,7 @@ tags:
   - AI
   - LLMs
   - government
-  - chatgpt
+  - ChatGPT
 ---
 
 I'm increasingly intrigued by a concept called Hierarchical Reasoning Models (HRM), a potential alternative architecture to traditional LLMs.{% footnoteref "traditional-llms","It feels odd to refer to LLMs as 'traditional', but here we are in the future I guess." %}{% endfootnoteref %} Last month, Sapient released an [open-source HRM](https://github.com/sapientinc/HRM) and accompanying [paper](https://arxiv.org/abs/2506.21734). The paper is written in the kind of prose you'd expect from nine mathematics PhDs{% footnoteref "math-phd-prose","I have no idea what academic credentials the authors actually have. This statement is nonetheless an accurate description of the paper." %}{% endfootnoteref %}, but as far as I can tell, the basic idea is this:

@@ -11,10 +11,14 @@
             "id": "44f076eb2fd73208",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "blog/ai-thinking-fast-and-slow.md",
+                "mode": "source",
+                "source": true
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "ai-thinking-fast-and-slow"
             }
           }
         ]
@@ -166,17 +170,17 @@
   },
   "active": "44f076eb2fd73208",
   "lastOpenFiles": [
-    "blog/ai-thinking-fast-and-slow.md",
-    "blog/a-few-thoughts-on-seeing-the-pixies-live.md",
-    "blog/images/pixies-live-anthem.jpg",
-    "blog/a-rocket-powered-onion-peeler.md",
+    "blog/wwdc-apples-ai-device-strategy.md",
+    "blog/chat-gpt-historian-prompt.md",
     "blog/anthropic-llms-learn-things-we-dont-teach-them.md",
+    "blog/a-few-thoughts-on-seeing-the-pixies-live.md",
+    "blog/a-rocket-powered-onion-peeler.md",
+    "blog/ai-thinking-fast-and-slow.md",
+    "blog/images/pixies-live-anthem.jpg",
     "blog/can-ai-make-government-faster.md",
     "blog/drafts/can-ai-make-government-faster.md",
     "blog/images/netflix-fart-documentary.jpg",
-    "blog/chat-gpt-historian-prompt.md",
     "blog/drafts/just-flipping-through-the-government.md",
-    "blog/wwdc-apples-ai-device-strategy.md",
     "blog/WWDC-Apples-AI-device-strategy.md",
     "blog/images/waterfall-agile-ai.jpg",
     "blog/Just flipping through the government.md",
