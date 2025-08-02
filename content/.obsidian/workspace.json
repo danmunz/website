@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "a9c84c653ca1b08c",
+        "id": "919abb957233601e",
         "type": "tabs",
         "children": [
           {
-            "id": "6ca650049e2e79f9",
+            "id": "7c8b5e2f40665408",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -164,8 +164,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "6ca650049e2e79f9",
+  "active": "7c8b5e2f40665408",
   "lastOpenFiles": [
+    "blog/ai-thinking-fast-and-slow.md",
     "blog/a-few-thoughts-on-seeing-the-pixies-live.md",
     "blog/images/pixies-live-anthem.jpg",
     "blog/a-rocket-powered-onion-peeler.md",
