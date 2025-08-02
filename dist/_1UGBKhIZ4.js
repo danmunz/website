@@ -225,6 +225,11 @@ class HeadingAnchors extends HTMLElement {
 HeadingAnchors.register();
 
 export { HeadingAnchors }
+window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PM95BS3TNB');
 document.querySelectorAll('pre[class*="language-"]').forEach((preBlock) => {
   // Create button
   const button = document.createElement("button");
