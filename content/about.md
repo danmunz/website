@@ -6,6 +6,7 @@ const eleventyNavigation = {
 ---
 ## About
 <article>
+
 I'm a former longtime US public servant and current digital services guy working on the practical side of digital government — helping public agencies modernize services, improve systems, and navigate the space where policy meets implementation. Most of my career has been in and around the federal government, with a focus on product strategy, user experience, and service delivery.
 
 This site is a place to work through ideas in writing. Those ideas tend to be about technology, policy, culture, and public institutions, but sometimes they're just about random things I think are neat. If you think something is neat too, you can email me about it.
