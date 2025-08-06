@@ -4,11 +4,12 @@ const eleventyNavigation = {
 	order: 2
 };
 ---
-<h2>Archive</h2>
 <article>
-"<em>So...that's it. All of my darkest fears, and everything I'm capable of. That's me.</em>"<br/>—George Costanza
+<h1>Archive</h1>
 
-<h3>Categories</h3>
+"So...that's it. All of my darkest fears, and everything I'm capable of. That's me." <span style="display:inline-block">—George Costanza</span>
+
+<h2>Categories</h2>
 
 {% set allTags = [] %}
 {% for post in collections.posts %}
@@ -27,7 +28,7 @@ const eleventyNavigation = {
 
 
 
-<h3>All posts</h3>
+<h2>All posts</h2>
 {% set postslist = collections.posts %}
 {% include "postslist.njk" %}
 </article>
