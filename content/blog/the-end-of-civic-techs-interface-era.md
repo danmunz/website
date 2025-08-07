@@ -1,7 +1,7 @@
 ---
 title: The end of civic tech's interface era
 description: "Generative AI means we need to rethink the way we think about interfaces."
-date: 2025-08-04
+date: 2025-08-06
 tags:
   - AI
   - government
