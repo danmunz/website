@@ -11,22 +11,17 @@
 		
 <title>{{ title or metadata.title }}</title>
 <meta property='og:title' content='{{ title or metadata.title }}'/>
-<meta property="og:image" content="{{ site.url }}/img/share-img.png" />
-<meta property="og:image:secure_url" content="{{ site.url }}/img/share-img.png" />
-<meta name="twitter:image" content="{{ site.url }}/img/share-img.png" />
 
-<!--
 {% if page.fileSlug %}
 <meta property="og:image" content="{{ site.url }}/og-images/{{ page.fileSlug }}.png" />
 <meta property="og:image:secure_url" content="{{ site.url }}/og-images/{{ page.fileSlug }}.png" />
 <meta name="twitter:image" content="{{ site.url }}/og-images/{{ page.fileSlug }}.png" />
 
 {% else %}
-<meta property="og:image" content="/img/share-img.png" />
-<meta property="og:image:secure_url" content="/img/share-img.png" />
-<meta name="twitter:image" content="/img/share-img.png" />
+<meta property="og:image" content="{{ site.url }}/img/share-img.png" />
+<meta property="og:image:secure_url" content="{{ site.url }}/img/share-img.png" />
+<meta name="twitter:image" content="{{ site.url }}/img/share-img.png" />
 {% endif %}
--->
 
 
 <meta name="description" content="{{ description or metadata.description }}">
