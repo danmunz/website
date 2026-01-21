@@ -22,9 +22,13 @@ jobs:
       - run: npm install
 
       - name: Build site with 11ty
+        # Set ELEVENTY_RUN_MODE=build so Eleventy's preprocessor excludes pages
+        # that have `draft: true` in front matter. This prevents accidentally
+        # publishing drafts in CI-produced production builds.
         run: npm run build
         env:
           WEBMENTION_IO_TOKEN: ${{ secrets.WEBMENTION_IO_TOKEN }}
+          ELEVENTY_RUN_MODE: build
       - name: Copy CNAME for GitHub Pages custom domain
         run: cp CNAME _site/CNAME
       - name: Deploy to GitHub Pages

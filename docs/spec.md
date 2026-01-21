@@ -97,6 +97,15 @@ Defined as CSS variables in `:root` and used across the UI:
 ## 7. Publishing workflow & deployment
 - **Local development:** `npm run start` runs Eleventy in serve mode with live reload (`npx @11ty/eleventy --serve`).【F:package.json†L6-L18】
 - **Production build:** `npm run build` generates OG images and runs Eleventy to produce `_site/`.【F:package.json†L6-L18】
+
+Note about drafts and CI: The Eleventy configuration includes a small preprocessor that excludes pages with `draft: true` in their front matter, but only when `process.env.ELEVENTY_RUN_MODE === 'build'`. To ensure production CI builds do not accidentally publish draft content, the GitHub Actions workflow sets `ELEVENTY_RUN_MODE: build` for the build step. To reproduce the same behavior locally, run:
+
+```
+ELEVENTY_RUN_MODE=build npm run build
+```
+
+If you want drafts to be included in a local build or development server, omit the env var or use the `start` script instead.
+
 - **Draft handling:** Drafts are stored outside `content/blog/` (for example, a top-level `/drafts` folder). Only posts in `content/blog/` are published by default, so moving files in/out of that folder is the publish toggle.【F:content/blog/blog.11tydata.js†L1-L6】
 - **GitHub Actions deployment:** A push to `main` triggers the GitHub Actions workflow in `.github/workflows/deploy.yml`, which installs Node 20, runs `npm run build`, copies `CNAME` into `_site/`, and deploys via `peaceiris/actions-gh-pages` to GitHub Pages.【F:.github/workflows/deploy.yml†L1-L31】
 - **Custom domain:** The `CNAME` file declares `danmu.nz`, and the workflow copies it into `_site/` for GitHub Pages custom domain setup. The site URL is also baked into metadata and the Eleventy global data file.【F:CNAME†L1-L1】【F:_data/metadata.js†L1-L9】【F:eleventy.config.js†L9-L11】【F:.github/workflows/deploy.yml†L23-L27】
