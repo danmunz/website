@@ -6,9 +6,9 @@ import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import webmentionsPlugin from "eleventy-plugin-webmentions";
 import pluginFilters from "./_config/filters.js";
 import markdownIt from "markdown-it";
+import markdownItFootnote from "markdown-it-footnote";
 import "dotenv/config";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
-import footnotes from 'eleventy-plugin-footnotes';
 import fs from 'fs';
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
@@ -75,13 +75,6 @@ export default async function(eleventyConfig) {
 			Prism.languages.text = Prism.languages.none;
 			Prism.languages.prompt = Prism.languages.none;
 		}
-	});
-	
-	eleventyConfig.addPlugin(footnotes, {
-		baseClass: 'Footnotes',
-		title: 'Footnotes',
-  		titleId: 'footnotes-label',
-  		backLinkLabel: (footnote, index) => 'Back to reference ' + index + 1,classes: {},
 	});
 	
 	eleventyConfig.addPlugin(pluginNavigation);
@@ -153,12 +146,40 @@ export default async function(eleventyConfig) {
 		return (new Date()).toISOString();
 	});
 
-	// 
-	eleventyConfig.setLibrary("md", markdownIt({
+	// Configure markdown-it with footnotes plugin
+	const md = markdownIt({
 		html: true,
 		breaks: true,
 		linkify: true
-	}));
+	}).use(markdownItFootnote);
+
+	// Customize footnote output to match previous styling
+	// Inline reference: just the number, no brackets
+	md.renderer.rules.footnote_ref = (tokens, idx, options, env, slf) => {
+		const id = slf.rules.footnote_anchor_name(tokens, idx, options, env, slf);
+		const caption = slf.rules.footnote_caption(tokens, idx, options, env, slf);
+		let refid = id;
+		if (tokens[idx].meta.subId > 0) {
+			refid += ':' + tokens[idx].meta.subId;
+		}
+		return `<sup class="footnote-ref"><a href="#fn${id}" id="fnref${refid}">${caption}</a></sup>`;
+	};
+
+	// Footnote caption: just the number, no brackets
+	md.renderer.rules.footnote_caption = (tokens, idx) => {
+		let n = Number(tokens[idx].meta.id + 1).toString();
+		if (tokens[idx].meta.subId > 0) {
+			n += ':' + tokens[idx].meta.subId;
+		}
+		return n;
+	};
+
+	// Footnotes section: add a title heading
+	md.renderer.rules.footnote_block_open = () => {
+		return '<section class="footnotes">\n<h2 class="footnotes-title">Footnotes</h2>\n<ol class="footnotes-list">\n';
+	};
+
+	eleventyConfig.setLibrary("md", md);
 
 	// Features to make your build faster (when you need them)
 
