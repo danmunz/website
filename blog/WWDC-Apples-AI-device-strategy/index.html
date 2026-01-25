@@ -78,7 +78,7 @@
 body,
 main,
 article,
-.Footnotes,
+.footnotes,
 footer {
     box-sizing: border-box;
 }
@@ -585,66 +585,73 @@ blockquote p:last-of-type::after {
     margin-left: 0.2em;
 }
 
-/*Footnotes*/
+/*Footnotes (markdown-it-footnote)*/
 
-.Footnotes {
+.footnotes {
     margin: 2em 0 1em 0;
     padding: 1em 1.5em;
     background: #f0f0f0;
     border-radius: 8px;
-    /* NO max-width or margin-left/right! */
 }
 
 @media (min-width: 1024px) {
-    .Footnotes {
-        /* Remove width, left, and weird padding overrides. */
+    .footnotes {
         padding: 1em 1.5em;
     }
 }
 
-.Footnotes__title {
-    font-size: 150%;
-    margin: 0;
+.footnotes-sep {
+    display: none;
 }
 
-.Footnotes__list {
+.footnotes-title {
+    font-size: 150%;
+    margin: 0 0 0.5em 0;
+}
+
+.footnotes-list {
     font-size: 110%;
     margin-left: 0;
     padding-left: 2em;
 }
 
-.Footnotes__list-item:not(:last-child) {
+.footnote-item:not(:last-child) {
     margin: 1em 0;
 }
 
-.Footnotes__ref[role="doc-noteref"] {
-    background-image: none;
-    cursor: default;
-    text-decoration: none;
+sup.footnote-ref {
+    vertical-align: baseline;
+    font-size: inherit;
+    line-height: inherit;
 }
 
-.Footnotes__ref[role="doc-noteref"]::after {
-    content: counter(footnotes);
-    counter-increment: footnotes;
-    vertical-align: super;
-    font-size: 0.6em;
-    margin-left: 2px;
+sup.footnote-ref > a,
+sup.footnote-ref > a[href] {
+    background-image: none !important;
+    text-decoration: none !important;
     font-weight: 600;
+    font-size: 0.6em;
+    vertical-align: super;
     display: inline-block;
     padding: 0 4px;
-    text-decoration: none;
-    cursor: pointer;
-    background-color: #dedede;
-    color: var(--color-gray-90);
+    background-color: #dedede !important;
+    color: #333 !important;
+    transition: 0.2s;
+    border-radius: 2px;
+}
+
+sup.footnote-ref > a:focus,
+sup.footnote-ref > a:hover,
+sup.footnote-ref > a[href]:focus,
+sup.footnote-ref > a[href]:hover {
+    background-color: var(--text-color-link) !important;
+    color: #fff !important;
     transition: 0.2s;
 }
 
-.Footnotes__ref[role="doc-noteref"]:focus::after,
-.Footnotes__ref[role="doc-noteref"]:hover::after {
-    background-size: inherit;
-    background-color: var(--text-color-link);
-    color: #fff;
-    transition: 0.2s;
+.footnote-backref {
+    text-decoration: none;
+    margin-left: 0.25em;
 }
 
 /*Tables in posts*/
@@ -968,8 +975,6 @@ pre[class*="language-diff-"] {
 <p><em>This post was originally <a href="https://www.linkedin.com/posts/danmunz_wwdc-activity-7340717363371143170--Z8o/">published on LinkedIn</a>. Since then, Apple has indeed <a href="https://archive.is/BXtd4">started exploring swapping out its own LLM with a competitor's</a>.</em></p>
 
 </article>
-
-
 <ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/a-rocket-powered-onion-peeler/">A rocket-powered onion peeler</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/chat-gpt-historian-prompt/">Making ChatGPT write readable historical nonfiction</a></li>
 </ul>
 
@@ -983,7 +988,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/WWDC-Apples-AI-device-strategy/` was built on 2026-01-21T13:55:38.905Z -->
+		<!-- This page `/blog/WWDC-Apples-AI-device-strategy/` was built on 2026-01-25T03:58:31.694Z -->
 		<script type="module" src="/dist/smF4OImz_W.js"></script>
 	</body>
 </html>

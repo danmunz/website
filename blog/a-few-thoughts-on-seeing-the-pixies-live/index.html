@@ -78,7 +78,7 @@
 body,
 main,
 article,
-.Footnotes,
+.footnotes,
 footer {
     box-sizing: border-box;
 }
@@ -585,66 +585,73 @@ blockquote p:last-of-type::after {
     margin-left: 0.2em;
 }
 
-/*Footnotes*/
+/*Footnotes (markdown-it-footnote)*/
 
-.Footnotes {
+.footnotes {
     margin: 2em 0 1em 0;
     padding: 1em 1.5em;
     background: #f0f0f0;
     border-radius: 8px;
-    /* NO max-width or margin-left/right! */
 }
 
 @media (min-width: 1024px) {
-    .Footnotes {
-        /* Remove width, left, and weird padding overrides. */
+    .footnotes {
         padding: 1em 1.5em;
     }
 }
 
-.Footnotes__title {
-    font-size: 150%;
-    margin: 0;
+.footnotes-sep {
+    display: none;
 }
 
-.Footnotes__list {
+.footnotes-title {
+    font-size: 150%;
+    margin: 0 0 0.5em 0;
+}
+
+.footnotes-list {
     font-size: 110%;
     margin-left: 0;
     padding-left: 2em;
 }
 
-.Footnotes__list-item:not(:last-child) {
+.footnote-item:not(:last-child) {
     margin: 1em 0;
 }
 
-.Footnotes__ref[role="doc-noteref"] {
-    background-image: none;
-    cursor: default;
-    text-decoration: none;
+sup.footnote-ref {
+    vertical-align: baseline;
+    font-size: inherit;
+    line-height: inherit;
 }
 
-.Footnotes__ref[role="doc-noteref"]::after {
-    content: counter(footnotes);
-    counter-increment: footnotes;
-    vertical-align: super;
-    font-size: 0.6em;
-    margin-left: 2px;
+sup.footnote-ref > a,
+sup.footnote-ref > a[href] {
+    background-image: none !important;
+    text-decoration: none !important;
     font-weight: 600;
+    font-size: 0.6em;
+    vertical-align: super;
     display: inline-block;
     padding: 0 4px;
-    text-decoration: none;
-    cursor: pointer;
-    background-color: #dedede;
-    color: var(--color-gray-90);
+    background-color: #dedede !important;
+    color: #333 !important;
+    transition: 0.2s;
+    border-radius: 2px;
+}
+
+sup.footnote-ref > a:focus,
+sup.footnote-ref > a:hover,
+sup.footnote-ref > a[href]:focus,
+sup.footnote-ref > a[href]:hover {
+    background-color: var(--text-color-link) !important;
+    color: #fff !important;
     transition: 0.2s;
 }
 
-.Footnotes__ref[role="doc-noteref"]:focus::after,
-.Footnotes__ref[role="doc-noteref"]:hover::after {
-    background-size: inherit;
-    background-color: var(--text-color-link);
-    color: #fff;
-    transition: 0.2s;
+.footnote-backref {
+    text-decoration: none;
+    margin-left: 0.25em;
 }
 
 /*Tables in posts*/
@@ -958,7 +965,7 @@ pre[class*="language-diff-"] {
 <p>They are <strong>LOUD AS FUCK</strong>. Something about the way they produce their records kind of hides or flattens this. Maybe it’s just not mechanically possible to <em>record</em> how loud they actually play and still have it be recognizable as music? In person they are face-meltingly loud. Not just in decibels, but in the <em>density</em> of sound coming at you per second. It’s almost like a Wall of Sound effect. If music emitted heat instead of sound, the audience would have been microwaved. I’ve seen &quot;harder&quot; or technically louder bands live, but I’ve never felt as <em>physically dissolved by sound waves</em> at a concert as I did on Saturday.</p>
 </li>
 <li>
-<p>Seeing them live really brought home to me why they were so many people's gateway drug into alternative/indie/post-pop/choose-your-label. Their music is rich with ideas, but that richness comes as much from their inputs as their outputs: In a ~90 minute show we heard surf rock, doo-wop, jangly pop, punk, R&amp;B, ballads. Of all the bands of their generation, I think what The Pixies uniquely figured out was how to reject the synths and formalism and artifice that was polluting popular music but not throw away the pop formulas and popular styles that came before it.<br><br>iTunes tells me they are &quot;alternative&quot; but I spent the concert time happily bopping and losing my shit like a 16-year-old at a Beatles concert. A fan of The Archies could get down with <em>Here Comes Your Man</em>.  If you like Emerson, Lake &amp; Palmer you’ll love <em>Motorroller</em>.  <em>Hey</em> is basically an R&amp;B/funk single. <em>Mr. Grieves</em> has traces of Hank Williams crackling over the radio, and <em>Chicken</em> is almost a Chi-Lites song. They were (and are) deeply inventive, but what they invented were ways to revivify <a href="https://en.wikipedia.org/wiki/Black_Francis#Influences">the sounds they grew up loving</a>, just with weird structures and chord changes and time signatures (I think Vamos is in 6/4?) and like 25% faster and 75% weirder, but their tone is easy to listen to. This really comes through live: The guitars sound like guitars, the bass sounds like bass<a class="Footnotes__ref" href="#gouge-away-edm-note" id="gouge-away-edm-ref" aria-describedby="footnotes-label" role="doc-noteref"></a>, the drums sure as shit sound like drums. They inspired the Nirvanas and Radioheads and for sure did some weird shit themselves<a class="Footnotes__ref" href="#something-against-amp-note" id="something-against-amp-ref" aria-describedby="footnotes-label" role="doc-noteref"></a>–but the <em>sound</em> of Pixies music is deeply recognizable as human people playing instruments.<br><br>At a time when the 80s were still trying to choke the world with hairspray and styrofoam, the Pixies showed up with a beach umbrella and a picnic basket full of sandwiches, if sandwiches were for some reason made out of methamphetamines. Hearing them live, you really understand why they’re one of those &quot;everyone who heard their album started a band&quot; bands — they were probably the first and definitely the best of their generation to achieve Hegelian synthesis<a class="Footnotes__ref" href="#hegel-not-really-note" id="hegel-not-really-ref" aria-describedby="footnotes-label" role="doc-noteref"></a> of what had come before.</p>
+<p>Seeing them live really brought home to me why they were so many people's gateway drug into alternative/indie/post-pop/choose-your-label. Their music is rich with ideas, but that richness comes as much from their inputs as their outputs: In a ~90 minute show we heard surf rock, doo-wop, jangly pop, punk, R&amp;B, ballads. Of all the bands of their generation, I think what The Pixies uniquely figured out was how to reject the synths and formalism and artifice that was polluting popular music but not throw away the pop formulas and popular styles that came before it.<br><br>iTunes tells me they are &quot;alternative&quot; but I spent the concert time happily bopping and losing my shit like a 16-year-old at a Beatles concert. A fan of The Archies could get down with <em>Here Comes Your Man</em>.  If you like Emerson, Lake &amp; Palmer you’ll love <em>Motorroller</em>.  <em>Hey</em> is basically an R&amp;B/funk single. <em>Mr. Grieves</em> has traces of Hank Williams crackling over the radio, and <em>Chicken</em> is almost a Chi-Lites song. They were (and are) deeply inventive, but what they invented were ways to revivify <a href="https://en.wikipedia.org/wiki/Black_Francis#Influences">the sounds they grew up loving</a>, just with weird structures and chord changes and time signatures (I think Vamos is in 6/4?) and like 25% faster and 75% weirder, but their tone is easy to listen to. This really comes through live: The guitars sound like guitars, the bass sounds like bass<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup>, the drums sure as shit sound like drums. They inspired the Nirvanas and Radioheads and for sure did some weird shit themselves<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup>–but the <em>sound</em> of Pixies music is deeply recognizable as human people playing instruments.<br><br>At a time when the 80s were still trying to choke the world with hairspray and styrofoam, the Pixies showed up with a beach umbrella and a picnic basket full of sandwiches, if sandwiches were for some reason made out of methamphetamines. Hearing them live, you really understand why they’re one of those &quot;everyone who heard their album started a band&quot; bands — they were probably the first and definitely the best of their generation to achieve Hegelian synthesis<sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup> of what had come before.</p>
 </li>
 <li>
 <p>Pixies songs are <em>compact</em>. Their lyrics are dark and weird but also funny and not ponderous or discursive. (<em>Gouge Away</em>, a retelling of Samson's betrayal by Delilah and ultimate death at the hands of the Philistines, is 105 words long.) At the concert on Saturday, without stopping between songs, they covered 25 songs in about 90 minutes. Out of curiosity I looked it up afterwards: From <em>Come on Pilgrim</em> to <em>Trompe Le Monde</em> there are four (4) songs over four minutes. Sonic Youth’s <em>Goo</em> has seven. But it's not just brevity–the shape of Pixies songs are surgical and sudden, and you feel it live: Nothing is dragging, ever, even on the slow songs. So that probably didn’t hurt them in terms of getting some mainstream popularity.</p>
@@ -974,16 +981,19 @@ pre[class*="language-diff-"] {
 </li>
 </ul>
 <p><picture><source type="image/avif" srcset="/blog/a-few-thoughts-on-seeing-the-pixies-live/3crhk1bJhv-1024.avif 1024w"><source type="image/webp" srcset="/blog/a-few-thoughts-on-seeing-the-pixies-live/3crhk1bJhv-1024.webp 1024w"><img loading="lazy" decoding="async" src="/blog/a-few-thoughts-on-seeing-the-pixies-live/3crhk1bJhv-1024.jpeg" alt="" width="1024" height="768"></picture></p>
+<section class="footnotes">
+<h2 class="footnotes-title" id="footnotes">Footnotes</h2>
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>Sidenote: How has no one done an EDM remix of <em>Gouge Away</em>? <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>I read somewhere that <em>Something Against You</em> is Francis singing <em>into</em> an amp. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>Apparently this is not actually a Hegelian idea, and Hegel himself never said anything about thesis or synthesis. Ah well. <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
 
 </article>
-
-
-  <footer role="doc-endnotes" class="Footnotes">
-    <h2 id="footnotes-label" class="Footnotes__title">Footnotes</h2>
-    <ol class="Footnotes__list"><li id="gouge-away-edm-note" class="Footnotes__list-item">Sidenote: How has no one done an EDM remix of <em>Gouge Away</em>? <a class="Footnotes__back-link" href="#gouge-away-edm-ref" aria-label="Back to reference 01" role="doc-backlink">↩</a></li>
-<li id="something-against-amp-note" class="Footnotes__list-item">I read somewhere that <em>Something Against You</em> is Francis singing <em>into</em> an amp. <a class="Footnotes__back-link" href="#something-against-amp-ref" aria-label="Back to reference 11" role="doc-backlink">↩</a></li>
-<li id="hegel-not-really-note" class="Footnotes__list-item">Apparently this is not actually a Hegelian idea, and Hegel himself never said anything about thesis or synthesis. Ah well. <a class="Footnotes__back-link" href="#hegel-not-really-ref" aria-label="Back to reference 21" role="doc-backlink">↩</a></li></ol>
-  </footer>
 <ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/anthropic-llms-learn-things-we-dont-teach-them/">LLMs can learn things we don&#39;t teach them</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/ai-thinking-fast-and-slow/">AI thinking, fast and slow</a></li>
 </ul>
 
@@ -997,7 +1007,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/a-few-thoughts-on-seeing-the-pixies-live/` was built on 2026-01-21T13:55:38.905Z -->
+		<!-- This page `/blog/a-few-thoughts-on-seeing-the-pixies-live/` was built on 2026-01-25T03:58:31.695Z -->
 		<script type="module" src="/dist/smF4OImz_W.js"></script>
 	</body>
 </html>

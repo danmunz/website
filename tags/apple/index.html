@@ -78,7 +78,7 @@
 body,
 main,
 article,
-.Footnotes,
+.footnotes,
 footer {
     box-sizing: border-box;
 }
@@ -585,66 +585,73 @@ blockquote p:last-of-type::after {
     margin-left: 0.2em;
 }
 
-/*Footnotes*/
+/*Footnotes (markdown-it-footnote)*/
 
-.Footnotes {
+.footnotes {
     margin: 2em 0 1em 0;
     padding: 1em 1.5em;
     background: #f0f0f0;
     border-radius: 8px;
-    /* NO max-width or margin-left/right! */
 }
 
 @media (min-width: 1024px) {
-    .Footnotes {
-        /* Remove width, left, and weird padding overrides. */
+    .footnotes {
         padding: 1em 1.5em;
     }
 }
 
-.Footnotes__title {
-    font-size: 150%;
-    margin: 0;
+.footnotes-sep {
+    display: none;
 }
 
-.Footnotes__list {
+.footnotes-title {
+    font-size: 150%;
+    margin: 0 0 0.5em 0;
+}
+
+.footnotes-list {
     font-size: 110%;
     margin-left: 0;
     padding-left: 2em;
 }
 
-.Footnotes__list-item:not(:last-child) {
+.footnote-item:not(:last-child) {
     margin: 1em 0;
 }
 
-.Footnotes__ref[role="doc-noteref"] {
-    background-image: none;
-    cursor: default;
-    text-decoration: none;
+sup.footnote-ref {
+    vertical-align: baseline;
+    font-size: inherit;
+    line-height: inherit;
 }
 
-.Footnotes__ref[role="doc-noteref"]::after {
-    content: counter(footnotes);
-    counter-increment: footnotes;
-    vertical-align: super;
-    font-size: 0.6em;
-    margin-left: 2px;
+sup.footnote-ref > a,
+sup.footnote-ref > a[href] {
+    background-image: none !important;
+    text-decoration: none !important;
     font-weight: 600;
+    font-size: 0.6em;
+    vertical-align: super;
     display: inline-block;
     padding: 0 4px;
-    text-decoration: none;
-    cursor: pointer;
-    background-color: #dedede;
-    color: var(--color-gray-90);
+    background-color: #dedede !important;
+    color: #333 !important;
+    transition: 0.2s;
+    border-radius: 2px;
+}
+
+sup.footnote-ref > a:focus,
+sup.footnote-ref > a:hover,
+sup.footnote-ref > a[href]:focus,
+sup.footnote-ref > a[href]:hover {
+    background-color: var(--text-color-link) !important;
+    color: #fff !important;
     transition: 0.2s;
 }
 
-.Footnotes__ref[role="doc-noteref"]:focus::after,
-.Footnotes__ref[role="doc-noteref"]:hover::after {
-    background-size: inherit;
-    background-color: var(--text-color-link);
-    color: #fff;
-    transition: 0.2s;
+.footnote-backref {
+    text-decoration: none;
+    margin-left: 0.25em;
 }
 
 /*Tables in posts*/
@@ -778,7 +785,6 @@ pre[class*="language-"] {
 
 
 
-
 			</heading-anchors>
 		</main>
 
@@ -788,7 +794,7 @@ pre[class*="language-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/tags/apple/` was built on 2026-01-21T13:55:38.971Z -->
+		<!-- This page `/tags/apple/` was built on 2026-01-25T03:58:31.768Z -->
 		<script type="module" src="/dist/smF4OImz_W.js"></script>
 	</body>
 </html>
