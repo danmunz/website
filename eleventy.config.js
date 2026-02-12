@@ -8,7 +8,6 @@ import pluginFilters from "./_config/filters.js";
 import markdownIt from "markdown-it";
 import markdownItFootnote from "markdown-it-footnote";
 import "dotenv/config";
-import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import fs from 'fs';
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
@@ -45,9 +44,9 @@ export default async function(eleventyConfig) {
 	// https://www.11ty.dev/docs/watch-serve/#add-your-own-watch-targets
 
 	// Watch CSS files
-	eleventyConfig.addWatchTarget("css/**/*.css");
+	// eleventyConfig.addWatchTarget("css/**/*.css");
 	// Watch images for the image pipeline.
-	eleventyConfig.addWatchTarget("content/**/*.{svg,webp,png,jpg,jpeg,gif}");
+	// eleventyConfig.addWatchTarget("content/**/*.{svg,webp,png,jpg,jpeg,gif}");
 	
 	// Per-page bundles, see https://github.com/11ty/eleventy-plugin-bundle
 	// Bundle <style> content and adds a {% css %} paired shortcode
