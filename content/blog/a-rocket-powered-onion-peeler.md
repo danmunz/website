@@ -9,7 +9,7 @@ tags:
 ---
 Everyone’s having a good laugh at this image going around Twitter:
 
-![](./images/waterfall-agile-ai.jpg)
+![](/blog/images/waterfall-agile-ai.jpg)
 
 But I think it’s actually a surprisingly useful way of thinking about AI: Not as a technology but as a product methodology. A rocket-powered onion peeler.
 

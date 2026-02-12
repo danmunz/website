@@ -7,7 +7,6 @@ tags:
   - ChatGPT
   - prompts
   - history
-draft: false
 ---
 I was futzing around with ChatGPT the other day to see how much info I could get it to cram into a single answer[^chatgpt-answer]. That didn't really get anywhere, but led to a fun prompt that generates a readable account of any historical event.
 

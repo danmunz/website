@@ -18,7 +18,7 @@ Because my buddy Todd is rad, I got to see [The Pixies live at The Anthem in DC 
 - One of the coolest moments of the night: Kurt Vile opened (and was phenomenal). About halfway into the Pixies set, he wanders into our section and grabs a table next to us and acts...like a fan. Taking photos, doing the guitar fingerings for his favorite songs. Even your idols have idols.
 - Singing the "ooo ooo" part of _Where Is My Mind_ with 5,000 strangers was genuine magic.
 
-![](./images/pixies-live-anthem.jpg)
+![](/blog/images/pixies-live-anthem.jpg)
 
 [^gouge-away-edm]: Sidenote: How has no one done an EDM remix of *Gouge Away*?
 [^something-against-amp]: I read somewhere that *Something Against You* is Francis singing *into* an amp.
