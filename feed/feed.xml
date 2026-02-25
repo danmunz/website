@@ -5,11 +5,46 @@
   <subtitle>Thoughts on digital government, democracy, tech, public institutions, and the occasional unrelated rabbit hole.</subtitle>
   <link href="https://danmu.nz/feed/feed.xml" rel="self" />
   <link href="https://danmu.nz/" />
-  <updated>2026-02-12T00:00:00Z</updated>
+  <updated>2026-02-25T00:00:00Z</updated>
   <id>https://danmu.nz/</id>
   <author>
     <name>Dan Munz</name>
   </author>
+  <entry>
+    <title>From PDF to platform</title>
+    <link href="https://danmu.nz/blog/from-pdf-to-platform/" />
+    <updated>2026-02-25T00:00:00Z</updated>
+    <id>https://danmu.nz/blog/from-pdf-to-platform/</id>
+    <content type="html">&lt;p&gt;&lt;span class=&quot;note&quot;&gt;This post &lt;a href=&quot;https://adhoc.com/2026/02/24/from-pdf-to-platform-using-llms-to-transform-authoritative-copyright-guidance-into-a-digital-first-experience/&quot;&gt;originally appeared on the Ad Hoc blog&lt;/a&gt;, coauthored with my delightful colleague &lt;a href=&quot;https://github.com/aih&quot;&gt;Ari Hershowitz&lt;/a&gt;. I&#39;m reproducing it here, lightly edited for formatting and clarity.&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Over the last 15 years, government has made meaningful progress modernizing its services. Agencies and their digital service teams have moved critical processes online. Cloud computing, accessibility, and user-centered design are now baseline expectations.&lt;/p&gt;
+&lt;p&gt;At the same time, many foundational policy documents were created for a hard-copy world. They remain comprehensive and authoritative, but they were not originally designed for structured, interactive digital use.&lt;/p&gt;
+&lt;p&gt;As part of February’s Free and Open Source Software Month, we’re &lt;a href=&quot;http://compendium.adhocteam.us/&quot;&gt;open-sourcing an example&lt;/a&gt; of how agencies can responsibly use large language models (LLMs) to transform long-form policy documents into a structured, user-friendly digital experience. In this blog post, we’ll share more details on our approach.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://danmu.nz/img/5MF29CM0ZY-1916.avif 1916w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://danmu.nz/img/5MF29CM0ZY-1916.webp 1916w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://danmu.nz/img/5MF29CM0ZY-1916.png&quot; alt=&quot;A screenshot of the experimental copyright compendium&quot; width=&quot;1916&quot; height=&quot;1210&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h1 id=&quot;the-copyright-compendium&quot;&gt;The Copyright Compendium&lt;/h1&gt;
+&lt;p&gt;The U.S. Copyright Office, within the Library of Congress, administers and interprets the nation’s copyright laws to promote creativity and free expression. Its impact is significant. In FY 2024, the Office facilitated access to more than 1.3 million works for the Library of Congress, representing an estimated $176 million in cultural value, and nearly half a million applicants, from movie studios to individual creators, sought copyright protection. The broader copyright-intensive industries supported by this system account for roughly $1.5 trillion annually, about 7 percent of U.S. GDP.&lt;/p&gt;
+&lt;p&gt;All this critical work needs a definitive set of instructions, and that’s exactly where &lt;strong&gt;The Copyright Compendium&lt;/strong&gt; comes in. The Compendium is where the Office publishes authoritative guidance on how to apply for and maintain copyrights, what is eligible for copyright, how to deal with copyrighted works, and other topics – and updates that guidance based on &lt;a href=&quot;https://www.copyright.gov/comp3/revisions.html&quot;&gt;changes in the law&lt;/a&gt; and &lt;a href=&quot;https://www.copyright.gov/ai/ai_policy_guidance.pdf&quot;&gt;emerging technologies&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Today, the compendium is a 1,396-page reference guide that is &lt;a href=&quot;https://www.copyright.gov/comp3/&quot;&gt;available online&lt;/a&gt; as a single PDF document or divided into 24 individual chapters.&lt;/p&gt;
+&lt;p&gt;While comprehensive, navigating and locating specific information within a document of this size can be challenging. This reflects a common government pattern: critical information preserved in static artifacts that are not designed for digital interaction. It’s also a challenge that LLMs are great at solving: transforming information into structured formats.&lt;/p&gt;
+&lt;h1 id=&quot;our-approach&quot;&gt;Our approach&lt;/h1&gt;
+&lt;p&gt;Over the course of two weeks, we combined LLM pdf-to-text transformation with an AI-enabled reading platform to make the Copyright Compendium easier to navigate, read, and understand.&lt;/p&gt;
+&lt;p&gt;We ensured the accuracy of this application through extensive testing: text comparison between the pdf and web pages, end-to-end automated testing and manual testing of the application itself, and a review of hundreds of glossary and legal citations.&lt;/p&gt;
+&lt;p&gt;First, we used Gemini to convert the PDF into structured XHTML. The transformation preserved hierarchy, semantics, and relationships across 24 chapters. We thoroughly tested the output to ensure that every word of the original text, and no extras, appeared in the structured content.&lt;/p&gt;
+&lt;p&gt;We then used AI-enabled development tools like Google Antigravity and Ad Hoc’s accelerators for accessible, quality digital experiences to rapidly create a digital-first experience that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Structures navigation by chapter and section&lt;/li&gt;
+&lt;li&gt;Provides inline glossary definitions&lt;/li&gt;
+&lt;li&gt;Hyperlinks citations where possible&lt;/li&gt;
+&lt;li&gt;Provides browser-based translation using modern web APIs&lt;/li&gt;
+&lt;li&gt;Makes the compendium easier to search by people, especially those with assistive technology, as well as search engines and LLMs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ad Hoc subject matter experts with legal and regulatory expertise were able to harness AI to transform the almost 1400 pages of regulatory information and build a tested digital experience. In the past, similar efforts would have required months of custom parsing and manual development. This approach enabled one person to modernize a digital experience with speed and quality.&lt;/p&gt;
+&lt;h1 id=&quot;a-responsible-path-forward&quot;&gt;A responsible path forward&lt;/h1&gt;
+&lt;p&gt;We see this as a reusable pattern for modernization. Across government, thousands of critical documents remain in PDF form. To keep systems aligned with evolving policy and public needs, agencies need practical ways to connect regulation, specification, and code with care and discipline. With secure platforms and AI-enabled transformation workflows, static artifacts can become structured, accessible systems while preserving accuracy and accountability at lower cost.&lt;/p&gt;
+&lt;p&gt;The Copyright Compendium project is a small but concrete example of what is possible today when you effectively use LLMs and AI-supported software development to amplify disciplined practice.&lt;/p&gt;
+&lt;p&gt;Secure developer platforms provide the foundation. Reusable accelerators encode best practices and compliance. AI handles transformation, synthesis, and repetitive implementation work. People retain accountability.&lt;/p&gt;
+&lt;p&gt;As part of February’s Free and Open Source Software Month, we invite you to &lt;a href=&quot;https://github.com/adhocteam/copyright-compendium&quot;&gt;explore the open source repository&lt;/a&gt;, &lt;a href=&quot;http://compendium.adhocteam.us/&quot;&gt;search the updated experience&lt;/a&gt;, and consider how similar patterns could apply within your own agency.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>AI is a software un-crisis</title>
     <link href="https://danmu.nz/blog/ai-is-a-software-uncrisis/" />
@@ -36,7 +71,7 @@
 &lt;p&gt;Coding is, of course, preceded by a mathematical stage of preparations. The mathematical or mathematical physical process of understanding the problem, of deciding with what assumptions and what idealizations it is to be cast into equations and conditions, is the first step...&lt;strong&gt;It should be noted that the first step has nothing to do with computing or with machines&lt;/strong&gt;: It is equally necessary in any effort in mathematics or applied mathematics. Furthermore, the second step has, at least, nothing to do with mechanization: It would be equally necessary if the problems were to be computed &amp;quot;by hand.&amp;quot;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;By 1959, the Department of Labor&#39;s survey of computing occupations &lt;a href=&quot;https://cacm.acm.org/opinion/the-myth-of-the-coder/&quot;&gt;formally distinguished&lt;/a&gt; between systems analysts, programmers, and coding clerks as separate jobs.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://danmu.nz/blog/ai-is-a-software-uncrisis/UliPUpPbvW-824.webp&quot; alt=&quot;I dunno, &amp;quot;Tape Librarian&amp;quot; sounds like a pretty cool gig&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot; width=&quot;824&quot; height=&quot;484&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://danmu.nz/blog/ai-is-a-software-uncrisis/UliPUpPbvW-824.avif 824w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://danmu.nz/blog/ai-is-a-software-uncrisis/UliPUpPbvW-824.webp 824w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://danmu.nz/blog/ai-is-a-software-uncrisis/UliPUpPbvW-824.jpeg&quot; alt=&quot;I dunno, &amp;quot;Tape Librarian&amp;quot; sounds like a pretty cool gig&quot; width=&quot;824&quot; height=&quot;484&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
 &lt;p&gt;The Cold War helped keep the momentum up. At a time when it was otherwise hard to find funding for computery things, the defense establishment couldn&#39;t throw money at it fast enough, and governments throwing money at things like to make them sound official. What could be more official than &lt;a href=&quot;http://homepages.cs.ncl.ac.uk/brian.randell/Papers-Articles/174.pdf&quot;&gt;a NATO conference&lt;/a&gt;?&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;The idea for the first NATO Software Engineering Conference – and, in particular, the idea of adopting the then practically unknown term &lt;em&gt;software engineering&lt;/em&gt; as its deliberately provocative title...&lt;/p&gt;
