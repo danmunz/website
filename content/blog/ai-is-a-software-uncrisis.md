@@ -82,6 +82,13 @@ Booch, for what it's worth, frames AI coding assistants as part of a general tre
 
 I haven't asked her, but I bet Margaret Hamilton feels right at home bossing Claude around.
 
+**Postscript 3/3/26**: Caught this chart today:
+
+![MOAR developerz](/blog/images/coder-developer-graph.jpg)
+
+h/t [Timothy B. Lee](https://x.com/binarybits/status/2028868131846812128?s=46)
+
+
 [^beard]: He literally has a gray beard!
 
 [^apollo-app]: "What does your app do? Oh wow, you can order food from local restaurants? That's neat. Oh mine? Not much, it just GOES TO THE LITERAL FREAKING MOON."
