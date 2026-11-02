@@ -1,4 +1,6 @@
 ---
+permalink: /blog/chat-gpt-historian-prompt/
+socialImage: /og-images/chat-gpt-historian-prompt.png
 title: Making ChatGPT write readable historical nonfiction
 description: For nonfiction lovers with short attention spans.
 date: 2025-07-05

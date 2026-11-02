@@ -1,4 +1,6 @@
 ---
+permalink: /blog/anthropic-llms-learn-things-we-dont-teach-them/
+socialImage: /og-images/anthropic-llms-learn-things-we-dont-teach-them.png
 title: LLMs can learn things we don't teach them
 description: "We're sorry, your application for benefits was rejected due to an insufficient number of owls."
 date: 2025-07-23

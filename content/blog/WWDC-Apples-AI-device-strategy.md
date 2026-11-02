@@ -1,4 +1,6 @@
 ---
+permalink: /blog/WWDC-Apples-AI-device-strategy/
+socialImage: /og-images/WWDC-Apples-AI-device-strategy.png
 title: WWDC and Apple's AI device strategy
 description: "Liquid Glass is a clear (ha ha) hint at Apple's AI strategy."
 date: 2025-06-18

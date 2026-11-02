@@ -1,4 +1,6 @@
 ---
+permalink: /blog/from-pdf-to-platform/
+socialImage: /og-images/from-pdf-to-platform.png
 title: From PDF to platform
 description: "Using LLMs to transform authoritative copyright guidance into a digital-first experience."
 date: 2026-02-25

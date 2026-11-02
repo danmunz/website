@@ -1,6 +1,10 @@
 import { DateTime } from "luxon";
 
 export default function(eleventyConfig) {
+	// Keep tag-page permalinks and every link to them on the same URL rule.
+	const slugify = eleventyConfig.getFilter("slugify");
+	eleventyConfig.addFilter("tagUrl", tag => `/tags/${slugify(tag)}/`);
+
 	eleventyConfig.addFilter("readableDate", (dateObj, format, zone) => {
 		// Formatting tokens for Luxon: https://moment.github.io/luxon/#/formatting?id=table-of-tokens
 		return DateTime.fromJSDate(dateObj, { zone: zone || "utc" }).toFormat(format || "dd LLLL yyyy");

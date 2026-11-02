@@ -1,4 +1,6 @@
 ---
+permalink: /blog/ai-is-a-software-uncrisis/
+socialImage: /og-images/ai-is-a-software-uncrisis.png
 title: AI is a software un-crisis
 description: "I haven't asked her, but I bet Margaret Hamilton feels right at home bossing Claude around."
 date: 2026-02-12

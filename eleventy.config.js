@@ -5,6 +5,7 @@ import pluginNavigation from "@11ty/eleventy-navigation";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import webmentionsPlugin from "eleventy-plugin-webmentions";
 import pluginFilters from "./_config/filters.js";
+import { validateDraft, validatePostSource } from "./_config/post-schema.js";
 import markdownIt from "markdown-it";
 import markdownItFootnote from "markdown-it-footnote";
 import "dotenv/config";
@@ -17,8 +18,14 @@ export default async function(eleventyConfig) {
 		url: "https://danmu.nz"
 	});
 
+	// Validate explicit source metadata before draft filtering and collections.
+	eleventyConfig.addPreprocessor("post-metadata", "md", function(data) {
+		validatePostSource(data, this.inputPath);
+	});
+
 	// Drafts, see also _data/eleventyDataSchema.js
-	eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
+	eleventyConfig.addPreprocessor("drafts", "*", function(data) {
+		validateDraft(data, this.inputPath);
 		if(data.draft && process.env.ELEVENTY_RUN_MODE === "build") {
 			return false;
 		}
@@ -80,11 +87,14 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addPlugin(HtmlBasePlugin);
 	eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
 
-	// Webmentions plugin
-	eleventyConfig.addPlugin(webmentionsPlugin, {
-		domain: "danmu.nz",
-		token: process.env.WEBMENTION_IO_TOKEN,
-	});
+	// Webmentions are optional; local builds do not require service credentials.
+	const webmentionToken = process.env.WEBMENTION_IO_TOKEN?.trim();
+	if (webmentionToken) {
+		eleventyConfig.addPlugin(webmentionsPlugin, {
+			domain: "danmu.nz",
+			token: webmentionToken,
+		});
+	}
 
 	eleventyConfig.addPlugin(feedPlugin, {
 		type: "atom", // or "rss", "json"

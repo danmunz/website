@@ -1,4 +1,6 @@
 ---
+permalink: /blog/a-rocket-powered-onion-peeler/
+socialImage: /og-images/a-rocket-powered-onion-peeler.png
 title: A rocket-powered onion peeler
 description: "Can LLMs be a product methodology? In the real world, we make products kind of the same way LLMs make content: By starting with everything and shaving away what isn't needed."
 date: 2025-06-11
