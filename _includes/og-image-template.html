@@ -1,73 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-
-
+<meta charset="utf-8">
 <style>
-
-    .container {
-      text-align: center;
-      padding: 40px;
-      max-width: 1000px;
-    }
-
-    body {
-      width: 1200px;
-      height: 630px;
-      margin: 0;
-      padding: 0;
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-  /*
-      background: linear-gradient(135deg, rgb(252, 253, 254), rgb(205, 231, 252));
-  */
-background-color: #ebf5ff;
-  color: white;
-    }
-
-
+{% for font in fonts %}
+@font-face {
+	font-family: '{{ font.family }}';
+	font-style: normal;
+	font-weight: 400;
+	src: url('data:font/woff2;base64,{{ font.data }}') format('woff2');
+}
+{% endfor %}
+* { box-sizing: border-box; }
+body {
+	width: 1200px;
+	height: 630px;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #ebf5ff;
+}
+.container { width: 1040px; text-align: center; }
 h1 {
-color: #1e88e5;
-font-family: 'Oswald', 'Arial Narrow',sans-serif;
-    text-shadow: 1px 1px #cccccc;
-
-font-size: 108px;
-letter-spacing: -0.05em;
-line-height: 1.2em;
-font-weight: 400;
-margin:0;
-padding: 0;
+	color: #1e88e5;
+	font: 400 108px/1.14 'Oswald', sans-serif;
+	text-shadow: 1px 1px #ccc;
+	letter-spacing: -0.05em;
+	margin: 0;
+	overflow-wrap: anywhere;
 }
-
 .meta {
-margin-top: 48px;
-font-size: 48px;
-font-family: 'Bricolage Grotesque', sans-serif;
-letter-spacing: -0.03em;
-font-weight: 400;
-line-height: 1.5em;
-color: #6c7b8a;
-padding: 0;
+	margin-top: 30px;
+	font: 400 48px/1.5 'Bricolage Grotesque', sans-serif;
+	letter-spacing: -0.03em;
+	color: #6c7b8a;
 }
-
-
-  </style>
+</style>
 </head>
-<body>
-  <div class="container">
-
-    <h1>{{ title }}</h1>
-
-
-    
-      <div class="meta">
-        danmu.nz
-        </div>
-
-</div>
-</body>
+<body><div class="container"><h1>{{ title }}</h1><div class="meta">danmu.nz</div></div></body>
 </html>

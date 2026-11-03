@@ -50,5 +50,18 @@ test("rejects absent, inconsistent, and duplicate social metadata", async t => {
 
 test("rejects editor helper output", async t => {
 	const output = await fixture(t, { "copilot/helper with spaces/index.html": metadata(), "img/share.png": "fixture" });
-	assert.ok((await checkSite({ output })).errors.some(error => error.includes("editor-only content leaked")));
+	assert.ok((await checkSite({ output })).errors.some(error => error.includes("editor-only or cached content leaked")));
+});
+
+test("rejects orphan generated cards and private cache files in public output", async t => {
+	const output = await fixture(t, {
+		"index.html": metadata("/og-images/current.png"),
+		"og-images/current.png": "current card fixture",
+		"og-images/withdrawn.png": "stale card fixture",
+		".cache/social-card-manifest.json": "{}",
+	});
+	const { errors } = await checkSite({ output });
+	assert.equal(errors.length, 2);
+	assert.ok(errors.some(error => error.includes("withdrawn.png: generated card has no current page")));
+	assert.ok(errors.some(error => error.includes(".cache/social-card-manifest.json")));
 });

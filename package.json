@@ -1,68 +1,64 @@
 {
-	"name": "eleventy-base-blog",
+	"name": "danmu-nz",
 	"version": "9.0.0",
-	"description": "A starter repository for a blog web site using the Eleventy site generator.",
+	"description": "Dan Munz’s personal website, built with Eleventy.",
 	"type": "module",
 	"scripts": {
 		"generate-og-images": "node scripts/generate-og-images.js",
 		"clean": "node scripts/clean.js",
-		"build": "npm run clean && npm run generate-og-images && npx @11ty/eleventy",
-		"build:html": "npm run clean && npx @11ty/eleventy",
-		"build-nocolor": "npm run clean && npm run generate-og-images && cross-env NODE_DISABLE_COLORS=1 npx @11ty/eleventy",
-		"build-ghpages": "npm run clean && npm run generate-og-images && npx @11ty/eleventy --pathprefix=/eleventy-base-blog/",
-		"test": "node --test",
+		"build": "npm run clean && cross-env SOCIAL_CARDS=generate eleventy && npm run generate-og-images",
+		"build:html": "npm run clean && eleventy",
+		"build-nocolor": "npm run clean && cross-env SOCIAL_CARDS=generate NODE_DISABLE_COLORS=1 eleventy && npm run generate-og-images",
+		"build-ghpages": "npm run clean && cross-env SOCIAL_CARDS=generate eleventy --pathprefix=/eleventy-base-blog/ && npm run generate-og-images",
+		"test": "node --test test/*.test.js",
 		"check:site": "node scripts/check-site.js",
 		"start": "npx @11ty/eleventy --serve --quiet",
 		"start-ghpages": "npx @11ty/eleventy --pathprefix=/eleventy-base-blog/ --serve --quiet",
 		"debug": "cross-env DEBUG=Eleventy* npx @11ty/eleventy",
 		"debugstart": "cross-env DEBUG=Eleventy* npx @11ty/eleventy --serve --quiet",
-		"benchmark": "cross-env DEBUG=Eleventy:Benchmark* npx @11ty/eleventy"
+		"benchmark": "cross-env DEBUG=Eleventy:Benchmark* npx @11ty/eleventy",
+		"test:cards": "node scripts/check-social-cards.js"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/11ty/eleventy-base-blog.git"
+		"url": "https://github.com/danmunz/website.git"
 	},
 	"author": {
-		"name": "Zach Leatherman",
-		"email": "zachleatherman@gmail.com",
-		"url": "https://zachleat.com/"
+		"name": "Dan Munz",
+		"url": "https://danmu.nz/"
 	},
 	"license": "MIT",
 	"engines": {
-		"node": ">=18"
-	},
-	"funding": {
-		"type": "opencollective",
-		"url": "https://opencollective.com/11ty"
+		"node": ">=24 <25"
 	},
 	"bugs": {
-		"url": "https://github.com/11ty/eleventy-base-blog/issues"
+		"url": "https://github.com/danmunz/website/issues"
 	},
-	"homepage": "https://github.com/11ty/eleventy-base-blog#readme",
+	"homepage": "https://danmu.nz/",
 	"devDependencies": {
-		"@11ty/eleventy": "^3.1.2",
-		"@11ty/eleventy-img": "^6.0.4",
+		"@11ty/eleventy": "^3.1.7",
+		"@11ty/eleventy-img": "^7.1.1",
 		"@11ty/eleventy-navigation": "^1.0.4",
 		"@11ty/eleventy-plugin-rss": "^2.0.4",
 		"@11ty/eleventy-plugin-syntaxhighlight": "^5.0.1",
 		"cross-env": "^7.0.3",
-		"eleventy-plugin-og-image": "^4.1.0",
 		"eleventy-plugin-webmentions": "^2.1.0",
 		"front-matter": "^4.0.2",
-		"glob": "^11.0.3",
 		"luxon": "^3.6.1",
-		"mkdirp": "^3.0.1",
 		"nunjucks": "^3.2.4",
 		"prismjs": "^1.30.0",
-		"puppeteer": "^24.15.0",
-		"zod": "^3.25.67",
-		"zod-validation-error": "^3.5.2"
+		"puppeteer": "^25.16.0",
+		"markdown-it": "^14.3.3",
+		"@fontsource/oswald": "5.3.0",
+		"@fontsource/bricolage-grotesque": "5.3.0"
 	},
 	"dependencies": {
 		"@zachleat/heading-anchors": "^1.0.3",
-		"dotenv": "^17.0.1",
-		"fs": "^0.0.1-security",
-		"markdown-it-footnote": "^4.0.0",
-		"playwright": "^1.54.1"
+		"dotenv": "^17.4.2",
+		"markdown-it-footnote": "^4.0.0"
+	},
+	"private": true,
+	"allowScripts": {
+		"puppeteer@25.16.0": true
 	}
 }

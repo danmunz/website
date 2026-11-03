@@ -5,11 +5,11 @@ import pluginNavigation from "@11ty/eleventy-navigation";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import webmentionsPlugin from "eleventy-plugin-webmentions";
 import pluginFilters from "./_config/filters.js";
+import socialCardsPlugin from "./_config/social-cards.js";
 import { validateDraft, validatePostSource } from "./_config/post-schema.js";
 import markdownIt from "markdown-it";
 import markdownItFootnote from "markdown-it-footnote";
 import "dotenv/config";
-import fs from 'fs';
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
@@ -30,6 +30,7 @@ export default async function(eleventyConfig) {
 			return false;
 		}
 	});
+	eleventyConfig.addPlugin(socialCardsPlugin);
 
 	// Copy the contents of the `public` folder to the output folder
 	// For example, `./public/css/` ends up in `_site/css/`
@@ -38,11 +39,7 @@ export default async function(eleventyConfig) {
 			"./public/": "/"
 	})
 		.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl")
-		.addPassthroughCopy("css")
-
-		// generate og images
-
-		.addPassthroughCopy({ "og-images": "og-images" });
+		.addPassthroughCopy("css");
 
 //		.addPassthroughCopy("assets")
 		;

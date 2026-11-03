@@ -30,6 +30,7 @@ test("real base layout uses one explicit or fallback image independent of source
 			configPath: false,
 			config: config => {
 				config.addGlobalData("metadata", { url: "https://danmu.nz/", title: "Dan Munz", language: "en" });
+				config.addGlobalData("generateSocialCards", true);
 				config.addGlobalData("eleventyComputed", contentData.eleventyComputed);
 				config.addFilter("eleventyNavigation", () => []);
 				config.addPlugin(initialized => {

@@ -32,7 +32,7 @@ A valid future date does **not** schedule publication. A non-draft future-dated 
 
 `npm run build` cleans `_site` before generating the production artifact. Changing a formerly published article to `draft: true`, or deleting it, removes its HTML from the next clean output, listings, feed, and sitemap. The old route will no longer exist after deployment. If an explanation or redirect is desired, create it deliberately instead of relying on stale HTML. Incremental previews may retain old files; use `npm run build:html` for a clean preview artifact. Directly invoking Eleventy is not the clean production build command.
 
-This cleanup does not delete committed files from `og-images/`. Their separate lifecycle, including obsolete cards and root-level draft title cards produced by the old generator, remains tracked in [#22](https://github.com/danmunz/website/issues/22). Do not assume withholding an article also removes or withholds every generated asset.
+Social cards are generated build artifacts under `_site/og-images/`. The current validated published-post collection determines which cards are copied into the output. Withholding or deleting an article removes its generated card on the next production build, even if its old cached image remains under `.cache/social-cards/`. This policy applies to generated cards; separately supplied images under `public/` retain their own source-file lifecycle.
 
 ## What becomes public
 
@@ -42,11 +42,13 @@ Git ignores control version tracking; Eleventy exclusions control publishing. Be
 
 ## Social previews and verification
 
-Existing articles explicitly identify their social cards using `socialImage`; pages without an assigned card use `/img/share-img.png`. Open Graph and Twitter derive their image URL from the same value. An explicit local social-image reference must exist in the finished output. Do not assume a source slug implies a card exists, particularly for nested posts or source renames. The current generator's broader publication-aware redesign remains #22.
+Articles opt into generated cards with an explicit `socialImage` path under `/og-images/`, for example `/og-images/a-useful-article.png`. The full production build generates those paths from the same validated published collection used by the site, including nested articles and inherited draft settings. Keep an existing card path stable when renaming a source file. Other local paths and external HTTPS images are supplied separately; pages without an assigned card use `/img/share-img.png`. Open Graph and Twitter derive their image URL from the same value, and an explicit local image must exist in the finished output.
+
+Fast HTML builds and development previews use `/img/share-img.png` for generated-card references. They do not launch a browser or require old committed cards. See [social-card generation](social-cards.md) for cache invalidation, local font provenance, and renderer checks.
 
 The output check verifies social-image files and local page links. Required article-body images and external asset failures remain tracked in [#33](https://github.com/danmunz/website/issues/33). `canonicalUrl` is validated when supplied, but rendering complete canonical metadata remains [#34](https://github.com/danmunz/website/issues/34).
 
-Before submitting changes, run `npm test`, `npm run build`, and `npm run check:site`. Tests use disposable synthetic content rather than private local writing. Transition fixtures exercise repeated clean HTML builds without regenerating cards; the full build separately verifies the real Puppeteer generation path. Linux PR checks verify the case-sensitive filesystem behavior that macOS can conceal.
+Before submitting changes, run `npm test`, `npm run build`, and `npm run check:site` on Node 24. Tests use disposable synthetic content rather than private local writing. Default tests do not launch a browser; Linux PR checks additionally run `npm run test:cards` for real rendering, then a complete production build. Transition fixtures cover withdrawal, rename, deletion, and case-sensitive route preservation. See [deployment and recovery](deployment.md) for the checked-artifact publishing process.
 
 No Webmentions credentials are required to build or preview. With a configured nonempty `WEBMENTION_IO_TOKEN`, the existing integration runs as before. Optional credential support does not settle the separate decision about retaining Webmentions.
 
