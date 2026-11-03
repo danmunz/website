@@ -37,9 +37,13 @@ jobs:
       - run: npm test
       - name: Real browser card regression checks (Linux only)
         run: npm run test:cards
+        env:
+          # Hosted Ubuntu blocks Chromium's user-namespace sandbox; see deployment guide.
+          SOCIAL_CARDS_NO_SANDBOX: "1"
       - name: Full production build
         run: npm run build
         env:
+          SOCIAL_CARDS_NO_SANDBOX: "1"
           # Optional integration; this secret is never provided to PR checks.
           WEBMENTION_IO_TOKEN: ${{ secrets.WEBMENTION_IO_TOKEN }}
       - run: npm run check:site

@@ -34,8 +34,13 @@ jobs:
       - run: npm test
       - name: Real browser card regression checks (Linux only)
         run: npm run test:cards
+        env:
+          # Hosted Ubuntu blocks Chromium's user-namespace sandbox; see deployment guide.
+          SOCIAL_CARDS_NO_SANDBOX: "1"
       - name: Full production build, including social cards
         run: npm run build
+        env:
+          SOCIAL_CARDS_NO_SANDBOX: "1"
       - run: npm run check:site
       - name: Upload social-card previews for review
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
