@@ -1,0 +1,4 @@
+# Editor-only files are not public content, even when present locally.
+content/copilot/**
+**/.obsidian/**
+**/.trash/**

@@ -23,7 +23,7 @@ const eleventyNavigation = {
 
 
   {% for tag in allTags | sort %}
-	  <a href="/tags/{{ tag | url }}" class="post-tag">{{ tag }}</a>
+	  <a href="{{ tag | tagUrl }}" class="post-tag">{{ tag }}</a>
   {% endfor %}
 
 

@@ -1,4 +1,6 @@
 ---
+permalink: /blog/ai-thinking-fast-and-slow/
+socialImage: /og-images/ai-thinking-fast-and-slow.png
 title: AI thinking, fast and slow
 description: "Hierarchical Reasoning Models have intriguing potential for the public sector, because they 'think' more like we do."
 date: 2025-08-02

@@ -1,4 +1,6 @@
 ---
+permalink: /blog/a-few-thoughts-on-seeing-the-pixies-live/
+socialImage: /og-images/a-few-thoughts-on-seeing-the-pixies-live.png
 title: A few thoughts on seeing The Pixies live
 description: "With your feet in the air and your head on the ground."
 date: 2025-07-28
