@@ -21,9 +21,6 @@ test("clean HTML builds exclude helpers and remove withdrawn, deleted, and renam
       },
     });
     await symlink(path.join(root, "node_modules"), path.join(checkout, "node_modules"), "dir");
-    const cardName = (await readdir(path.join(checkout, "og-images"))).find(name => name.endsWith(".png"));
-    const cardPath = path.join(checkout, "og-images", cardName);
-    const cardBefore = await readFile(cardPath);
     const defaultImagePath = path.join(checkout, "public/img/share-img.png");
     const defaultImageBefore = await readFile(defaultImagePath);
 
@@ -110,7 +107,6 @@ test("clean HTML builds exclude helpers and remove withdrawn, deleted, and renam
     for (const relative of ["feed/feed.xml", "sitemap.xml"]) {
       assert.doesNotMatch(await readFile(path.join(checkout, "_site", relative), "utf8"), /\/blog\/Moved-Fixture\//);
     }
-    assert.deepEqual(await readFile(cardPath), cardBefore, "clean builds preserve committed cards");
     assert.deepEqual(await readFile(defaultImagePath), defaultImageBefore, "clean builds preserve source images");
   } finally {
     await rm(temporary, { recursive: true, force: true });

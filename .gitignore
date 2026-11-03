@@ -1,4 +1,5 @@
 _site/
+og-images/
 node_modules/
 .cache
 content/blog/drafts/

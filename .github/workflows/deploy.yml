@@ -2,37 +2,100 @@ name: Deploy 11ty to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build-deploy:
+  build:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
+    timeout-minutes: 20
+    concurrency:
+      group: deploy-build-${{ github.sha }}
+      cancel-in-progress: true
+    outputs:
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: 20
-
-      - run: npm install
-
-      - name: Build site with 11ty
-        # Set ELEVENTY_RUN_MODE=build so Eleventy's preprocessor excludes pages
-        # that have `draft: true` in front matter. This prevents accidentally
-        # publishing drafts in CI-produced production builds.
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Restore content-addressed social-card cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .cache/social-cards
+          key: social-cards-${{ runner.os }}-${{ hashFiles('.nvmrc', 'package-lock.json') }}-${{ github.sha }}
+          restore-keys: |
+            social-cards-${{ runner.os }}-${{ hashFiles('.nvmrc', 'package-lock.json') }}-
+      - run: npm ci
+      - run: npm test
+      - name: Real browser card regression checks (Linux only)
+        run: npm run test:cards
+        env:
+          # Hosted Ubuntu blocks Chromium's user-namespace sandbox; see deployment guide.
+          SOCIAL_CARDS_NO_SANDBOX: "1"
+      - name: Full production build
         run: npm run build
         env:
+          SOCIAL_CARDS_NO_SANDBOX: "1"
+          # Optional integration; this secret is never provided to PR checks.
           WEBMENTION_IO_TOKEN: ${{ secrets.WEBMENTION_IO_TOKEN }}
-          ELEVENTY_RUN_MODE: build
-      - name: Copy CNAME for GitHub Pages custom domain
+      - run: npm run check:site
+      - name: Preserve the custom domain
         run: cp CNAME _site/CNAME
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload the checked site
+        id: upload
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          name: site-${{ github.run_id }}-${{ github.run_attempt }}
+          path: _site/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Serialize writes without canceling a publication midway through its push.
+    concurrency:
+      group: deploy-gh-pages
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+      # No source checkout, package install, or build runs with publishing access.
+      - name: Download the exact checked artifact
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          artifact-ids: ${{ needs.build.outputs.artifact-id }}
+          path: _site
+          merge-multiple: true
+      - name: Reject superseded commits
+        id: current
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOY_SHA: ${{ github.sha }}
+          DEPLOY_REPOSITORY: ${{ github.repository }}
+        run: |
+          latest_sha=$(gh api "repos/${DEPLOY_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')
+          if [ "$latest_sha" = "$DEPLOY_SHA" ]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "Skipped publication: this run is no longer current main." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Publish to the existing gh-pages branch
+        if: steps.current.outputs.publish == 'true'
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
+        with:
+          github_token: ${{ github.token }}
+          publish_branch: gh-pages
           publish_dir: ./_site

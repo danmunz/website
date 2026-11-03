@@ -29,6 +29,7 @@ function attributes(tag) {
 export async function checkSite({ output = path.join(root, "_site"), origin = "https://danmu.nz", routes = [] } = {}) {
 	const files = new Set(await inventory(output));
 	const errors = [];
+	const referencedCards = new Set();
 	const base = new URL(origin);
 	function checkDestination(value, source, { asset = false } = {}) {
 		let url;
@@ -42,13 +43,14 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 		let pathname;
 		try { pathname = decodeURIComponent(url.pathname).slice(1); }
 		catch { errors.push(`${source}: invalid URL encoding ${value}`); return; }
+		if (asset && pathname.startsWith("og-images/")) referencedCards.add(pathname);
 		const candidates = asset ? [pathname] : [pathname, `${pathname}${pathname.endsWith("/") || !pathname ? "" : "/"}index.html`];
 		// Enumerating filenames also detects case errors on case-insensitive Macs.
 		if (!candidates.some(candidate => files.has(candidate))) errors.push(`${source}: missing ${asset ? "social image" : "local destination"} ${value}`);
 	}
 	for (const route of routes) checkDestination(route.permalink, "public route baseline");
 	for (const file of files) {
-		if (/(^|\/)(copilot|\.obsidian|\.claude)(\/|$)/i.test(file)) errors.push(`${file}: editor-only content leaked into output`);
+		if (/(^|\/)(copilot|\.obsidian|\.claude|\.cache)(\/|$)/i.test(file)) errors.push(`${file}: editor-only or cached content leaked into output`);
 		if (!file.endsWith(".html")) continue;
 		const html = (await readFile(path.join(output, file), "utf8")).replace(/<!--[\s\S]*?-->/g, "")
 			.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, "");
@@ -70,6 +72,11 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 			else checkDestination(images.get(key), file, { asset: true });
 		}
 		if (new Set(images.values()).size > 1) errors.push(`${file}: social image metadata disagrees`);
+	}
+	for (const file of files) {
+		if (file.startsWith("og-images/") && !referencedCards.has(file)) {
+			errors.push(`${file}: generated card has no current page metadata reference`);
+		}
 	}
 	return { errors, htmlFiles: [...files].filter(file => file.endsWith(".html")).length, files: files.size };
 }
