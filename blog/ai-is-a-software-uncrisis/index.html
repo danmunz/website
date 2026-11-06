@@ -60,9 +60,10 @@
     --background-color: #fcfdfe; /* page background */
     --text-color: var(--color-gray-90);
 
-    --text-color-link: #42a5f5; /* link & accent */
-    --text-color-link-active: #1e88e5; /* link hover */
-    --text-color-link-visited: #357ac3; /* visited links */
+    --color-accent: #1e88e5; /* large display text and decoration */
+    --text-color-link: #1263a3;
+    --text-color-link-active: #084c7c;
+    --text-color-link-visited: #365f87;
 
     --syntax-tab-size: 2;
 }
@@ -149,15 +150,25 @@ ul {
 
 /* Links */
 
-a[href] {
-    color: var(--text-color-link-active);
-    transition: 0.3s;
+:where(a[href]) {
+    color: var(--text-color-link);
+    text-decoration-thickness: 0.075em;
+    text-underline-offset: 0.15em;
+    transition: color 0.2s, background-color 0.2s;
 }
 
-a[href]:hover,
-a[href]:active {
+:where(a[href]:visited) {
     color: var(--text-color-link-visited);
-    transition: 0.3s;
+}
+
+:where(a[href]:hover, a[href]:active, a[href]:focus-visible) {
+    color: var(--text-color-link-active);
+}
+
+a[href]:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--text-color-link-active);
+    outline-offset: 3px;
 }
 
 main {
@@ -204,6 +215,7 @@ header {
 
 .links-nextprev {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.5em 1em;
     list-style: "";
@@ -211,7 +223,9 @@ header {
     padding: 1em 0;
 }
 .links-nextprev > * {
-    flex-grow: 1;
+    flex: 1 1 12rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 .links-nextprev-next {
     text-align: right;
@@ -357,6 +371,7 @@ header {
 /* Nav */
 .nav {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em 1em;
     padding: 0;
     margin: 0;
@@ -365,6 +380,12 @@ header {
 }
 .nav-item {
     display: inline-block;
+}
+.nav-item a[href] {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.2rem 0;
 }
 .nav-item a[href]:not(:hover) {
     text-decoration: none;
@@ -390,10 +411,24 @@ h6 {
 
 h1 {
     font-size: 4.5rem;
-    color: var(--text-color-link-active);
+    color: var(--color-accent);
     padding-bottom: 0.25em;
     margin: 0;
     text-shadow: 1px 1px #cccccc;
+}
+
+.post-title {
+    font-size: clamp(2.5rem, 1.25rem + 4.5vw, 4.5rem);
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+}
+
+.home-title {
+    font-size: 1.75rem;
+    margin-top: 1.5rem;
+    padding-bottom: 0;
+    color: #324a5e;
+    text-shadow: none;
 }
 
 h2 {
@@ -403,7 +438,7 @@ h2 {
 
 h3 {
     font-size: 2rem;
-    color: var(--text-color-link-active);
+    color: var(--color-accent);
 }
 
 h4 {
@@ -456,7 +491,7 @@ padding: 0px 3px 0 0;
     font: var(--font-headings);
     font-size: 2.5rem;
     font-weight: 400;
-    color: var(--text-color-link-active);
+    color: var(--text-color-link);
     margin: 0.25em 0 0.25em 0;
     line-height: 1;
     letter-spacing: -0.05em;
@@ -464,11 +499,33 @@ padding: 0px 3px 0 0;
     text-decoration: none;
 }
 
+.postlist-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin: 0.25em 0;
+    overflow-wrap: anywhere;
+}
+
+.postlist-title .postlist-link {
+    font: inherit;
+    line-height: inherit;
+    margin: 0;
+}
+
+.postlist-link:visited {
+    color: var(--text-color-link-visited);
+}
+
+.postlist-link:hover,
+.postlist-link:focus-visible {
+    color: var(--text-color-link-active);
+}
+
 /*Post Metadata*/
 
 .post-meta-row {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1em;
@@ -477,12 +534,13 @@ padding: 0px 3px 0 0;
 .post-date {
     flex: 0 0 auto; /* don't grow or shrink */
     color: #666;
-    min-width: 100px; /* or however wide you want your date column */
+	min-width: 0;
 	font-size: .85em;
 }
 
 .tag-list {
-    flex: 1 1 auto; /* fill remaining space */
+    flex: 1 1 14rem;
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5em;
@@ -492,21 +550,53 @@ padding: 0px 3px 0 0;
     align-self: center;
 }
 
-.post-tag {
+a.post-tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    max-width: 100%;
     background-color: var(--color-gray-20);
     color: #324a5e;
     border-radius: 999px;
-    padding: 0em 0.7em;
+    padding: 0.125em 0.7em;
+    margin-block: 0.125rem;
     font-size: 0.75em;
     font-weight: 600;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     text-decoration: none;
     border: solid 1px #ccc;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+a.post-tag:visited {
+    color: #324a5e;
+}
+
+a.post-tag:hover,
+a.post-tag:active,
+a.post-tag:focus-visible {
+    color: #253f55;
+    background-color: #d8eafa;
+}
+
+@media (max-width: 30rem) {
+    .post-meta-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .tag-list {
+        flex-basis: auto;
+        width: 100%;
+    }
 }
 
 /*Post content*/
+
+.post-content {
+    overflow-wrap: anywhere;
+}
 
 article {
     padding: 1.1em 0 0 0;
@@ -624,29 +714,32 @@ sup.footnote-ref {
 
 sup.footnote-ref > a,
 sup.footnote-ref > a[href] {
-    background-image: none !important;
-    text-decoration: none !important;
+    /* Inline references use the inline-text target exception, preserving line rhythm. */
+    background-image: none;
+    text-decoration: none;
     font-weight: 600;
     font-size: 0.6em;
     vertical-align: super;
     display: inline-block;
     padding: 0 4px;
-    background-color: #dedede !important;
-    color: #333 !important;
-    transition: 0.2s;
+    background-color: #dedede;
+    color: #333;
     border-radius: 2px;
 }
 
-sup.footnote-ref > a:focus,
-sup.footnote-ref > a:hover,
-sup.footnote-ref > a[href]:focus,
+sup.footnote-ref > a[href]:focus-visible,
+sup.footnote-ref > a[href]:active,
 sup.footnote-ref > a[href]:hover {
-    background-color: var(--text-color-link) !important;
-    color: #fff !important;
-    transition: 0.2s;
+    background-color: var(--text-color-link);
+    color: #fff;
 }
 
 .footnote-backref {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
     text-decoration: none;
     margin-left: 0.25em;
 }
@@ -685,6 +778,102 @@ tbody tr:nth-child(even) {
 
 tbody tr:nth-child(odd) {
     background-color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+    a[href],
+    .copy-button {
+        transition: none;
+    }
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none;
+    }
+}
+
+@media print {
+    @page {
+        margin: 1.5cm;
+    }
+    *,
+    *::before,
+    *::after {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    html,
+    body {
+        max-width: none;
+        margin: 0;
+        overflow: visible;
+    }
+    main {
+        padding: 0;
+        font-size: 11pt;
+        line-height: 1.5;
+    }
+    header,
+    footer,
+    nav,
+    #skip-link,
+    .links-nextprev,
+    .copy-button,
+    .footnote-backref {
+        display: none !important;
+    }
+    h1,
+    .post-title {
+        font-size: 24pt;
+    }
+    h2 {
+        font-size: 18pt;
+    }
+    h3 {
+        font-size: 14pt;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        break-after: avoid-page;
+    }
+    p,
+    li {
+        orphans: 3;
+        widows: 3;
+    }
+    pre,
+    code {
+        white-space: pre-wrap !important;
+        overflow-wrap: anywhere !important;
+        overflow: visible !important;
+    }
+    pre,
+    blockquote,
+    .footnotes {
+        padding: 0.5em 0;
+        border: 0;
+    }
+    table {
+        table-layout: fixed;
+        width: 100%;
+    }
+    th,
+    td {
+        overflow-wrap: anywhere;
+    }
+    .footnotes li,
+    img,
+    tr {
+        break-inside: avoid;
+    }
 }
 /* Layout inherited from index.css */
 code[class*="language-"],
@@ -937,7 +1126,7 @@ pre[class*="language-diff-"] {
 
 
 
-<h1 id="ai-is-a-software-un-crisis">AI is a software un-crisis</h1>
+<h1 class="post-title" id="ai-is-a-software-un-crisis">AI is a software un-crisis</h1>
 
 <div class="post-meta-row">
   <div class="post-date">
@@ -954,14 +1143,14 @@ pre[class*="language-diff-"] {
 </div>
 
 <article class="post-content">
-<p>Grady Booch, one of the genuine elders of the software engineering discipline<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup>, recently did a <a href="https://newsletter.pragmaticengineer.com/p/the-third-golden-age-of-software">two-hour conversation with Gergely Orosz</a> on the <em>Pragmatic Engineer</em> podcast. The whole thing is worth listening to, but one thing that particularly struck me was the way Booch described the discipline of software engineering:</p>
+<p>Grady Booch, one of the genuine elders of the software engineering discipline<sup class="footnote-ref"><a href="#fn1" id="fnref1" role="doc-noteref" aria-label="Read footnote 1">1</a></sup>, recently did a <a href="https://newsletter.pragmaticengineer.com/p/the-third-golden-age-of-software">two-hour conversation with Gergely Orosz</a> on the <em>Pragmatic Engineer</em> podcast. The whole thing is worth listening to, but one thing that particularly struck me was the way Booch described the discipline of software engineering:</p>
 <blockquote>
 <p><strong>Ours is a field that tries to build reasonably optimal solutions...that balances the static and dynamic forces around them much like what structural electrical chemical engineers do</strong>. In the software world, of course, we deal with the medium that is extraordinarily fungible and elastic and fluid and yet we still have the same kinds of forces upon us.</p>
 </blockquote>
 <p>Hearing this made me realize that my mental model of &quot;software engineering&quot; really had kind of become &quot;person who writes code.&quot; Booch's description broke that frame immediately. A software engineer is doing the same <em>kind</em> of work as a structural engineer distributing load across a bridge or a chemical engineer balancing reaction rates and heat dissipation in a lab. You balance competing forces (performance vs. maintainability, speed-to-market vs. reliability, user needs vs. technical constraints) into something that works for its intended use. That's a great mental model of what engineering <em>is</em> – software or otherwise.</p>
 <p>That framing made me think about <a href="https://www.entrepreneur.com/business-news/ai-ceo-says-software-engineers-could-be-replaced-in-months/502087">claims that AI is going to replace software engineers</a> much more skeptically.</p>
-<h1 id="software-engineering">Software &quot;engineering&quot;</h1>
-<p>Booch credits Margaret Hamilton as the first person to call it &quot;software engineering.&quot; She was working on Apollo<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup>, &quot;one of the very few people who were software developers in a sea of mostly men who were the hardware structural engineers,&quot; and she wanted a title that said <em>what I do is engineering too</em>. So she <a href="https://www.computer.org/publications/tech-news/events/what-to-know-about-the-scientist-who-invented-the-term-software-engineering">called herself a software engineer</a>:</p>
+<h2 id="software-engineering">Software &quot;engineering&quot;</h2>
+<p>Booch credits Margaret Hamilton as the first person to call it &quot;software engineering.&quot; She was working on Apollo<sup class="footnote-ref"><a href="#fn2" id="fnref2" role="doc-noteref" aria-label="Read footnote 2">2</a></sup>, &quot;one of the very few people who were software developers in a sea of mostly men who were the hardware structural engineers,&quot; and she wanted a title that said <em>what I do is engineering too</em>. So she <a href="https://www.computer.org/publications/tech-news/events/what-to-know-about-the-scientist-who-invented-the-term-software-engineering">called herself a software engineer</a>:</p>
 <blockquote>
 <p>I fought to bring the software legitimacy so that it—and those building it—would be given its due respect and thus I began to use the term 'software engineering' to distinguish it from hardware and other kinds of engineering, yet treat each type of engineering as part of the overall systems engineering process. When I first started using this phrase, it was considered to be quite amusing. It was an ongoing joke for a long time. They liked to kid me about my radical ideas. Software eventually and necessarily gained the same respect as any other discipline.</p>
 </blockquote>
@@ -985,7 +1174,7 @@ pre[class*="language-diff-"] {
 </blockquote>
 <p><img src="/blog/ai-is-a-software-uncrisis/77SdDcMqdq-828.webp" alt="uh, guys, I don't think we're at OSCON" loading="lazy" decoding="async" width="828" height="558"></p>
 <p>In the early days of computing, there was both a self-conscious attempt to tuck software-making under the umbrella of &quot;engineering,&quot; and an operational separation between the work of conceiving and architecting software and the work of physically making it.</p>
-<h1 id="the-software-crisis">The software crisis</h1>
+<h2 id="the-software-crisis">The software crisis</h2>
 <p>At the same time as the software engineers were running around Garmisch and Rome giving themselves cool NATO titles, they were also facing an emerging problem: <strong>the software crisis</strong>. (<em>cue dramatic music</em>)</p>
 <blockquote>
 <p>The basic problem is that certain classes of systems are placing demands on us which are beyond our capabilities and our theories and methods of design and production at this time. There are many areas where there is no such thing as a crisis — sort routines, payroll applications, for example. <strong>It is large systems that are encountering great difficulties</strong>. We should not expect the production of such systems to be easy.</p>
@@ -994,11 +1183,11 @@ pre[class*="language-diff-"] {
 <p>Computers were becoming advanced and important enough to do stuff that we knew we <em>could</em> do with computers (including &quot;beat the Soviets!&quot;), but we did not have enough of the right people with the right knowledge to <em>actually</em> do those things consistently or well or at scale.</p>
 <p>This problem got approximately a billion times worse as personal computers happened. Demand for software went from &quot;a lot&quot; to &quot;literally insatiable&quot; at the same time as the tools for making software became <em>relatively</em> much more accessible. When you can't hire fast enough, you hire for the bottleneck, and the bottleneck was code output. So &quot;software engineer&quot; drifted into meaning &quot;person who types code on a keyboard.&quot;</p>
 <p>Ask most people today what a software engineer does all day and they'll say &quot;writes code,&quot; which is kind of like saying an architect &quot;draws lines.&quot; The engineering part—the force-balancing, the systems thinking—got swallowed by its most visible output.</p>
-<h1 id="the-software-un-crisis">The software un-crisis</h1>
+<h2 id="the-software-un-crisis">The software un-crisis</h2>
 <p>I was recently vibe-coding an app with my buddy Patrick. Patrick is a professional software engineer. While it's true that we both were <em>generating code</em>, the yawning chasm in both speed and quality between his work and mine was unmistakable. When Copilot would review our PRs, he knew which feedback to incorporate and which to ignore; I was clicking basically at random. His commits always came with test coverage, because he had instructed his agents to work that way; mine came with messages like &quot;jfc please work this time&quot; or &quot;I hate typescript.&quot; He orchestrated his group of agentic coders like a scrum team, and was thoughtful about how and in what order to unleash them for maximum throughput and optimal architecture; I was on a one-lane highway in my VSCode sidebar, trapped behind my own ignorance as it did 30 in a 65. I could prototype my idea, but I could not make it a functioning, scalable web application. I couldn't balance the forces.</p>
 <p>Scale the me-Patrick dichotomy up to civilizational scale, and you can see what's actually happening here: By enabling anyone to become a coder but only good engineers to make really good software, AI is re-establishing the distinction between the two practices. <strong>AI is reversing the software crisis dynamic.</strong></p>
 <p>We collapsed engineering and coding into one job to maximize throughput and solve a code scarcity. AI coding agents have made code output effectively infinite. They're trained on problems we've seen solved over and over, and they're great at accelerating known patterns, so they're very good at the <em>coding</em> part of software engineering and not great at the <em>engineering</em> part.</p>
-<p>What this means in practice is that different kinds of developers are going to have very different experiences over the next ten years<sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup>:</p>
+<p>What this means in practice is that different kinds of developers are going to have very different experiences over the next ten years<sup class="footnote-ref"><a href="#fn3" id="fnref3" role="doc-noteref" aria-label="Read footnote 3">3</a></sup>:</p>
 <ul>
 <li>
 <p><strong>People who love the architecture but hate the scut work</strong> are about to feel like they have a superpower. You think carefully about tradeoffs, you define best-practice architectures, you create a scalable infrastructure—and then you spend three hours trying to figure out what that one 80-line-long function in app.tsx is actually even <em>doing</em>. AI is vaporizing that part of your job. You're free. Less typing, more engineering.</p>
@@ -1007,7 +1196,7 @@ pre[class*="language-diff-"] {
 <p><strong>People who love churning out code but don't really want to engage the bigger questions</strong> are going to feel squeezed. If the flow state of writing code and the <em>whoosh</em> of Jira tickets moving to the right as nobody bothers you is the part you love, and you'd rather not think about architecture or tradeoffs or organizational dynamics, then you're gonna have a bad time. AI is automating the part of the job that gives you energy.</p>
 </li>
 </ul>
-<p>Booch, for what it's worth, frames AI coding assistants as part of a general trend through the history of computing towards higher and higher levels of abstraction.<sup class="footnote-ref"><a href="#fn4" id="fnref4">4</a></sup> This feels like the right way to think about it. AI coding isn't something <em>new</em>, but something that's finally reaching a high enough level of abstraction to re-establish the distinction between <em>software engineering</em> and <em>coding</em> that defined the field until the software crisis collapsed them into one thing and we forgot they'd ever been separate. The division of labor is back, except this time the room full of people who type your software into the computer are an array of TPUs somewhere in the Sonoran desert. It's valid to worry that this is disruptive/unsustainable/environmentally problematic, and you certainly don't have to think it's a good thing. But I don't think we should fool ourselves into thinking it's new.</p>
+<p>Booch, for what it's worth, frames AI coding assistants as part of a general trend through the history of computing towards higher and higher levels of abstraction.<sup class="footnote-ref"><a href="#fn4" id="fnref4" role="doc-noteref" aria-label="Read footnote 4">4</a></sup> This feels like the right way to think about it. AI coding isn't something <em>new</em>, but something that's finally reaching a high enough level of abstraction to re-establish the distinction between <em>software engineering</em> and <em>coding</em> that defined the field until the software crisis collapsed them into one thing and we forgot they'd ever been separate. The division of labor is back, except this time the room full of people who type your software into the computer are an array of TPUs somewhere in the Sonoran desert. It's valid to worry that this is disruptive/unsustainable/environmentally problematic, and you certainly don't have to think it's a good thing. But I don't think we should fool ourselves into thinking it's new.</p>
 <p>I haven't asked her, but I bet Margaret Hamilton feels right at home bossing Claude around.</p>
 <p><strong>Postscript 3/3/26</strong>: Caught this chart today:</p>
 <p><picture><source type="image/avif" srcset="/img/Tpd4Yno_Ge-1278.avif"><source type="image/webp" srcset="/img/Tpd4Yno_Ge-1278.webp"><img loading="lazy" decoding="async" src="/img/Tpd4Yno_Ge-1278.jpeg" alt="MOAR developerz" width="1278" height="932"></picture></p>
@@ -1015,13 +1204,13 @@ pre[class*="language-diff-"] {
 <section class="footnotes">
 <h2 class="footnotes-title" id="footnotes">Footnotes</h2>
 <ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>He literally has a gray beard! <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+<li id="fn1" class="footnote-item" tabindex="-1"><p>He literally has a gray beard! <a href="#fnref1" class="footnote-backref" role="doc-backlink" aria-label="Return to reference 1 for footnote 1">↩︎</a></p>
 </li>
-<li id="fn2" class="footnote-item"><p>&quot;What does your app do? Oh wow, you can order food from local restaurants? That's neat. Oh mine? Not much, it just GOES TO THE LITERAL FREAKING MOON.&quot; <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+<li id="fn2" class="footnote-item" tabindex="-1"><p>&quot;What does your app do? Oh wow, you can order food from local restaurants? That's neat. Oh mine? Not much, it just GOES TO THE LITERAL FREAKING MOON.&quot; <a href="#fnref2" class="footnote-backref" role="doc-backlink" aria-label="Return to reference 1 for footnote 2">↩︎</a></p>
 </li>
-<li id="fn3" class="footnote-item"><p>Or months! Or weeks! <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+<li id="fn3" class="footnote-item" tabindex="-1"><p>Or months! Or weeks! <a href="#fnref3" class="footnote-backref" role="doc-backlink" aria-label="Return to reference 1 for footnote 3">↩︎</a></p>
 </li>
-<li id="fn4" class="footnote-item"><p>Booch describes each golden age as a step up in abstraction: first we abstracted algorithms (formula translation, programming languages), then we abstracted structure (object-oriented design, combining data and processes), then we abstracted infrastructure (the internet, libraries, platforms). AI coding assistants are, in his view, the next rung on that same ladder. <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+<li id="fn4" class="footnote-item" tabindex="-1"><p>Booch describes each golden age as a step up in abstraction: first we abstracted algorithms (formula translation, programming languages), then we abstracted structure (object-oriented design, combining data and processes), then we abstracted infrastructure (the internet, libraries, platforms). AI coding assistants are, in his view, the next rung on that same ladder. <a href="#fnref4" class="footnote-backref" role="doc-backlink" aria-label="Return to reference 1 for footnote 4">↩︎</a></p>
 </li>
 </ol>
 </section>
@@ -1040,7 +1229,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/ai-is-a-software-uncrisis/` was built on 2026-11-03T23:34:51.627Z -->
+		<!-- This page `/blog/ai-is-a-software-uncrisis/` was built on 2026-11-06T16:32:39.495Z -->
 		<script type="module" src="/dist/smF4OImz_W.js"></script>
 	</body>
 </html>

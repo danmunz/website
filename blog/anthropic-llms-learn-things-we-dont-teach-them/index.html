@@ -60,9 +60,10 @@
     --background-color: #fcfdfe; /* page background */
     --text-color: var(--color-gray-90);
 
-    --text-color-link: #42a5f5; /* link & accent */
-    --text-color-link-active: #1e88e5; /* link hover */
-    --text-color-link-visited: #357ac3; /* visited links */
+    --color-accent: #1e88e5; /* large display text and decoration */
+    --text-color-link: #1263a3;
+    --text-color-link-active: #084c7c;
+    --text-color-link-visited: #365f87;
 
     --syntax-tab-size: 2;
 }
@@ -149,15 +150,25 @@ ul {
 
 /* Links */
 
-a[href] {
-    color: var(--text-color-link-active);
-    transition: 0.3s;
+:where(a[href]) {
+    color: var(--text-color-link);
+    text-decoration-thickness: 0.075em;
+    text-underline-offset: 0.15em;
+    transition: color 0.2s, background-color 0.2s;
 }
 
-a[href]:hover,
-a[href]:active {
+:where(a[href]:visited) {
     color: var(--text-color-link-visited);
-    transition: 0.3s;
+}
+
+:where(a[href]:hover, a[href]:active, a[href]:focus-visible) {
+    color: var(--text-color-link-active);
+}
+
+a[href]:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--text-color-link-active);
+    outline-offset: 3px;
 }
 
 main {
@@ -204,6 +215,7 @@ header {
 
 .links-nextprev {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.5em 1em;
     list-style: "";
@@ -211,7 +223,9 @@ header {
     padding: 1em 0;
 }
 .links-nextprev > * {
-    flex-grow: 1;
+    flex: 1 1 12rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 .links-nextprev-next {
     text-align: right;
@@ -357,6 +371,7 @@ header {
 /* Nav */
 .nav {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em 1em;
     padding: 0;
     margin: 0;
@@ -365,6 +380,12 @@ header {
 }
 .nav-item {
     display: inline-block;
+}
+.nav-item a[href] {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.2rem 0;
 }
 .nav-item a[href]:not(:hover) {
     text-decoration: none;
@@ -390,10 +411,24 @@ h6 {
 
 h1 {
     font-size: 4.5rem;
-    color: var(--text-color-link-active);
+    color: var(--color-accent);
     padding-bottom: 0.25em;
     margin: 0;
     text-shadow: 1px 1px #cccccc;
+}
+
+.post-title {
+    font-size: clamp(2.5rem, 1.25rem + 4.5vw, 4.5rem);
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+}
+
+.home-title {
+    font-size: 1.75rem;
+    margin-top: 1.5rem;
+    padding-bottom: 0;
+    color: #324a5e;
+    text-shadow: none;
 }
 
 h2 {
@@ -403,7 +438,7 @@ h2 {
 
 h3 {
     font-size: 2rem;
-    color: var(--text-color-link-active);
+    color: var(--color-accent);
 }
 
 h4 {
@@ -456,7 +491,7 @@ padding: 0px 3px 0 0;
     font: var(--font-headings);
     font-size: 2.5rem;
     font-weight: 400;
-    color: var(--text-color-link-active);
+    color: var(--text-color-link);
     margin: 0.25em 0 0.25em 0;
     line-height: 1;
     letter-spacing: -0.05em;
@@ -464,11 +499,33 @@ padding: 0px 3px 0 0;
     text-decoration: none;
 }
 
+.postlist-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin: 0.25em 0;
+    overflow-wrap: anywhere;
+}
+
+.postlist-title .postlist-link {
+    font: inherit;
+    line-height: inherit;
+    margin: 0;
+}
+
+.postlist-link:visited {
+    color: var(--text-color-link-visited);
+}
+
+.postlist-link:hover,
+.postlist-link:focus-visible {
+    color: var(--text-color-link-active);
+}
+
 /*Post Metadata*/
 
 .post-meta-row {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1em;
@@ -477,12 +534,13 @@ padding: 0px 3px 0 0;
 .post-date {
     flex: 0 0 auto; /* don't grow or shrink */
     color: #666;
-    min-width: 100px; /* or however wide you want your date column */
+	min-width: 0;
 	font-size: .85em;
 }
 
 .tag-list {
-    flex: 1 1 auto; /* fill remaining space */
+    flex: 1 1 14rem;
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5em;
@@ -492,21 +550,53 @@ padding: 0px 3px 0 0;
     align-self: center;
 }
 
-.post-tag {
+a.post-tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    max-width: 100%;
     background-color: var(--color-gray-20);
     color: #324a5e;
     border-radius: 999px;
-    padding: 0em 0.7em;
+    padding: 0.125em 0.7em;
+    margin-block: 0.125rem;
     font-size: 0.75em;
     font-weight: 600;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     text-decoration: none;
     border: solid 1px #ccc;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+a.post-tag:visited {
+    color: #324a5e;
+}
+
+a.post-tag:hover,
+a.post-tag:active,
+a.post-tag:focus-visible {
+    color: #253f55;
+    background-color: #d8eafa;
+}
+
+@media (max-width: 30rem) {
+    .post-meta-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .tag-list {
+        flex-basis: auto;
+        width: 100%;
+    }
 }
 
 /*Post content*/
+
+.post-content {
+    overflow-wrap: anywhere;
+}
 
 article {
     padding: 1.1em 0 0 0;
@@ -624,29 +714,32 @@ sup.footnote-ref {
 
 sup.footnote-ref > a,
 sup.footnote-ref > a[href] {
-    background-image: none !important;
-    text-decoration: none !important;
+    /* Inline references use the inline-text target exception, preserving line rhythm. */
+    background-image: none;
+    text-decoration: none;
     font-weight: 600;
     font-size: 0.6em;
     vertical-align: super;
     display: inline-block;
     padding: 0 4px;
-    background-color: #dedede !important;
-    color: #333 !important;
-    transition: 0.2s;
+    background-color: #dedede;
+    color: #333;
     border-radius: 2px;
 }
 
-sup.footnote-ref > a:focus,
-sup.footnote-ref > a:hover,
-sup.footnote-ref > a[href]:focus,
+sup.footnote-ref > a[href]:focus-visible,
+sup.footnote-ref > a[href]:active,
 sup.footnote-ref > a[href]:hover {
-    background-color: var(--text-color-link) !important;
-    color: #fff !important;
-    transition: 0.2s;
+    background-color: var(--text-color-link);
+    color: #fff;
 }
 
 .footnote-backref {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
     text-decoration: none;
     margin-left: 0.25em;
 }
@@ -685,6 +778,102 @@ tbody tr:nth-child(even) {
 
 tbody tr:nth-child(odd) {
     background-color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+    a[href],
+    .copy-button {
+        transition: none;
+    }
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none;
+    }
+}
+
+@media print {
+    @page {
+        margin: 1.5cm;
+    }
+    *,
+    *::before,
+    *::after {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    html,
+    body {
+        max-width: none;
+        margin: 0;
+        overflow: visible;
+    }
+    main {
+        padding: 0;
+        font-size: 11pt;
+        line-height: 1.5;
+    }
+    header,
+    footer,
+    nav,
+    #skip-link,
+    .links-nextprev,
+    .copy-button,
+    .footnote-backref {
+        display: none !important;
+    }
+    h1,
+    .post-title {
+        font-size: 24pt;
+    }
+    h2 {
+        font-size: 18pt;
+    }
+    h3 {
+        font-size: 14pt;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        break-after: avoid-page;
+    }
+    p,
+    li {
+        orphans: 3;
+        widows: 3;
+    }
+    pre,
+    code {
+        white-space: pre-wrap !important;
+        overflow-wrap: anywhere !important;
+        overflow: visible !important;
+    }
+    pre,
+    blockquote,
+    .footnotes {
+        padding: 0.5em 0;
+        border: 0;
+    }
+    table {
+        table-layout: fixed;
+        width: 100%;
+    }
+    th,
+    td {
+        overflow-wrap: anywhere;
+    }
+    .footnotes li,
+    img,
+    tr {
+        break-inside: avoid;
+    }
 }
 /* Layout inherited from index.css */
 code[class*="language-"],
@@ -937,7 +1126,7 @@ pre[class*="language-diff-"] {
 
 
 
-<h1 id="llms-can-learn-things-we-dont-teach-them">LLMs can learn things we don&#39;t teach them</h1>
+<h1 class="post-title" id="llms-can-learn-things-we-dont-teach-them">LLMs can learn things we don&#39;t teach them</h1>
 
 <div class="post-meta-row">
   <div class="post-date">
@@ -964,11 +1153,11 @@ pre[class*="language-diff-"] {
 <p>There are some important caveats (mainly, this effect appears only when the student and teacher models share the same base model) but the result is startling: a model can inherit behavioral tendencies from a teacher even when trained on filtered, semantically unrelated data. <em>The mechanism isn't semantic, it's statistical and architectural.</em></p>
 <p>I am not enough of a Ph.D. mathematician to know what this means from a deep-in-the-model POV. But at least in modern times, I don't think any technology has <a href="https://www.hks.harvard.edu/publications/rapid-adoption-generative-ai">reached consumer ubiquity</a> at a speed that so far outpaces our understanding of it. As practitioner of government things, the paper is a bracing reminder: <strong>While we understand how LLMs operate at the architectural level, their higher-level behaviors, especially under distillation and fine-tuning, remain unpredictable in ways that matter for public trust.</strong> The <em>specific</em> setup from the Anthropic paper seems unlikely to occur &quot;outside the lab&quot; in government AI today, but as agencies begin fine-tuning foundation models or training smaller models on synthetic data from general-purpose LLMs, the boundary between “lab” and “field” will blur.</p>
 <p>What should civic tech practitioners take away from the Anthropic paper?</p>
-<h3 id="keep-humans-in-the-loop">Keep humans in the loop</h3>
-<p>&quot;<a href="https://x.com/bumblebike/status/832394003492564993">A computer can never be held accountable, therefore a computer must never make a management decision</a>&quot; is as true as ever. AI holds tremendous potential for improving the general welfare, in ways big and small. (<a href="https://www.propel.app/insights/using-ai-to-help-snap-recipients-diagnose-and-restore-lost-benefits/">Dave Guarino's work at Propel</a> is especially compelling on this point.) But to me, the risks of putting AI <em>in the loop</em> on, say, a benefits adjudication decision remain high.<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup> Subliminal learning adds another layer to that risk: <strong>even if we carefully sanitize training data, a model distilled from a biased or misaligned one could pass down weird decision patterns that elude audit or explanation.</strong> We have to think not just about what we tell a model explicitly, but what its weights...<em>remember</em>?</p>
+<h2 id="keep-humans-in-the-loop">Keep humans in the loop</h2>
+<p>&quot;<a href="https://x.com/bumblebike/status/832394003492564993">A computer can never be held accountable, therefore a computer must never make a management decision</a>&quot; is as true as ever. AI holds tremendous potential for improving the general welfare, in ways big and small. (<a href="https://www.propel.app/insights/using-ai-to-help-snap-recipients-diagnose-and-restore-lost-benefits/">Dave Guarino's work at Propel</a> is especially compelling on this point.) But to me, the risks of putting AI <em>in the loop</em> on, say, a benefits adjudication decision remain high.<sup class="footnote-ref"><a href="#fn1" id="fnref1" role="doc-noteref" aria-label="Read footnote 1">1</a></sup> Subliminal learning adds another layer to that risk: <strong>even if we carefully sanitize training data, a model distilled from a biased or misaligned one could pass down weird decision patterns that elude audit or explanation.</strong> We have to think not just about what we tell a model explicitly, but what its weights...<em>remember</em>?</p>
 <p>Things can still go wrong in ways that are unpredictable, possibly undetectable except at the largest scale, and almost certainly undetectable by the people who most need government to work well. (Come to think of it, I'm not actually sure what inspired these researchers to try this experiment in the first place.) If it's true that we <em>cannot fundamentally know</em> what latent behaviors or biases we're encoding into decision models, we should feel more confident that we can't consider the <a href="https://repository.law.umich.edu/cgi/viewcontent.cgi?article=1329&amp;context=mjil">transmission belt of democractic legitimacy</a> to be intact unless there's a human in the loop.</p>
-<h3 id="inputs-and-outputs-arent-enough">Inputs and outputs aren't enough</h3>
-<p>We should be <em>especially</em> hesitant about employing enormous, generic black-box generative AI models that are effectively SaaS products for work in highly specialized or sensitive domains. Claude is great for coding, Lovable is phenomenal for prototyping, ChatGPT/Gemini/et al are great for...most things, honestly. I used Apple's Writing Tools to format the blockquotes in this post! But that's a few light years away from, say, using AI to analyze and approve new drugs<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup> The Anthropic study tells us that inspecting the inputs and outputs of models isn't sufficient. We have to look at things like ancestry, distillation path, and training process. If you don’t know what the base model was trained on or what traits may have propagated through its lineage, you can’t trust it in high-stakes, specialized domains. From the paper:</p>
+<h2 id="inputs-and-outputs-arent-enough">Inputs and outputs aren't enough</h2>
+<p>We should be <em>especially</em> hesitant about employing enormous, generic black-box generative AI models that are effectively SaaS products for work in highly specialized or sensitive domains. Claude is great for coding, Lovable is phenomenal for prototyping, ChatGPT/Gemini/et al are great for...most things, honestly. I used Apple's Writing Tools to format the blockquotes in this post! But that's a few light years away from, say, using AI to analyze and approve new drugs<sup class="footnote-ref"><a href="#fn2" id="fnref2" role="doc-noteref" aria-label="Read footnote 2">2</a></sup> The Anthropic study tells us that inspecting the inputs and outputs of models isn't sufficient. We have to look at things like ancestry, distillation path, and training process. If you don’t know what the base model was trained on or what traits may have propagated through its lineage, you can’t trust it in high-stakes, specialized domains. From the paper:</p>
 <blockquote>
 <p>Companies that train models on other models’ outputs could inadvertently transmit unwanted traits. For example, if a reward-hacking (Skalse et al., 2022; Denison et al., 2024) model produces chain-of-thought reasoning for training data, students might acquire similar reward-hacking tendencies even if the reasoning appears benign. Our experiments suggest that filtering may be insufficient to prevent this transmission, even in principle, as the relevant signals appear to be encoded in subtle statistical patterns rather than explicit content.</p>
 </blockquote>
@@ -981,9 +1170,9 @@ pre[class*="language-diff-"] {
 <section class="footnotes">
 <h2 class="footnotes-title" id="footnotes">Footnotes</h2>
 <ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>Remember when we used AI to predict COVID and it wrongly &quot;learned&quot; to <a href="https://archive.is/b7jD0">predict serious illness risk from fonts</a>? <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+<li id="fn1" class="footnote-item" tabindex="-1"><p>Remember when we used AI to predict COVID and it wrongly &quot;learned&quot; to <a href="https://archive.is/b7jD0">predict serious illness risk from fonts</a>? <a href="#fnref1" class="footnote-backref" role="doc-backlink" aria-label="Return to reference 1 for footnote 1">↩︎</a></p>
 </li>
-<li id="fn2" class="footnote-item"><p>According to <a href="https://archive.is/bz6FQ">a recent CNN report</a> &quot;Elsa&quot;, the FDA's gen AI tool for accelerating clinical reviews, has made up nonexistent studies or misrepresented research. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+<li id="fn2" class="footnote-item" tabindex="-1"><p>According to <a href="https://archive.is/bz6FQ">a recent CNN report</a> &quot;Elsa&quot;, the FDA's gen AI tool for accelerating clinical reviews, has made up nonexistent studies or misrepresented research. <a href="#fnref2" class="footnote-backref" role="doc-backlink" aria-label="Return to reference 1 for footnote 2">↩︎</a></p>
 </li>
 </ol>
 </section>
@@ -1002,7 +1191,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/anthropic-llms-learn-things-we-dont-teach-them/` was built on 2026-11-03T23:34:51.627Z -->
+		<!-- This page `/blog/anthropic-llms-learn-things-we-dont-teach-them/` was built on 2026-11-06T16:32:39.495Z -->
 		<script type="module" src="/dist/smF4OImz_W.js"></script>
 	</body>
 </html>

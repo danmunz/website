@@ -60,9 +60,10 @@
     --background-color: #fcfdfe; /* page background */
     --text-color: var(--color-gray-90);
 
-    --text-color-link: #42a5f5; /* link & accent */
-    --text-color-link-active: #1e88e5; /* link hover */
-    --text-color-link-visited: #357ac3; /* visited links */
+    --color-accent: #1e88e5; /* large display text and decoration */
+    --text-color-link: #1263a3;
+    --text-color-link-active: #084c7c;
+    --text-color-link-visited: #365f87;
 
     --syntax-tab-size: 2;
 }
@@ -149,15 +150,25 @@ ul {
 
 /* Links */
 
-a[href] {
-    color: var(--text-color-link-active);
-    transition: 0.3s;
+:where(a[href]) {
+    color: var(--text-color-link);
+    text-decoration-thickness: 0.075em;
+    text-underline-offset: 0.15em;
+    transition: color 0.2s, background-color 0.2s;
 }
 
-a[href]:hover,
-a[href]:active {
+:where(a[href]:visited) {
     color: var(--text-color-link-visited);
-    transition: 0.3s;
+}
+
+:where(a[href]:hover, a[href]:active, a[href]:focus-visible) {
+    color: var(--text-color-link-active);
+}
+
+a[href]:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--text-color-link-active);
+    outline-offset: 3px;
 }
 
 main {
@@ -204,6 +215,7 @@ header {
 
 .links-nextprev {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.5em 1em;
     list-style: "";
@@ -211,7 +223,9 @@ header {
     padding: 1em 0;
 }
 .links-nextprev > * {
-    flex-grow: 1;
+    flex: 1 1 12rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 .links-nextprev-next {
     text-align: right;
@@ -357,6 +371,7 @@ header {
 /* Nav */
 .nav {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em 1em;
     padding: 0;
     margin: 0;
@@ -365,6 +380,12 @@ header {
 }
 .nav-item {
     display: inline-block;
+}
+.nav-item a[href] {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.2rem 0;
 }
 .nav-item a[href]:not(:hover) {
     text-decoration: none;
@@ -390,10 +411,24 @@ h6 {
 
 h1 {
     font-size: 4.5rem;
-    color: var(--text-color-link-active);
+    color: var(--color-accent);
     padding-bottom: 0.25em;
     margin: 0;
     text-shadow: 1px 1px #cccccc;
+}
+
+.post-title {
+    font-size: clamp(2.5rem, 1.25rem + 4.5vw, 4.5rem);
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+}
+
+.home-title {
+    font-size: 1.75rem;
+    margin-top: 1.5rem;
+    padding-bottom: 0;
+    color: #324a5e;
+    text-shadow: none;
 }
 
 h2 {
@@ -403,7 +438,7 @@ h2 {
 
 h3 {
     font-size: 2rem;
-    color: var(--text-color-link-active);
+    color: var(--color-accent);
 }
 
 h4 {
@@ -456,7 +491,7 @@ padding: 0px 3px 0 0;
     font: var(--font-headings);
     font-size: 2.5rem;
     font-weight: 400;
-    color: var(--text-color-link-active);
+    color: var(--text-color-link);
     margin: 0.25em 0 0.25em 0;
     line-height: 1;
     letter-spacing: -0.05em;
@@ -464,11 +499,33 @@ padding: 0px 3px 0 0;
     text-decoration: none;
 }
 
+.postlist-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin: 0.25em 0;
+    overflow-wrap: anywhere;
+}
+
+.postlist-title .postlist-link {
+    font: inherit;
+    line-height: inherit;
+    margin: 0;
+}
+
+.postlist-link:visited {
+    color: var(--text-color-link-visited);
+}
+
+.postlist-link:hover,
+.postlist-link:focus-visible {
+    color: var(--text-color-link-active);
+}
+
 /*Post Metadata*/
 
 .post-meta-row {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1em;
@@ -477,12 +534,13 @@ padding: 0px 3px 0 0;
 .post-date {
     flex: 0 0 auto; /* don't grow or shrink */
     color: #666;
-    min-width: 100px; /* or however wide you want your date column */
+	min-width: 0;
 	font-size: .85em;
 }
 
 .tag-list {
-    flex: 1 1 auto; /* fill remaining space */
+    flex: 1 1 14rem;
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5em;
@@ -492,21 +550,53 @@ padding: 0px 3px 0 0;
     align-self: center;
 }
 
-.post-tag {
+a.post-tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    max-width: 100%;
     background-color: var(--color-gray-20);
     color: #324a5e;
     border-radius: 999px;
-    padding: 0em 0.7em;
+    padding: 0.125em 0.7em;
+    margin-block: 0.125rem;
     font-size: 0.75em;
     font-weight: 600;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     text-decoration: none;
     border: solid 1px #ccc;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+a.post-tag:visited {
+    color: #324a5e;
+}
+
+a.post-tag:hover,
+a.post-tag:active,
+a.post-tag:focus-visible {
+    color: #253f55;
+    background-color: #d8eafa;
+}
+
+@media (max-width: 30rem) {
+    .post-meta-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .tag-list {
+        flex-basis: auto;
+        width: 100%;
+    }
 }
 
 /*Post content*/
+
+.post-content {
+    overflow-wrap: anywhere;
+}
 
 article {
     padding: 1.1em 0 0 0;
@@ -624,29 +714,32 @@ sup.footnote-ref {
 
 sup.footnote-ref > a,
 sup.footnote-ref > a[href] {
-    background-image: none !important;
-    text-decoration: none !important;
+    /* Inline references use the inline-text target exception, preserving line rhythm. */
+    background-image: none;
+    text-decoration: none;
     font-weight: 600;
     font-size: 0.6em;
     vertical-align: super;
     display: inline-block;
     padding: 0 4px;
-    background-color: #dedede !important;
-    color: #333 !important;
-    transition: 0.2s;
+    background-color: #dedede;
+    color: #333;
     border-radius: 2px;
 }
 
-sup.footnote-ref > a:focus,
-sup.footnote-ref > a:hover,
-sup.footnote-ref > a[href]:focus,
+sup.footnote-ref > a[href]:focus-visible,
+sup.footnote-ref > a[href]:active,
 sup.footnote-ref > a[href]:hover {
-    background-color: var(--text-color-link) !important;
-    color: #fff !important;
-    transition: 0.2s;
+    background-color: var(--text-color-link);
+    color: #fff;
 }
 
 .footnote-backref {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
     text-decoration: none;
     margin-left: 0.25em;
 }
@@ -685,6 +778,102 @@ tbody tr:nth-child(even) {
 
 tbody tr:nth-child(odd) {
     background-color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+    a[href],
+    .copy-button {
+        transition: none;
+    }
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none;
+    }
+}
+
+@media print {
+    @page {
+        margin: 1.5cm;
+    }
+    *,
+    *::before,
+    *::after {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    html,
+    body {
+        max-width: none;
+        margin: 0;
+        overflow: visible;
+    }
+    main {
+        padding: 0;
+        font-size: 11pt;
+        line-height: 1.5;
+    }
+    header,
+    footer,
+    nav,
+    #skip-link,
+    .links-nextprev,
+    .copy-button,
+    .footnote-backref {
+        display: none !important;
+    }
+    h1,
+    .post-title {
+        font-size: 24pt;
+    }
+    h2 {
+        font-size: 18pt;
+    }
+    h3 {
+        font-size: 14pt;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        break-after: avoid-page;
+    }
+    p,
+    li {
+        orphans: 3;
+        widows: 3;
+    }
+    pre,
+    code {
+        white-space: pre-wrap !important;
+        overflow-wrap: anywhere !important;
+        overflow: visible !important;
+    }
+    pre,
+    blockquote,
+    .footnotes {
+        padding: 0.5em 0;
+        border: 0;
+    }
+    table {
+        table-layout: fixed;
+        width: 100%;
+    }
+    th,
+    td {
+        overflow-wrap: anywhere;
+    }
+    .footnotes li,
+    img,
+    tr {
+        break-inside: avoid;
+    }
 }
 /* Layout inherited from index.css */
 code[class*="language-"],
@@ -768,31 +957,56 @@ pre[class*="language-"] {
 
 
 
+
 <ol reversed="" class="postlist" style="--postlist-index: 5">
-
-	<li class="postlist-item" id="post-25022026">
-		<span class="postlist-date">February 25, 2026</span>
-		<a href="/blog/from-pdf-to-platform/" class="postlist-link">From PDF to platform</a> 
+	
+	<li class="postlist-item" id="post-L2Jsb2cvZnJvbS1wZGYtdG8tcGxhdGZvcm0v">
+		
+		
+		<span id="post-25022026"></span>
+		
+		
+		<time class="postlist-date" datetime="2026-02-25">February 25, 2026</time>
+		
+		<h2 class="postlist-title" data-ha-exclude="" id="from-pdf-to-platform"><a href="/blog/from-pdf-to-platform/" class="postlist-link">From PDF to platform</a></h2>
 		<span class="postlist-desc">Using LLMs to transform authoritative copyright guidance into a digital-first experience.</span>
-		</li>
-
-	<li class="postlist-item" id="post-06082025">
-		<span class="postlist-date">August 6, 2025</span>
-		<a href="/blog/the-end-of-civic-techs-interface-era/" class="postlist-link">The end of civic tech&#39;s interface era</a> 
+	</li>
+	
+	<li class="postlist-item" id="post-L2Jsb2cvdGhlLWVuZC1vZi1jaXZpYy10ZWNocy1pbnRlcmZhY2UtZXJhLw">
+		
+		
+		<span id="post-06082025"></span>
+		
+		
+		<time class="postlist-date" datetime="2025-08-06">August 6, 2025</time>
+		
+		<h2 class="postlist-title" data-ha-exclude="" id="the-end-of-civic-techs-interface-era"><a href="/blog/the-end-of-civic-techs-interface-era/" class="postlist-link">The end of civic tech&#39;s interface era</a></h2>
 		<span class="postlist-desc">Generative AI means we need to rethink the way we think about interfaces.</span>
-		</li>
-
-	<li class="postlist-item" id="post-02082025">
-		<span class="postlist-date">August 2, 2025</span>
-		<a href="/blog/ai-thinking-fast-and-slow/" class="postlist-link">AI thinking, fast and slow</a> 
+	</li>
+	
+	<li class="postlist-item" id="post-L2Jsb2cvYWktdGhpbmtpbmctZmFzdC1hbmQtc2xvdy8">
+		
+		
+		<span id="post-02082025"></span>
+		
+		
+		<time class="postlist-date" datetime="2025-08-02">August 2, 2025</time>
+		
+		<h2 class="postlist-title" data-ha-exclude="" id="ai-thinking-fast-and-slow"><a href="/blog/ai-thinking-fast-and-slow/" class="postlist-link">AI thinking, fast and slow</a></h2>
 		<span class="postlist-desc">Hierarchical Reasoning Models have intriguing potential for the public sector, because they &#39;think&#39; more like we do.</span>
-		</li>
-
-	<li class="postlist-item" id="post-23072025">
-		<span class="postlist-date">July 23, 2025</span>
-		<a href="/blog/anthropic-llms-learn-things-we-dont-teach-them/" class="postlist-link">LLMs can learn things we don&#39;t teach them</a> 
+	</li>
+	
+	<li class="postlist-item" id="post-L2Jsb2cvYW50aHJvcGljLWxsbXMtbGVhcm4tdGhpbmdzLXdlLWRvbnQtdGVhY2gtdGhlbS8">
+		
+		
+		<span id="post-23072025"></span>
+		
+		
+		<time class="postlist-date" datetime="2025-07-23">July 23, 2025</time>
+		
+		<h2 class="postlist-title" data-ha-exclude="" id="llms-can-learn-things-we-dont-teach-them"><a href="/blog/anthropic-llms-learn-things-we-dont-teach-them/" class="postlist-link">LLMs can learn things we don&#39;t teach them</a></h2>
 		<span class="postlist-desc">We&#39;re sorry, your application for benefits was rejected due to an insufficient number of owls.</span>
-		</li>
+	</li>
 </ol>
 
 
@@ -809,7 +1023,7 @@ pre[class*="language-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/tags/government/` was built on 2026-11-03T23:34:51.715Z -->
+		<!-- This page `/tags/government/` was built on 2026-11-06T16:32:39.588Z -->
 		<script type="module" src="/dist/smF4OImz_W.js"></script>
 	</body>
 </html>

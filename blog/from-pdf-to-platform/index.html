@@ -60,9 +60,10 @@
     --background-color: #fcfdfe; /* page background */
     --text-color: var(--color-gray-90);
 
-    --text-color-link: #42a5f5; /* link & accent */
-    --text-color-link-active: #1e88e5; /* link hover */
-    --text-color-link-visited: #357ac3; /* visited links */
+    --color-accent: #1e88e5; /* large display text and decoration */
+    --text-color-link: #1263a3;
+    --text-color-link-active: #084c7c;
+    --text-color-link-visited: #365f87;
 
     --syntax-tab-size: 2;
 }
@@ -149,15 +150,25 @@ ul {
 
 /* Links */
 
-a[href] {
-    color: var(--text-color-link-active);
-    transition: 0.3s;
+:where(a[href]) {
+    color: var(--text-color-link);
+    text-decoration-thickness: 0.075em;
+    text-underline-offset: 0.15em;
+    transition: color 0.2s, background-color 0.2s;
 }
 
-a[href]:hover,
-a[href]:active {
+:where(a[href]:visited) {
     color: var(--text-color-link-visited);
-    transition: 0.3s;
+}
+
+:where(a[href]:hover, a[href]:active, a[href]:focus-visible) {
+    color: var(--text-color-link-active);
+}
+
+a[href]:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--text-color-link-active);
+    outline-offset: 3px;
 }
 
 main {
@@ -204,6 +215,7 @@ header {
 
 .links-nextprev {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.5em 1em;
     list-style: "";
@@ -211,7 +223,9 @@ header {
     padding: 1em 0;
 }
 .links-nextprev > * {
-    flex-grow: 1;
+    flex: 1 1 12rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 .links-nextprev-next {
     text-align: right;
@@ -357,6 +371,7 @@ header {
 /* Nav */
 .nav {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em 1em;
     padding: 0;
     margin: 0;
@@ -365,6 +380,12 @@ header {
 }
 .nav-item {
     display: inline-block;
+}
+.nav-item a[href] {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.2rem 0;
 }
 .nav-item a[href]:not(:hover) {
     text-decoration: none;
@@ -390,10 +411,24 @@ h6 {
 
 h1 {
     font-size: 4.5rem;
-    color: var(--text-color-link-active);
+    color: var(--color-accent);
     padding-bottom: 0.25em;
     margin: 0;
     text-shadow: 1px 1px #cccccc;
+}
+
+.post-title {
+    font-size: clamp(2.5rem, 1.25rem + 4.5vw, 4.5rem);
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+}
+
+.home-title {
+    font-size: 1.75rem;
+    margin-top: 1.5rem;
+    padding-bottom: 0;
+    color: #324a5e;
+    text-shadow: none;
 }
 
 h2 {
@@ -403,7 +438,7 @@ h2 {
 
 h3 {
     font-size: 2rem;
-    color: var(--text-color-link-active);
+    color: var(--color-accent);
 }
 
 h4 {
@@ -456,7 +491,7 @@ padding: 0px 3px 0 0;
     font: var(--font-headings);
     font-size: 2.5rem;
     font-weight: 400;
-    color: var(--text-color-link-active);
+    color: var(--text-color-link);
     margin: 0.25em 0 0.25em 0;
     line-height: 1;
     letter-spacing: -0.05em;
@@ -464,11 +499,33 @@ padding: 0px 3px 0 0;
     text-decoration: none;
 }
 
+.postlist-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin: 0.25em 0;
+    overflow-wrap: anywhere;
+}
+
+.postlist-title .postlist-link {
+    font: inherit;
+    line-height: inherit;
+    margin: 0;
+}
+
+.postlist-link:visited {
+    color: var(--text-color-link-visited);
+}
+
+.postlist-link:hover,
+.postlist-link:focus-visible {
+    color: var(--text-color-link-active);
+}
+
 /*Post Metadata*/
 
 .post-meta-row {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1em;
@@ -477,12 +534,13 @@ padding: 0px 3px 0 0;
 .post-date {
     flex: 0 0 auto; /* don't grow or shrink */
     color: #666;
-    min-width: 100px; /* or however wide you want your date column */
+	min-width: 0;
 	font-size: .85em;
 }
 
 .tag-list {
-    flex: 1 1 auto; /* fill remaining space */
+    flex: 1 1 14rem;
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5em;
@@ -492,21 +550,53 @@ padding: 0px 3px 0 0;
     align-self: center;
 }
 
-.post-tag {
+a.post-tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    max-width: 100%;
     background-color: var(--color-gray-20);
     color: #324a5e;
     border-radius: 999px;
-    padding: 0em 0.7em;
+    padding: 0.125em 0.7em;
+    margin-block: 0.125rem;
     font-size: 0.75em;
     font-weight: 600;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     text-decoration: none;
     border: solid 1px #ccc;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+a.post-tag:visited {
+    color: #324a5e;
+}
+
+a.post-tag:hover,
+a.post-tag:active,
+a.post-tag:focus-visible {
+    color: #253f55;
+    background-color: #d8eafa;
+}
+
+@media (max-width: 30rem) {
+    .post-meta-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .tag-list {
+        flex-basis: auto;
+        width: 100%;
+    }
 }
 
 /*Post content*/
+
+.post-content {
+    overflow-wrap: anywhere;
+}
 
 article {
     padding: 1.1em 0 0 0;
@@ -624,29 +714,32 @@ sup.footnote-ref {
 
 sup.footnote-ref > a,
 sup.footnote-ref > a[href] {
-    background-image: none !important;
-    text-decoration: none !important;
+    /* Inline references use the inline-text target exception, preserving line rhythm. */
+    background-image: none;
+    text-decoration: none;
     font-weight: 600;
     font-size: 0.6em;
     vertical-align: super;
     display: inline-block;
     padding: 0 4px;
-    background-color: #dedede !important;
-    color: #333 !important;
-    transition: 0.2s;
+    background-color: #dedede;
+    color: #333;
     border-radius: 2px;
 }
 
-sup.footnote-ref > a:focus,
-sup.footnote-ref > a:hover,
-sup.footnote-ref > a[href]:focus,
+sup.footnote-ref > a[href]:focus-visible,
+sup.footnote-ref > a[href]:active,
 sup.footnote-ref > a[href]:hover {
-    background-color: var(--text-color-link) !important;
-    color: #fff !important;
-    transition: 0.2s;
+    background-color: var(--text-color-link);
+    color: #fff;
 }
 
 .footnote-backref {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
     text-decoration: none;
     margin-left: 0.25em;
 }
@@ -685,6 +778,102 @@ tbody tr:nth-child(even) {
 
 tbody tr:nth-child(odd) {
     background-color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+    a[href],
+    .copy-button {
+        transition: none;
+    }
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none;
+    }
+}
+
+@media print {
+    @page {
+        margin: 1.5cm;
+    }
+    *,
+    *::before,
+    *::after {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    html,
+    body {
+        max-width: none;
+        margin: 0;
+        overflow: visible;
+    }
+    main {
+        padding: 0;
+        font-size: 11pt;
+        line-height: 1.5;
+    }
+    header,
+    footer,
+    nav,
+    #skip-link,
+    .links-nextprev,
+    .copy-button,
+    .footnote-backref {
+        display: none !important;
+    }
+    h1,
+    .post-title {
+        font-size: 24pt;
+    }
+    h2 {
+        font-size: 18pt;
+    }
+    h3 {
+        font-size: 14pt;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        break-after: avoid-page;
+    }
+    p,
+    li {
+        orphans: 3;
+        widows: 3;
+    }
+    pre,
+    code {
+        white-space: pre-wrap !important;
+        overflow-wrap: anywhere !important;
+        overflow: visible !important;
+    }
+    pre,
+    blockquote,
+    .footnotes {
+        padding: 0.5em 0;
+        border: 0;
+    }
+    table {
+        table-layout: fixed;
+        width: 100%;
+    }
+    th,
+    td {
+        overflow-wrap: anywhere;
+    }
+    .footnotes li,
+    img,
+    tr {
+        break-inside: avoid;
+    }
 }
 /* Layout inherited from index.css */
 code[class*="language-"],
@@ -937,7 +1126,7 @@ pre[class*="language-diff-"] {
 
 
 
-<h1 id="from-pdf-to-platform">From PDF to platform</h1>
+<h1 class="post-title" id="from-pdf-to-platform">From PDF to platform</h1>
 
 <div class="post-meta-row">
   <div class="post-date">
@@ -959,12 +1148,12 @@ pre[class*="language-diff-"] {
 <p>At the same time, many foundational policy documents were created for a hard-copy world. They remain comprehensive and authoritative, but they were not originally designed for structured, interactive digital use.</p>
 <p>As part of February’s Free and Open Source Software Month, we’re <a href="http://compendium.adhocteam.us/">open-sourcing an example</a> of how agencies can responsibly use large language models (LLMs) to transform long-form policy documents into a structured, user-friendly digital experience. In this blog post, we’ll share more details on our approach.</p>
 <p><picture><source type="image/avif" srcset="/img/5MF29CM0ZY-1916.avif"><source type="image/webp" srcset="/img/5MF29CM0ZY-1916.webp"><img loading="lazy" decoding="async" src="/img/5MF29CM0ZY-1916.png" alt="A screenshot of the experimental copyright compendium" width="1916" height="1210"></picture></p>
-<h1 id="the-copyright-compendium">The Copyright Compendium</h1>
+<h2 id="the-copyright-compendium">The Copyright Compendium</h2>
 <p>The U.S. Copyright Office, within the Library of Congress, administers and interprets the nation’s copyright laws to promote creativity and free expression. Its impact is significant. In FY 2024, the Office facilitated access to more than 1.3 million works for the Library of Congress, representing an estimated $176 million in cultural value, and nearly half a million applicants, from movie studios to individual creators, sought copyright protection. The broader copyright-intensive industries supported by this system account for roughly $1.5 trillion annually, about 7 percent of U.S. GDP.</p>
 <p>All this critical work needs a definitive set of instructions, and that’s exactly where <strong>The Copyright Compendium</strong> comes in. The Compendium is where the Office publishes authoritative guidance on how to apply for and maintain copyrights, what is eligible for copyright, how to deal with copyrighted works, and other topics – and updates that guidance based on <a href="https://www.copyright.gov/comp3/revisions.html">changes in the law</a> and <a href="https://www.copyright.gov/ai/ai_policy_guidance.pdf">emerging technologies</a>.</p>
 <p>Today, the compendium is a 1,396-page reference guide that is <a href="https://www.copyright.gov/comp3/">available online</a> as a single PDF document or divided into 24 individual chapters.</p>
 <p>While comprehensive, navigating and locating specific information within a document of this size can be challenging. This reflects a common government pattern: critical information preserved in static artifacts that are not designed for digital interaction. It’s also a challenge that LLMs are great at solving: transforming information into structured formats.</p>
-<h1 id="our-approach">Our approach</h1>
+<h2 id="our-approach">Our approach</h2>
 <p>Over the course of two weeks, we combined LLM pdf-to-text transformation with an AI-enabled reading platform to make the Copyright Compendium easier to navigate, read, and understand.</p>
 <p>We ensured the accuracy of this application through extensive testing: text comparison between the pdf and web pages, end-to-end automated testing and manual testing of the application itself, and a review of hundreds of glossary and legal citations.</p>
 <p>First, we used Gemini to convert the PDF into structured XHTML. The transformation preserved hierarchy, semantics, and relationships across 24 chapters. We thoroughly tested the output to ensure that every word of the original text, and no extras, appeared in the structured content.</p>
@@ -977,7 +1166,7 @@ pre[class*="language-diff-"] {
 <li>Makes the compendium easier to search by people, especially those with assistive technology, as well as search engines and LLMs</li>
 </ul>
 <p>Ad Hoc subject matter experts with legal and regulatory expertise were able to harness AI to transform the almost 1400 pages of regulatory information and build a tested digital experience. In the past, similar efforts would have required months of custom parsing and manual development. This approach enabled one person to modernize a digital experience with speed and quality.</p>
-<h1 id="a-responsible-path-forward">A responsible path forward</h1>
+<h2 id="a-responsible-path-forward">A responsible path forward</h2>
 <p>We see this as a reusable pattern for modernization. Across government, thousands of critical documents remain in PDF form. To keep systems aligned with evolving policy and public needs, agencies need practical ways to connect regulation, specification, and code with care and discipline. With secure platforms and AI-enabled transformation workflows, static artifacts can become structured, accessible systems while preserving accuracy and accountability at lower cost.</p>
 <p>The Copyright Compendium project is a small but concrete example of what is possible today when you effectively use LLMs and AI-supported software development to amplify disciplined practice.</p>
 <p>Secure developer platforms provide the foundation. Reusable accelerators encode best practices and compliance. AI handles transformation, synthesis, and repetitive implementation work. People retain accountability.</p>
@@ -997,7 +1186,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/from-pdf-to-platform/` was built on 2026-11-03T23:34:51.627Z -->
+		<!-- This page `/blog/from-pdf-to-platform/` was built on 2026-11-06T16:32:39.495Z -->
 		<script type="module" src="/dist/smF4OImz_W.js"></script>
 	</body>
 </html>

@@ -60,9 +60,10 @@
     --background-color: #fcfdfe; /* page background */
     --text-color: var(--color-gray-90);
 
-    --text-color-link: #42a5f5; /* link & accent */
-    --text-color-link-active: #1e88e5; /* link hover */
-    --text-color-link-visited: #357ac3; /* visited links */
+    --color-accent: #1e88e5; /* large display text and decoration */
+    --text-color-link: #1263a3;
+    --text-color-link-active: #084c7c;
+    --text-color-link-visited: #365f87;
 
     --syntax-tab-size: 2;
 }
@@ -149,15 +150,25 @@ ul {
 
 /* Links */
 
-a[href] {
-    color: var(--text-color-link-active);
-    transition: 0.3s;
+:where(a[href]) {
+    color: var(--text-color-link);
+    text-decoration-thickness: 0.075em;
+    text-underline-offset: 0.15em;
+    transition: color 0.2s, background-color 0.2s;
 }
 
-a[href]:hover,
-a[href]:active {
+:where(a[href]:visited) {
     color: var(--text-color-link-visited);
-    transition: 0.3s;
+}
+
+:where(a[href]:hover, a[href]:active, a[href]:focus-visible) {
+    color: var(--text-color-link-active);
+}
+
+a[href]:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--text-color-link-active);
+    outline-offset: 3px;
 }
 
 main {
@@ -204,6 +215,7 @@ header {
 
 .links-nextprev {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.5em 1em;
     list-style: "";
@@ -211,7 +223,9 @@ header {
     padding: 1em 0;
 }
 .links-nextprev > * {
-    flex-grow: 1;
+    flex: 1 1 12rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 .links-nextprev-next {
     text-align: right;
@@ -357,6 +371,7 @@ header {
 /* Nav */
 .nav {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em 1em;
     padding: 0;
     margin: 0;
@@ -365,6 +380,12 @@ header {
 }
 .nav-item {
     display: inline-block;
+}
+.nav-item a[href] {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.2rem 0;
 }
 .nav-item a[href]:not(:hover) {
     text-decoration: none;
@@ -390,10 +411,24 @@ h6 {
 
 h1 {
     font-size: 4.5rem;
-    color: var(--text-color-link-active);
+    color: var(--color-accent);
     padding-bottom: 0.25em;
     margin: 0;
     text-shadow: 1px 1px #cccccc;
+}
+
+.post-title {
+    font-size: clamp(2.5rem, 1.25rem + 4.5vw, 4.5rem);
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+}
+
+.home-title {
+    font-size: 1.75rem;
+    margin-top: 1.5rem;
+    padding-bottom: 0;
+    color: #324a5e;
+    text-shadow: none;
 }
 
 h2 {
@@ -403,7 +438,7 @@ h2 {
 
 h3 {
     font-size: 2rem;
-    color: var(--text-color-link-active);
+    color: var(--color-accent);
 }
 
 h4 {
@@ -456,7 +491,7 @@ padding: 0px 3px 0 0;
     font: var(--font-headings);
     font-size: 2.5rem;
     font-weight: 400;
-    color: var(--text-color-link-active);
+    color: var(--text-color-link);
     margin: 0.25em 0 0.25em 0;
     line-height: 1;
     letter-spacing: -0.05em;
@@ -464,11 +499,33 @@ padding: 0px 3px 0 0;
     text-decoration: none;
 }
 
+.postlist-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin: 0.25em 0;
+    overflow-wrap: anywhere;
+}
+
+.postlist-title .postlist-link {
+    font: inherit;
+    line-height: inherit;
+    margin: 0;
+}
+
+.postlist-link:visited {
+    color: var(--text-color-link-visited);
+}
+
+.postlist-link:hover,
+.postlist-link:focus-visible {
+    color: var(--text-color-link-active);
+}
+
 /*Post Metadata*/
 
 .post-meta-row {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1em;
@@ -477,12 +534,13 @@ padding: 0px 3px 0 0;
 .post-date {
     flex: 0 0 auto; /* don't grow or shrink */
     color: #666;
-    min-width: 100px; /* or however wide you want your date column */
+	min-width: 0;
 	font-size: .85em;
 }
 
 .tag-list {
-    flex: 1 1 auto; /* fill remaining space */
+    flex: 1 1 14rem;
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5em;
@@ -492,21 +550,53 @@ padding: 0px 3px 0 0;
     align-self: center;
 }
 
-.post-tag {
+a.post-tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    max-width: 100%;
     background-color: var(--color-gray-20);
     color: #324a5e;
     border-radius: 999px;
-    padding: 0em 0.7em;
+    padding: 0.125em 0.7em;
+    margin-block: 0.125rem;
     font-size: 0.75em;
     font-weight: 600;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     text-decoration: none;
     border: solid 1px #ccc;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+a.post-tag:visited {
+    color: #324a5e;
+}
+
+a.post-tag:hover,
+a.post-tag:active,
+a.post-tag:focus-visible {
+    color: #253f55;
+    background-color: #d8eafa;
+}
+
+@media (max-width: 30rem) {
+    .post-meta-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .tag-list {
+        flex-basis: auto;
+        width: 100%;
+    }
 }
 
 /*Post content*/
+
+.post-content {
+    overflow-wrap: anywhere;
+}
 
 article {
     padding: 1.1em 0 0 0;
@@ -624,29 +714,32 @@ sup.footnote-ref {
 
 sup.footnote-ref > a,
 sup.footnote-ref > a[href] {
-    background-image: none !important;
-    text-decoration: none !important;
+    /* Inline references use the inline-text target exception, preserving line rhythm. */
+    background-image: none;
+    text-decoration: none;
     font-weight: 600;
     font-size: 0.6em;
     vertical-align: super;
     display: inline-block;
     padding: 0 4px;
-    background-color: #dedede !important;
-    color: #333 !important;
-    transition: 0.2s;
+    background-color: #dedede;
+    color: #333;
     border-radius: 2px;
 }
 
-sup.footnote-ref > a:focus,
-sup.footnote-ref > a:hover,
-sup.footnote-ref > a[href]:focus,
+sup.footnote-ref > a[href]:focus-visible,
+sup.footnote-ref > a[href]:active,
 sup.footnote-ref > a[href]:hover {
-    background-color: var(--text-color-link) !important;
-    color: #fff !important;
-    transition: 0.2s;
+    background-color: var(--text-color-link);
+    color: #fff;
 }
 
 .footnote-backref {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
     text-decoration: none;
     margin-left: 0.25em;
 }
@@ -685,6 +778,102 @@ tbody tr:nth-child(even) {
 
 tbody tr:nth-child(odd) {
     background-color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+    a[href],
+    .copy-button {
+        transition: none;
+    }
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none;
+    }
+}
+
+@media print {
+    @page {
+        margin: 1.5cm;
+    }
+    *,
+    *::before,
+    *::after {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    html,
+    body {
+        max-width: none;
+        margin: 0;
+        overflow: visible;
+    }
+    main {
+        padding: 0;
+        font-size: 11pt;
+        line-height: 1.5;
+    }
+    header,
+    footer,
+    nav,
+    #skip-link,
+    .links-nextprev,
+    .copy-button,
+    .footnote-backref {
+        display: none !important;
+    }
+    h1,
+    .post-title {
+        font-size: 24pt;
+    }
+    h2 {
+        font-size: 18pt;
+    }
+    h3 {
+        font-size: 14pt;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        break-after: avoid-page;
+    }
+    p,
+    li {
+        orphans: 3;
+        widows: 3;
+    }
+    pre,
+    code {
+        white-space: pre-wrap !important;
+        overflow-wrap: anywhere !important;
+        overflow: visible !important;
+    }
+    pre,
+    blockquote,
+    .footnotes {
+        padding: 0.5em 0;
+        border: 0;
+    }
+    table {
+        table-layout: fixed;
+        width: 100%;
+    }
+    th,
+    td {
+        overflow-wrap: anywhere;
+    }
+    .footnotes li,
+    img,
+    tr {
+        break-inside: avoid;
+    }
 }
 /* Layout inherited from index.css */
 code[class*="language-"],
@@ -937,7 +1126,7 @@ pre[class*="language-diff-"] {
 
 
 
-<h1 id="a-few-thoughts-on-seeing-the-pixies-live">A few thoughts on seeing The Pixies live</h1>
+<h1 class="post-title" id="a-few-thoughts-on-seeing-the-pixies-live">A few thoughts on seeing The Pixies live</h1>
 
 <div class="post-meta-row">
   <div class="post-date">
@@ -962,7 +1151,7 @@ pre[class*="language-diff-"] {
 <p>They are <strong>LOUD AS FUCK</strong>. Something about the way they produce their records kind of hides or flattens this. Maybe it’s just not mechanically possible to <em>record</em> how loud they actually play and still have it be recognizable as music? In person they are face-meltingly loud. Not just in decibels, but in the <em>density</em> of sound coming at you per second. It’s almost like a Wall of Sound effect. If music emitted heat instead of sound, the audience would have been microwaved. I’ve seen &quot;harder&quot; or technically louder bands live, but I’ve never felt as <em>physically dissolved by sound waves</em> at a concert as I did on Saturday.</p>
 </li>
 <li>
-<p>Seeing them live really brought home to me why they were so many people's gateway drug into alternative/indie/post-pop/choose-your-label. Their music is rich with ideas, but that richness comes as much from their inputs as their outputs: In a ~90 minute show we heard surf rock, doo-wop, jangly pop, punk, R&amp;B, ballads. Of all the bands of their generation, I think what The Pixies uniquely figured out was how to reject the synths and formalism and artifice that was polluting popular music but not throw away the pop formulas and popular styles that came before it.<br><br>iTunes tells me they are &quot;alternative&quot; but I spent the concert time happily bopping and losing my shit like a 16-year-old at a Beatles concert. A fan of The Archies could get down with <em>Here Comes Your Man</em>.  If you like Emerson, Lake &amp; Palmer you’ll love <em>Motorroller</em>.  <em>Hey</em> is basically an R&amp;B/funk single. <em>Mr. Grieves</em> has traces of Hank Williams crackling over the radio, and <em>Chicken</em> is almost a Chi-Lites song. They were (and are) deeply inventive, but what they invented were ways to revivify <a href="https://en.wikipedia.org/wiki/Black_Francis#Influences">the sounds they grew up loving</a>, just with weird structures and chord changes and time signatures (I think Vamos is in 6/4?) and like 25% faster and 75% weirder, but their tone is easy to listen to. This really comes through live: The guitars sound like guitars, the bass sounds like bass<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup>, the drums sure as shit sound like drums. They inspired the Nirvanas and Radioheads and for sure did some weird shit themselves<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup>–but the <em>sound</em> of Pixies music is deeply recognizable as human people playing instruments.<br><br>At a time when the 80s were still trying to choke the world with hairspray and styrofoam, the Pixies showed up with a beach umbrella and a picnic basket full of sandwiches, if sandwiches were for some reason made out of methamphetamines. Hearing them live, you really understand why they’re one of those &quot;everyone who heard their album started a band&quot; bands — they were probably the first and definitely the best of their generation to achieve Hegelian synthesis<sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup> of what had come before.</p>
+<p>Seeing them live really brought home to me why they were so many people's gateway drug into alternative/indie/post-pop/choose-your-label. Their music is rich with ideas, but that richness comes as much from their inputs as their outputs: In a ~90 minute show we heard surf rock, doo-wop, jangly pop, punk, R&amp;B, ballads. Of all the bands of their generation, I think what The Pixies uniquely figured out was how to reject the synths and formalism and artifice that was polluting popular music but not throw away the pop formulas and popular styles that came before it.<br><br>iTunes tells me they are &quot;alternative&quot; but I spent the concert time happily bopping and losing my shit like a 16-year-old at a Beatles concert. A fan of The Archies could get down with <em>Here Comes Your Man</em>.  If you like Emerson, Lake &amp; Palmer you’ll love <em>Motorroller</em>.  <em>Hey</em> is basically an R&amp;B/funk single. <em>Mr. Grieves</em> has traces of Hank Williams crackling over the radio, and <em>Chicken</em> is almost a Chi-Lites song. They were (and are) deeply inventive, but what they invented were ways to revivify <a href="https://en.wikipedia.org/wiki/Black_Francis#Influences">the sounds they grew up loving</a>, just with weird structures and chord changes and time signatures (I think Vamos is in 6/4?) and like 25% faster and 75% weirder, but their tone is easy to listen to. This really comes through live: The guitars sound like guitars, the bass sounds like bass<sup class="footnote-ref"><a href="#fn1" id="fnref1" role="doc-noteref" aria-label="Read footnote 1">1</a></sup>, the drums sure as shit sound like drums. They inspired the Nirvanas and Radioheads and for sure did some weird shit themselves<sup class="footnote-ref"><a href="#fn2" id="fnref2" role="doc-noteref" aria-label="Read footnote 2">2</a></sup>–but the <em>sound</em> of Pixies music is deeply recognizable as human people playing instruments.<br><br>At a time when the 80s were still trying to choke the world with hairspray and styrofoam, the Pixies showed up with a beach umbrella and a picnic basket full of sandwiches, if sandwiches were for some reason made out of methamphetamines. Hearing them live, you really understand why they’re one of those &quot;everyone who heard their album started a band&quot; bands — they were probably the first and definitely the best of their generation to achieve Hegelian synthesis<sup class="footnote-ref"><a href="#fn3" id="fnref3" role="doc-noteref" aria-label="Read footnote 3">3</a></sup> of what had come before.</p>
 </li>
 <li>
 <p>Pixies songs are <em>compact</em>. Their lyrics are dark and weird but also funny and not ponderous or discursive. (<em>Gouge Away</em>, a retelling of Samson's betrayal by Delilah and ultimate death at the hands of the Philistines, is 105 words long.) At the concert on Saturday, without stopping between songs, they covered 25 songs in about 90 minutes. Out of curiosity I looked it up afterwards: From <em>Come on Pilgrim</em> to <em>Trompe Le Monde</em> there are four (4) songs over four minutes. Sonic Youth’s <em>Goo</em> has seven. But it's not just brevity–the shape of Pixies songs are surgical and sudden, and you feel it live: Nothing is dragging, ever, even on the slow songs. So that probably didn’t hurt them in terms of getting some mainstream popularity.</p>
@@ -981,11 +1170,11 @@ pre[class*="language-diff-"] {
 <section class="footnotes">
 <h2 class="footnotes-title" id="footnotes">Footnotes</h2>
 <ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>Sidenote: How has no one done an EDM remix of <em>Gouge Away</em>? <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+<li id="fn1" class="footnote-item" tabindex="-1"><p>Sidenote: How has no one done an EDM remix of <em>Gouge Away</em>? <a href="#fnref1" class="footnote-backref" role="doc-backlink" aria-label="Return to reference 1 for footnote 1">↩︎</a></p>
 </li>
-<li id="fn2" class="footnote-item"><p>I read somewhere that <em>Something Against You</em> is Francis singing <em>into</em> an amp. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+<li id="fn2" class="footnote-item" tabindex="-1"><p>I read somewhere that <em>Something Against You</em> is Francis singing <em>into</em> an amp. <a href="#fnref2" class="footnote-backref" role="doc-backlink" aria-label="Return to reference 1 for footnote 2">↩︎</a></p>
 </li>
-<li id="fn3" class="footnote-item"><p>Apparently this is not actually a Hegelian idea, and Hegel himself never said anything about thesis or synthesis. Ah well. <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+<li id="fn3" class="footnote-item" tabindex="-1"><p>Apparently this is not actually a Hegelian idea, and Hegel himself never said anything about thesis or synthesis. Ah well. <a href="#fnref3" class="footnote-backref" role="doc-backlink" aria-label="Return to reference 1 for footnote 3">↩︎</a></p>
 </li>
 </ol>
 </section>
@@ -1004,7 +1193,7 @@ pre[class*="language-diff-"] {
 			</p>
 		</footer>
 
-		<!-- This page `/blog/a-few-thoughts-on-seeing-the-pixies-live/` was built on 2026-11-03T23:34:51.626Z -->
+		<!-- This page `/blog/a-few-thoughts-on-seeing-the-pixies-live/` was built on 2026-11-06T16:32:39.494Z -->
 		<script type="module" src="/dist/smF4OImz_W.js"></script>
 	</body>
 </html>
