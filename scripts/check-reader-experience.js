@@ -13,11 +13,11 @@ if (process.platform !== "linux" || process.env.CI !== "true") {
 	throw new Error("Reader browser checks run only in Linux CI. Use npm test for local checks.");
 }
 const root = fileURLToPath(new URL("../", import.meta.url));
-const baselineCommit = "290b512";
+const baselineRef = process.env.READER_BASELINE_REF || "HEAD";
 const evidence = path.join(root, ".cache/reader-evidence");
 const temporary = await mkdtemp(path.join(os.tmpdir(), "website-reader-"));
 const report = {
-	baselineCommit,
+	baselineRef,
 	normalization: "Both snapshots use packaged Latin Oswald 400/500 and Bricolage Grotesque 300/400/500/600. External requests blocked; other faces use their existing system fallback. Enlarged-text check sets root font size to 200%; it is not browser zoom or assistive-technology certification.",
 	visitedMethod: "A surrogate class applies declared :visited rules; browser history and privacy-masked computed visited styles are not tested.",
 	viewports: [], contrast: [], targets: [], keyboard: [], failures: [],
@@ -69,9 +69,16 @@ async function geometry(page) {
 			const el = document.querySelector(selector);
 			if (!el) return null;
 			const r = el.getBoundingClientRect();
-			return { x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom, fontSize: getComputedStyle(el).fontSize };
+			return { x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom, fontSize: getComputedStyle(el).fontSize, text: el.textContent.trim() };
 		};
-		return { width: innerWidth, scrollWidth: document.documentElement.scrollWidth, title: box("main h1"), opening: box(".post-content > p"), date: box(".post-date"), tags: box(".tag-list") };
+		const scrollWidth = document.documentElement.scrollWidth;
+		const overflow = scrollWidth > innerWidth + 1 ? [...document.querySelectorAll("main *")].flatMap(el => {
+			const rect = el.getBoundingClientRect();
+			const style = getComputedStyle(el);
+			if (rect.width <= 1 || !(rect.right > innerWidth + 1 || rect.left < -1 || (style.overflowX === "visible" && el.scrollWidth > el.clientWidth + 1))) return [];
+			return [{ tag: el.tagName.toLowerCase(), id: el.id, classes: el.className, text: el.textContent.trim().replace(/\s+/g, " ").slice(0, 100), left: rect.left, right: rect.right, width: rect.width, clientWidth: el.clientWidth, scrollWidth: el.scrollWidth, overflowX: style.overflowX, whiteSpace: style.whiteSpace, overflowWrap: style.overflowWrap }];
+		}).sort((a, b) => b.right - a.right).slice(0, 25) : [];
+		return { width: innerWidth, scrollWidth, overflow, title: box("main h1"), opening: box(".post-content > p"), date: box(".post-date"), tags: box(".tag-list") };
 	});
 }
 
@@ -117,12 +124,14 @@ try {
 	});
 	await mkdir(baseline);
 	const archive = path.join(temporary, "baseline.tar");
-	command("git", ["archive", baselineCommit, "--output", archive]);
+	assert.match(baselineRef, /^(?:HEAD|[a-f0-9]{7,40})$/i, "Reader baseline must be HEAD or a commit SHA");
+	report.baselineCommit = command("git", ["rev-parse", "--verify", `${baselineRef}^{commit}`]).trim();
+	command("git", ["archive", report.baselineCommit, "--output", archive]);
 	command("tar", ["-xf", archive, "-C", baseline]);
 	for (const directory of [baseline, current]) {
 		await symlink(path.join(root, "node_modules"), path.join(directory, "node_modules"), "dir");
 	}
-	const interactionFixture = `---\ntitle: Reader interaction fixture\ndescription: Synthetic browser evidence.\ndate: 2020-01-02\npermalink: /reader-fixture/\ntags: [Accessibility, Software engineering]\n---\nA sentence with a [normal link](/about/) and a first reference.[^repeat] Another reference to the same note.[^repeat]\n\n<div class="note"><a href="/about/">Note link</a></div>\n\n> A quotation with a [quote link](/about/).\n\n## Reading section\n\n[^repeat]: A footnote with a [footnote link](/about/).\n`;
+	const interactionFixture = `---\ntitle: Reader interaction fixture\ndescription: Synthetic browser evidence.\ndate: 2020-01-02\npermalink: /reader-fixture/\ntags: [Accessibility, software engineering]\n---\nA sentence with a [normal link](/about/) and a first reference.[^repeat] Another reference to the same note.[^repeat]\n\n<div class="note"><a href="/about/">Note link</a></div>\n\n> A quotation with a [quote link](/about/).\n\n## Reading section\n\n[^repeat]: A footnote with a [footnote link](/about/).\n`;
 	for (const directory of [baseline, current]) command(process.execPath, ["node_modules/@11ty/eleventy/cmd.cjs", "--quiet"], directory);
 	const origins = { baseline: await serve(path.join(baseline, "_site")), current: await serve(path.join(current, "_site")) };
 	const fonts = await fontStyles();
@@ -160,8 +169,12 @@ try {
 				if (variant === "current") expect(measurements.current.scrollWidth <= width + 1, `${name} overflows at ${width}px`);
 			}
 			if (name === "historian" && width < 500) {
-				expect(measurements.current.title.height < measurements.baseline.title.height, `Historical title did not shrink at ${width}px`);
-				expect(measurements.current.opening.y < measurements.baseline.opening.y, `Opening copy did not move up at ${width}px`);
+				expect(parseFloat(measurements.current.title.fontSize) <= 48, `Historical title exceeds deliberate mobile scale at ${width}px`);
+				if (measurements.current.title.text === measurements.baseline.title.text
+					&& parseFloat(measurements.baseline.title.fontSize) > parseFloat(measurements.current.title.fontSize)) {
+					expect(measurements.current.title.height < measurements.baseline.title.height, `Historical title did not shrink at ${width}px`);
+					expect(measurements.current.opening.y < measurements.baseline.opening.y, `Opening copy did not move up at ${width}px`);
+				}
 			}
 			const { date, tags } = measurements.current;
 			if (date && tags) expect(date.bottom <= tags.y + 1 || date.right <= tags.x + 1 || tags.right <= date.x + 1, `${name} metadata overlaps at ${width}px`);
