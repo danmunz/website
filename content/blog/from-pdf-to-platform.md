@@ -20,7 +20,7 @@ As part of February’s Free and Open Source Software Month, we’re [open-sourc
 
 ![A screenshot of the experimental copyright compendium](/blog/images/compendium-screenshot.png)
 
-# The Copyright Compendium
+## The Copyright Compendium
 
 The U.S. Copyright Office, within the Library of Congress, administers and interprets the nation’s copyright laws to promote creativity and free expression. Its impact is significant. In FY 2024, the Office facilitated access to more than 1.3 million works for the Library of Congress, representing an estimated $176 million in cultural value, and nearly half a million applicants, from movie studios to individual creators, sought copyright protection. The broader copyright-intensive industries supported by this system account for roughly $1.5 trillion annually, about 7 percent of U.S. GDP.
 
@@ -30,7 +30,7 @@ Today, the compendium is a 1,396-page reference guide that is [available online]
 
 While comprehensive, navigating and locating specific information within a document of this size can be challenging. This reflects a common government pattern: critical information preserved in static artifacts that are not designed for digital interaction. It’s also a challenge that LLMs are great at solving: transforming information into structured formats.
 
-# Our approach
+## Our approach
 
 Over the course of two weeks, we combined LLM pdf-to-text transformation with an AI-enabled reading platform to make the Copyright Compendium easier to navigate, read, and understand.
 
@@ -48,7 +48,7 @@ We then used AI-enabled development tools like Google Antigravity and Ad Hoc’s
 
 Ad Hoc subject matter experts with legal and regulatory expertise were able to harness AI to transform the almost 1400 pages of regulatory information and build a tested digital experience. In the past, similar efforts would have required months of custom parsing and manual development. This approach enabled one person to modernize a digital experience with speed and quality.
 
-# A responsible path forward
+## A responsible path forward
 
 We see this as a reusable pattern for modernization. Across government, thousands of critical documents remain in PDF form. To keep systems aligned with evolving policy and public needs, agencies need practical ways to connect regulation, specification, and code with care and discipline. With secure platforms and AI-enabled transformation workflows, static artifacts can become structured, accessible systems while preserving accuracy and accountability at lower cost.
 

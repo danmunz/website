@@ -12,6 +12,6 @@ npm run build    # Clean _site, compile with Eleventy, then generate current soc
 npm run check:site
 ```
 
-The full build uses Puppeteer and local fonts for current published articles, reusing unchanged cards from a content-addressed cache. Generated cards are build artifacts. `npm run build:html` and `npm start` use the default share image and do not launch the card renderer. Pull-request checks run the full build and real renderer tests on Linux.
+The full build uses Puppeteer and local fonts for current published articles, reusing unchanged cards from a content-addressed cache. Generated cards are build artifacts. `npm run build:html` and `npm start` use the default share image and do not launch the card renderer. Pull-request checks run the full build, real renderer tests, and `npm run test:reader` on Linux. The [reader-check guide](docs/reader-checks.md) explains the keyboard, contrast, mobile, motion, and print evidence.
 
 Read [the publishing guide](docs/publishing.md) before adding, renaming, or withdrawing an article. See also [social-card generation](docs/social-cards.md), [dependency maintenance](docs/dependencies.md), and [deployment and recovery](docs/deployment.md). Older implementation notes in `docs/spec.md` are historical where they conflict with these guides. The wider authoring-workflow cleanup remains separate backlog work.

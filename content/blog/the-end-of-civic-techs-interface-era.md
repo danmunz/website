@@ -18,7 +18,7 @@ This work has operated under an assumed premise so fundamental that it's rarely 
 
 It's not surprising that the civic tech world has largely metabolized the rise of Artificial Intelligence (AI) as a set of tools we can use to make these interfaces *even better*. Chatbots! [Accessible PDFs!](https://codeforamerica.org/news/our-ai-solution-to-governments-pdf-problem/) These are good and righteous efforts that make things easier for government employees and better for the people they serve. But they're sitting on a fault line that AI is shifting beneath our feet: What if the primacy and focus we give *interfaces, *and the constraints we've accepted as immutable, are changing?
 
-### The old paradigm: the interface is all
+## The old paradigm: the interface is all
 
 "Humans interacting with graphical user interfaces through the browser" - that's what the web…*is*. Right? So why *wouldn't* we consider the interface to be the definitive digital expression of a federal agency to its customers? But if you shift this from a rhetorical question to an actual one, you find that this paradigm rests on three key assumptions:
 
@@ -28,7 +28,7 @@ It's not surprising that the civic tech world has largely metabolized the rise o
 
 **High expertise requirements**: Because we have just one basic scaffolding to work with, we take a utilitarian view, using techniques like personas, card sorts, web analytics, and top tasks to approximate and serve the median user. Techniques require technicians: Building quality government websites has traditionally required teams of UX designers, developers, content strategists, and accessibility experts working together to produce the interface that the user ultimately sees. Because these interfaces represent business processes often encoded in law or regulation, these teams also expend effort designing and constructing the optimal user journey. 
 
-### Enter just-in-time interfaces
+## Enter just-in-time interfaces
 
 AI upsets each one of these old assumptions both [conceptually and practically](https://signalpath.substack.com/p/just-in-time-interfaces):
 
@@ -42,7 +42,7 @@ Civic designers shouldn't fear this future; we've been preparing for it. The Sho
 
 The point is this: civic designers have both a strong foundation and a growing imperative to think seriously about what government websites will look like in a world of just-in-time UI generation.
 
-### Humans-centered design
+## Humans-centered design
 
 It's often said that "creativity loves constraints," and today's dot-gov ecosystem reflects the constraints of its builders. Civic designers build government websites for the median user and try to offer top-tasks and no-wrong-doors because, for the most part, we have to pick one basic interface for everyone. But if just-in-time UIs erodes this constraint, we can see the edges of a new approach to delivering improved government services via the web:
 
@@ -52,7 +52,7 @@ It's often said that "creativity loves constraints," and today's dot-gov ecosyst
 
 **Defining Policy as Code**: Design is more than how a website looks, and just-in-time interfaces will need more than a prompt and a design system to generate a coherent web workflow for filing taxes or applying for public benefits. To bridge the gap between *prototyping or coding* with AI and *generating just-in-time interfaces in production*, we also have to invest in [encoding the business logic](https://digitalgovernmenthub.org/get-involved/digital-benefits-network-rules-as-code-community-of-practice/) that users have to traverse in ways that generative AI systems can understand. Tools and formats like [BPMN/DMN](https://bpmn.io/), [Rego](https://www.openpolicyagent.org/docs/policy-language), and [Catala](https://catala-lang.org/en/examples/us-tax-code) offer models for encoding policy, and generative AI can [build pipelines for translation](https://adhoc.team/2024/09/25/ai-policy-to-code/). As with design systems, the just-in-time UI world will see civic researchers and designers focus less on how a particular form looks, and more on specifying the visual, policy, and process ingredients that generative AI can combine to meet a user's needs.
 
-### The opportunity ahead
+## The opportunity ahead
 
 We are at an inflection point in civic technology. The same AI capabilities transforming other sectors will revolutionize how people interact with their government. Realizing this potential requires rethinking our role as civic technologists. Instead of building fixed solutions, we need to become architects of adaptive systems. Instead of designing for the average user, we need to create frameworks that can be adapted into interfaces that meet a person's unique circumstances.
 

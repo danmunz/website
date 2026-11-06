@@ -1,13 +1,18 @@
 
-
+{% set legacyDateIds = [] %}
 <ol reversed class="postlist" style="--postlist-index: {{ (postslistCounter or postslist.length) + 1 }}">
 {%- for post in postslist | reverse %}
-
-	<li class="postlist-item{% if post.url == url %} postlist-item-active{% endif %}" id="post-{{ post.date | readableDate("ddLLyyyy") }}">
-		<span class="postlist-date">{{ post.date | readableDate("LLLL d, yyyy") }}</span>
-		<a href="{{ post.url }}" class="postlist-link" >{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a> 
-		<span class="postlist-desc">{{post.data.description}}</span>
-		</li>
-
+	{% set legacyDateId = "post-" + (post.date | readableDate("ddLLyyyy")) %}
+	<li class="postlist-item{% if post.url == url %} postlist-item-active{% endif %}" id="{{ post.url | postListId }}">
+		{# Preserve old date fragments once per date, at the first displayed matching post. #}
+		{% if legacyDateIds.indexOf(legacyDateId) == -1 %}
+		<span id="{{ legacyDateId }}"></span>
+		{% set legacyDateIds = legacyDateIds.concat([legacyDateId]) %}
+		{% endif %}
+		<time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate("LLLL d, yyyy") }}</time>
+		{# The title already links to the article; omit the heading helper's extra permalink. #}
+		<h{{ postlistHeadingLevel }} class="postlist-title" data-ha-exclude><a href="{{ post.url }}" class="postlist-link">{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a></h{{ postlistHeadingLevel }}>
+		<span class="postlist-desc">{{ post.data.description }}</span>
+	</li>
 {%- endfor %}
 </ol>

@@ -11,23 +11,12 @@ const numberOfLatestPostsToShow = 3;
 </article>
 
 <article>
+<h1 class="home-title">Latest writing</h1>
 {% set postsCount = collections.posts | length %}
-{% set latestPostsCount = postsCount | min(numberOfLatestPostsToShow) %}
-
 {% set postslist = collections.posts | head(-1 * numberOfLatestPostsToShow) %}
 {% set postslistCounter = postsCount %}
-
-<ol reversed class="postlist" style="--postlist-index: {{ (postslistCounter or postslist.length) + 1 }}">
-{%- for post in postslist | reverse %}
-
-	<li class="postlist-item{% if post.url == url %} postlist-item-active{% endif %}" id="post-{{ post.date | readableDate("ddLLyyyy") }}">
-		<span class="postlist-date">{{ post.date | readableDate("LLLL dd, yyyy") }}</span>
-		<a href="{{ post.url }}" class="postlist-link" >{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a> 
-		<span class="postlist-desc">{{post.data.description}}</span>
-		</li>
-
-{%- endfor %}
-</ol>
+{% set postlistHeadingLevel = 2 %}
+{% include "postslist.njk" %}
 
 
 {% set morePosts = postsCount - numberOfLatestPostsToShow %}

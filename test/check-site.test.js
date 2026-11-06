@@ -5,7 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import { checkSite } from "../scripts/check-site.js";
 
-const metadata = (image = "/img/share.png") => `<meta property="og:image" content="${image}"><meta property="og:image:secure_url" content="${image}"><meta name="twitter:image" content="${image}">`;
+const metadata = (image = "/img/share.png") => `<meta property="og:image" content="${image}"><meta property="og:image:secure_url" content="${image}"><meta name="twitter:image" content="${image}"><h1>Fixture</h1>`;
 async function fixture(t, entries) {
 	const output = await mkdtemp(path.join(os.tmpdir(), "site-check-"));
 	t.after(() => rm(output, { recursive: true, force: true }));
@@ -16,9 +16,9 @@ async function fixture(t, entries) {
 	return output;
 }
 
-test("accepts existing links and aligned social assets, ignoring external URLs and fragments", async t => {
+test("accepts existing links, valid fragments, and aligned social assets while ignoring external URLs", async t => {
 	const output = await fixture(t, {
-		"index.html": `${metadata()}<a href='/tags/ai/?sort=new'>AI</a><a href='https://example.com/no-local-file'>External</a><a href='#main'>Skip</a><a href='mailto:hello@example.com'>Email</a>`,
+		"index.html": `${metadata()}<main id='main'><a href='/tags/ai/?sort=new'>AI</a><a href='https://example.com/no-local-file'>External</a><a href='#main'>Skip</a><a href='mailto:hello@example.com'>Email</a></main>`,
 		"tags/ai/index.html": metadata("https://danmu.nz/img/share.png"),
 		"img/share.png": "fixture",
 	});
@@ -64,4 +64,29 @@ test("rejects orphan generated cards and private cache files in public output", 
 	assert.equal(errors.length, 2);
 	assert.ok(errors.some(error => error.includes("withdrawn.png: generated card has no current page")));
 	assert.ok(errors.some(error => error.includes(".cache/social-card-manifest.json")));
+});
+
+test("checks same-page and cross-page fragments and accepts text-fragment directives", async t => {
+	const output = await fixture(t, {
+		"index.html": `${metadata()}<a href='/about/#colophon'>About</a><a href='#fn1'>Note</a><a href='#:~:text=Fixture'>Text selection</a><p id='fn1'>Footnote</p><a href='#absent'>Broken</a>`,
+		"about/index.html": `${metadata()}<h2 id='colophon'>Colophon</h2><a href='/#absent'>Broken return</a>`,
+		"img/share.png": "fixture",
+	});
+	const { errors } = await checkSite({ output });
+	assert.equal(errors.length, 2);
+	assert.ok(errors.every(error => error.includes("missing local fragment") && error.includes("#absent")));
+});
+
+test("rejects duplicate IDs, skipped heading levels, and missing or duplicate page H1s", async t => {
+	const output = await fixture(t, {
+		"index.html": `${metadata()}<h3 id='same'>Skipped</h3><p id='same'>Duplicate target</p>`,
+		"about/index.html": `${metadata()}<h1>Second title</h1>`,
+		"empty/index.html": metadata().replace("<h1>Fixture</h1>", ""),
+		"img/share.png": "fixture",
+	});
+	const { errors } = await checkSite({ output });
+	assert.equal(errors.length, 4);
+	assert.ok(errors.some(error => error.includes("duplicate id same")));
+	assert.ok(errors.some(error => error.includes("skips from h1 to h3")));
+	assert.equal(errors.filter(error => error.includes("expected one page-level h1")).length, 2);
 });
