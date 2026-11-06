@@ -10,7 +10,8 @@
 		{% set legacyDateIds = legacyDateIds.concat([legacyDateId]) %}
 		{% endif %}
 		<time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate("LLLL d, yyyy") }}</time>
-		<h{{ postlistHeadingLevel }} class="postlist-title"><a href="{{ post.url }}" class="postlist-link">{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a></h{{ postlistHeadingLevel }}>
+		{# The title already links to the article; omit the heading helper's extra permalink. #}
+		<h{{ postlistHeadingLevel }} class="postlist-title" data-ha-exclude><a href="{{ post.url }}" class="postlist-link">{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a></h{{ postlistHeadingLevel }}>
 		<span class="postlist-desc">{{ post.data.description }}</span>
 	</li>
 {%- endfor %}

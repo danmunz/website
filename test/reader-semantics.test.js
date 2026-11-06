@@ -55,6 +55,9 @@ test("shared lists use contextual headings and stable unique IDs for same-day ar
 		const html = pages.get(url);
 		assert.equal([...html.matchAll(/<h1\b/g)].length, 1, url);
 		assert.equal([...html.matchAll(new RegExp(`<h${level}\\b[^>]*class="postlist-title"`, "g"))].length, 2, url);
+		for (const heading of html.matchAll(/<h[23]\b[^>]*class="postlist-title"[^>]*>/g)) {
+			assert.match(heading[0], /\bdata-ha-exclude(?:\s|=|>)/, `${url} list titles opt out of redundant heading permalinks`);
+		}
 		const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 		assert.equal(new Set(ids).size, ids.length, `IDs must be unique on ${url}`);
 		assert.equal(ids.filter(id => id === "post-02012020").length, 1, "Keep one legacy date fragment");

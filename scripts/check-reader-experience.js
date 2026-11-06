@@ -166,7 +166,11 @@ try {
 				await navigate(variant, route);
 				measurements[variant] = await geometry(page);
 				await page.screenshot({ path: path.join(evidence, `${name}-${width}-${variant}.png`) });
-				if (variant === "current") expect(measurements.current.scrollWidth <= width + 1, `${name} overflows at ${width}px`);
+				if (variant === "current") {
+					expect(measurements.current.scrollWidth <= width + 1, `${name} overflows at ${width}px`);
+					const redundantAnchors = await page.$$eval(".postlist-title .ha, .postlist-title .ha-placeholder", elements => elements.length);
+					expect(redundantAnchors === 0, `${name} adds redundant fragment controls to article links at ${width}px`);
+				}
 			}
 			if (name === "historian" && width < 500) {
 				expect(parseFloat(measurements.current.title.fontSize) <= 48, `Historical title exceeds deliberate mobile scale at ${width}px`);

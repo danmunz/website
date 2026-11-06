@@ -823,6 +823,7 @@ tbody tr:nth-child(odd) {
     td {
         overflow-wrap: anywhere;
     }
+    .footnotes li,
     img,
     tr {
         break-inside: avoid;
