@@ -30,6 +30,34 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 	const files = new Set(await inventory(output));
 	const errors = [];
 	const referencedCards = new Set();
+	const documents = new Map();
+	for (const file of files) {
+		if (!file.endsWith(".html")) continue;
+		const html = (await readFile(path.join(output, file), "utf8")).replace(/<!--[\s\S]*?-->/g, "")
+			.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, "");
+		const ids = new Set();
+		for (const match of html.matchAll(/<[a-z][^>]*>/gi)) {
+			const attrs = attributes(match[0]);
+			if (attrs.id) {
+				if (ids.has(attrs.id)) errors.push(`${file}: duplicate id ${attrs.id}`);
+				ids.add(attrs.id);
+			}
+			if (/^<a\b/i.test(match[0]) && attrs.name) ids.add(attrs.name);
+		}
+		const headings = [...html.matchAll(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1\s*>/gi)];
+		if (headings.filter(match => match[1] === "1").length !== 1) errors.push(`${file}: expected one page-level h1`);
+		for (const heading of headings) {
+			if (!decode(heading[2].replace(/<[^>]*>/g, "")).replace(/&nbsp;/g, " ").trim()) errors.push(`${file}: empty h${heading[1]}`);
+		}
+		const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main\s*>/i)?.[1] ?? html;
+		let previousLevel = 1;
+		for (const heading of main.matchAll(/<h([1-6])\b/gi)) {
+			const level = Number(heading[1]);
+			if (level > previousLevel + 1) errors.push(`${file}: heading outline skips from h${previousLevel} to h${level}`);
+			previousLevel = level;
+		}
+		documents.set(file, { html, ids });
+	}
 	const base = new URL(origin);
 	function checkDestination(value, source, { asset = false } = {}) {
 		let url;
@@ -46,17 +74,28 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 		if (asset && pathname.startsWith("og-images/")) referencedCards.add(pathname);
 		const candidates = asset ? [pathname] : [pathname, `${pathname}${pathname.endsWith("/") || !pathname ? "" : "/"}index.html`];
 		// Enumerating filenames also detects case errors on case-insensitive Macs.
-		if (!candidates.some(candidate => files.has(candidate))) errors.push(`${source}: missing ${asset ? "social image" : "local destination"} ${value}`);
+		const destination = candidates.find(candidate => files.has(candidate));
+		if (!destination) {
+			errors.push(`${source}: missing ${asset ? "social image" : "local destination"} ${value}`);
+			return;
+		}
+		// Text-fragment directives do not name an element; normal fragments do.
+		const fragment = url.hash.slice(1).split(":~:")[0];
+		if (!asset && fragment && documents.has(destination)) {
+			try {
+				const id = decodeURIComponent(fragment);
+				if (!documents.get(destination).ids.has(id)) errors.push(`${source}: missing local fragment ${value}`);
+			} catch { errors.push(`${source}: invalid fragment encoding ${value}`); }
+		}
 	}
 	for (const route of routes) checkDestination(route.permalink, "public route baseline");
 	for (const file of files) {
 		if (/(^|\/)(copilot|\.obsidian|\.claude|\.cache)(\/|$)/i.test(file)) errors.push(`${file}: editor-only or cached content leaked into output`);
-		if (!file.endsWith(".html")) continue;
-		const html = (await readFile(path.join(output, file), "utf8")).replace(/<!--[\s\S]*?-->/g, "")
-			.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, "");
+		if (!documents.has(file)) continue;
+		const { html } = documents.get(file);
 		for (const match of html.matchAll(/<(?:a|link)\b[^>]*>/gi)) {
 			const { href } = attributes(match[0]);
-			if (href && !href.startsWith("#")) checkDestination(href, file);
+			if (href) checkDestination(href, file);
 		}
 		const images = new Map();
 		for (const match of html.matchAll(/<meta\b[^>]*>/gi)) {

@@ -24,6 +24,12 @@ Optional fields are `updated` (a valid date), `canonicalUrl` (a valid canonical 
 
 Tag labels keep their display casing; tag routes use the shared lowercase, hyphenated URL rule with a trailing slash. For example, `Software engineering` links to `/tags/software-engineering/`. Avoid changing an established tag label just to fix a link.
 
+## Headings and footnotes
+
+The article layout renders the front-matter title as the page's H1. Start body sections with `##` (H2), using `###` (H3) for subsections; avoid skipping levels. Listing templates choose H2 or H3 according to their surrounding section. The output checker rejects missing/duplicate page H1s, skipped heading levels, duplicate IDs, and broken local fragment links. Preserve established heading wording or provide compatible anchors when changing a published fragment.
+
+Use ordinary Markdown footnotes such as `[^source]` with a matching definition. The renderer gives references and return links meaningful names and keeps separate return targets for repeated references. Footnotes remain native links that work without a navigation library. See [reader checks](reader-checks.md) for the tested behavior and limits.
+
 ## Dates, drafts, and withdrawal
 
 A valid future date does **not** schedule publication. A non-draft future-dated article still publishes, and validation warns about the date. Keep `draft: true` until the article should be public.

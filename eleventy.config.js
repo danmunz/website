@@ -168,7 +168,23 @@ export default async function(eleventyConfig) {
 		if (tokens[idx].meta.subId > 0) {
 			refid += ':' + tokens[idx].meta.subId;
 		}
-		return `<sup class="footnote-ref"><a href="#fn${id}" id="fnref${refid}">${caption}</a></sup>`;
+		const number = tokens[idx].meta.id + 1;
+		const occurrence = (tokens[idx].meta.subId ?? 0) + 1;
+		const label = `Read footnote ${number}${occurrence > 1 ? `, reference ${occurrence}` : ""}`;
+		return `<sup class="footnote-ref"><a href="#fn${id}" id="fnref${refid}" role="doc-noteref" aria-label="${label}">${caption}</a></sup>`;
+	};
+
+	// Native fragment navigation can focus the note, then return to the exact reference.
+	md.renderer.rules.footnote_open = (tokens, idx, options, env, slf) => {
+		const id = slf.rules.footnote_anchor_name(tokens, idx, options, env, slf);
+		return `<li id="fn${id}" class="footnote-item" tabindex="-1">`;
+	};
+	md.renderer.rules.footnote_anchor = (tokens, idx, options, env, slf) => {
+		let id = slf.rules.footnote_anchor_name(tokens, idx, options, env, slf);
+		const number = tokens[idx].meta.id + 1;
+		const occurrence = (tokens[idx].meta.subId ?? 0) + 1;
+		if (occurrence > 1) id += `:${tokens[idx].meta.subId}`;
+		return ` <a href="#fnref${id}" class="footnote-backref" role="doc-backlink" aria-label="Return to reference ${occurrence} for footnote ${number}">\u21a9\uFE0E</a>`;
 	};
 
 	// Footnote caption: just the number, no brackets

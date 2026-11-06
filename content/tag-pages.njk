@@ -20,6 +20,7 @@ const eleventyComputed = {
 <h1>Tagged “{{ tag }}”</h1>
 
 {% set postslist = collections[ tag ] %}
+{% set postlistHeadingLevel = 2 %}
 {% include "postslist.njk" %}
 
 <p>See <a href="tags.njk">all tags</a>.</p>

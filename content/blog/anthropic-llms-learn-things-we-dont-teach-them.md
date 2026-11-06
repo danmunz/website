@@ -23,13 +23,13 @@ I am not enough of a Ph.D. mathematician to know what this means from a deep-in-
 
 What should civic tech practitioners take away from the Anthropic paper? 
 
-### Keep humans in the loop
+## Keep humans in the loop
 
 "[A computer can never be held accountable, therefore a computer must never make a management decision](https://x.com/bumblebike/status/832394003492564993)" is as true as ever. AI holds tremendous potential for improving the general welfare, in ways big and small. ([Dave Guarino's work at Propel](https://www.propel.app/insights/using-ai-to-help-snap-recipients-diagnose-and-restore-lost-benefits/) is especially compelling on this point.) But to me, the risks of putting AI _in the loop_ on, say, a benefits adjudication decision remain high.[^covid-fonts] Subliminal learning adds another layer to that risk: **even if we carefully sanitize training data, a model distilled from a biased or misaligned one could pass down weird decision patterns that elude audit or explanation.** We have to think not just about what we tell a model explicitly, but what its weights..._remember_?
 
 Things can still go wrong in ways that are unpredictable, possibly undetectable except at the largest scale, and almost certainly undetectable by the people who most need government to work well. (Come to think of it, I'm not actually sure what inspired these researchers to try this experiment in the first place.) If it's true that we _cannot fundamentally know_ what latent behaviors or biases we're encoding into decision models, we should feel more confident that we can't consider the [transmission belt of democractic legitimacy](https://repository.law.umich.edu/cgi/viewcontent.cgi?article=1329&context=mjil) to be intact unless there's a human in the loop.
 
-### Inputs and outputs aren't enough
+## Inputs and outputs aren't enough
 
 We should be _especially_ hesitant about employing enormous, generic black-box generative AI models that are effectively SaaS products for work in highly specialized or sensitive domains. Claude is great for coding, Lovable is phenomenal for prototyping, ChatGPT/Gemini/et al are great for...most things, honestly. I used Apple's Writing Tools to format the blockquotes in this post! But that's a few light years away from, say, using AI to analyze and approve new drugs[^fda-elsa-hallucination] The Anthropic study tells us that inspecting the inputs and outputs of models isn't sufficient. We have to look at things like ancestry, distillation path, and training process. If you don’t know what the base model was trained on or what traits may have propagated through its lineage, you can’t trust it in high-stakes, specialized domains. From the paper:
 

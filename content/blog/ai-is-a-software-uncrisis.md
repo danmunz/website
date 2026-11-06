@@ -18,7 +18,7 @@ Hearing this made me realize that my mental model of "software engineering" real
 
 That framing made me think about [claims that AI is going to replace software engineers](https://www.entrepreneur.com/business-news/ai-ceo-says-software-engineers-could-be-replaced-in-months/502087) much more skeptically. 
 
-# Software "engineering"
+## Software "engineering"
 
 Booch credits Margaret Hamilton as the first person to call it "software engineering." She was working on Apollo[^apollo-app], "one of the very few people who were software developers in a sea of mostly men who were the hardware structural engineers," and she wanted a title that said *what I do is engineering too*. So she [called herself a software engineer](https://www.computer.org/publications/tech-news/events/what-to-know-about-the-scientist-who-invented-the-term-software-engineering):
 
@@ -52,7 +52,7 @@ The Cold War helped keep the momentum up. At a time when it was otherwise hard t
 
 In the early days of computing, there was both a self-conscious attempt to tuck software-making under the umbrella of "engineering," and an operational separation between the work of conceiving and architecting software and the work of physically making it.
 
-# The software crisis
+## The software crisis
 
 At the same time as the software engineers were running around Garmisch and Rome giving themselves cool NATO titles, they were also facing an emerging problem: **the software crisis**. (*cue dramatic music*)
 
@@ -66,7 +66,7 @@ This problem got approximately a billion times worse as personal computers happe
 
 Ask most people today what a software engineer does all day and they'll say "writes code," which is kind of like saying an architect "draws lines." The engineering part—the force-balancing, the systems thinking—got swallowed by its most visible output.
 
-# The software un-crisis
+## The software un-crisis
 
 I was recently vibe-coding an app with my buddy Patrick. Patrick is a professional software engineer. While it's true that we both were *generating code*, the yawning chasm in both speed and quality between his work and mine was unmistakable. When Copilot would review our PRs, he knew which feedback to incorporate and which to ignore; I was clicking basically at random. His commits always came with test coverage, because he had instructed his agents to work that way; mine came with messages like "jfc please work this time" or "I hate typescript." He orchestrated his group of agentic coders like a scrum team, and was thoughtful about how and in what order to unleash them for maximum throughput and optimal architecture; I was on a one-lane highway in my VSCode sidebar, trapped behind my own ignorance as it did 30 in a 65. I could prototype my idea, but I could not make it a functioning, scalable web application. I couldn't balance the forces.
 

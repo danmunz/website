@@ -17,7 +17,8 @@
 		"debug": "cross-env DEBUG=Eleventy* npx @11ty/eleventy",
 		"debugstart": "cross-env DEBUG=Eleventy* npx @11ty/eleventy --serve --quiet",
 		"benchmark": "cross-env DEBUG=Eleventy:Benchmark* npx @11ty/eleventy",
-		"test:cards": "node scripts/check-social-cards.js"
+		"test:cards": "node scripts/check-social-cards.js",
+		"test:reader": "node scripts/check-reader-experience.js"
 	},
 	"repository": {
 		"type": "git",

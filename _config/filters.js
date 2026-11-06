@@ -4,6 +4,8 @@ export default function(eleventyConfig) {
 	// Keep tag-page permalinks and every link to them on the same URL rule.
 	const slugify = eleventyConfig.getFilter("slugify");
 	eleventyConfig.addFilter("tagUrl", tag => `/tags/${slugify(tag)}/`);
+	// Encode the complete public URL, so same-day posts and similar slugs cannot collide.
+	eleventyConfig.addFilter("postListId", url => `post-${Buffer.from(url).toString("base64url")}`);
 
 	eleventyConfig.addFilter("readableDate", (dateObj, format, zone) => {
 		// Formatting tokens for Luxon: https://moment.github.io/luxon/#/formatting?id=table-of-tokens
