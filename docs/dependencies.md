@@ -27,6 +27,7 @@ The project remains Eleventy-based. Package metadata now points to this website 
 | Puppeteer 25.16.0 | Update the actual social-card renderer and browser installation dependencies; keep real browser validation in CI. |
 | Direct `markdown-it` 14.3.3 | The Eleventy configuration imports this package directly, so it must be declared directly. Stay on Eleventy's supported major while taking security fixes. |
 | Pinned Fontsource Oswald and Bricolage Grotesque 5.3.0 | Supply local, repeatable font bytes for cards instead of a runtime Google Fonts request. Both packages include their SIL Open Font License notices in `LICENSE`; renderer input uses Latin normal 400 WOFF2 files. |
+| Pinned Fontsource Variable Bricolage Grotesque, DM Mono, and IBM Plex Serif 5.3.0 | Supply the retained public typography locally. The variable Bricolage face preserves optical-size, weight, and width axes; selected static faces and license notices are published through the font manifest. Static Bricolage remains a separate card-rendering input. See [asset delivery](assets.md). |
 | Remove `fs`, Playwright, unused OG plugin, mkdirp, glob, zod, and zod-validation-error | Node supplies `fs`; Playwright and the alternate card plugin were unused; the new renderer no longer scans with glob; the current validator no longer uses zod. |
 | Retain Nunjucks, Prism, front-matter, and Webmentions | The renderer/templates/schema/config still use these packages. Webmentions remains optional, with its transitive sanitizer dependencies updated. |
 | Retain RSS 2, cross-env 7, and dotenv 17 | No remaining audit finding requires an unrelated major API change. Compatible patches were resolved where applicable. |
@@ -48,7 +49,7 @@ Review dependencies during the first week of each month and promptly when a rele
 1. Start from an isolated feature branch and run `npm ci`, `npm outdated`, and `npm audit --json` on Node 24.
 2. Inspect release notes and actual imports. Prefer compatible patches/minors; make each necessary major upgrade deliberate. Keep both manifests together and review the lockfile diff. Do not use `npm audit fix --force` as an upgrade strategy.
 3. Review install-script changes, especially Puppeteer's browser download, and update any version-pinned `allowScripts` entry deliberately. Keep font package versions pinned; their bytes participate in card cache invalidation.
-4. Run `npm test`. Linux CI must run `npm run test:cards`, `npm run build`, and `npm run check:site` before merge. Inspect a generated card when fonts, layout, or rendering versions change.
+4. Run `npm test`. Linux CI must run `npm run test:cards`, `npm run build`, `npm run check:site`, `npm run test:reader`, and `npm run test:assets` before merge. Inspect a generated card when fonts, layout, or rendering versions change.
 5. Record the audit date, counts, relevant input exposure, chosen remediation, and any remaining exception with a tracking issue. Update this document when the runtime policy or maintenance decisions change.
 
 Do not cache `_site` or deploy an unvalidated dependency update. The [deployment guide](deployment.md) describes the build artifact and publication gates.

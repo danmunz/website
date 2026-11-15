@@ -6,6 +6,8 @@ import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import webmentionsPlugin from "eleventy-plugin-webmentions";
 import pluginFilters from "./_config/filters.js";
 import socialCardsPlugin from "./_config/social-cards.js";
+import { imageOptions } from "./_config/image-options.js";
+import { fontCss, fontPassthrough } from "./_config/fonts.js";
 import { validateDraft, validatePostSource } from "./_config/post-schema.js";
 import markdownIt from "markdown-it";
 import markdownItFootnote from "markdown-it-footnote";
@@ -31,18 +33,12 @@ export default async function(eleventyConfig) {
 		}
 	});
 	eleventyConfig.addPlugin(socialCardsPlugin);
+	eleventyConfig.addGlobalData("fontCss", fontCss);
+	eleventyConfig.addPassthroughCopy(fontPassthrough);
 
-	// Copy the contents of the `public` folder to the output folder
-	// For example, `./public/css/` ends up in `_site/css/`
-	eleventyConfig
-		.addPassthroughCopy({
-			"./public/": "/"
-	})
-		.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl")
-		.addPassthroughCopy("css");
-
-//		.addPassthroughCopy("assets")
-		;
+	// Publish only deliberately selected assets; source CSS is emitted by the bundle.
+	eleventyConfig.addPassthroughCopy({ "./public/": "/" });
+	eleventyConfig.addPassthroughCopy("./content/feed/pretty-atom-feed.xsl");
 
 	// Run Eleventy when these files change:
 	// https://www.11ty.dev/docs/watch-serve/#add-your-own-watch-targets
@@ -118,26 +114,8 @@ export default async function(eleventyConfig) {
 		}
 	});
 
-	// Image optimization: https://www.11ty.dev/docs/plugins/image/#eleventy-transform
-	eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
-		// Output formats for each image.
-		formats: ["avif", "webp", "auto"],
-
-		// widths: ["auto"],
-
-		failOnError: false,
-		htmlOptions: {
-			imgAttributes: {
-				// e.g. <img loading decoding> assigned on the HTML tag will override these values.
-				loading: "lazy",
-				decoding: "async",
-			}
-		},
-
-		sharpOptions: {
-			animated: true,
-		},
-	});
+	// Responsive candidates match the reading column; individual images can override.
+	eleventyConfig.addPlugin(eleventyImageTransformPlugin, imageOptions);
 
 	// Filters
 	eleventyConfig.addPlugin(pluginFilters);
