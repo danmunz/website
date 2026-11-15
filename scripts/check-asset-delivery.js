@@ -163,16 +163,16 @@ try {
 		await session.page.waitForFunction(selector => { const image = document.querySelector(selector); return image?.complete && image.naturalWidth > 0; }, {}, selector);
 		const sample = await session.page.$eval(selector, image => {
 			const box = image.getBoundingClientRect();
-			return { currentSrc: image.currentSrc, naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight, width: image.getAttribute("width"), height: image.getAttribute("height"), sizes: image.sizes, sizesMathSupported: CSS.supports("width", image.sizes), srcset: image.srcset, renderedWidth: box.width, renderedHeight: box.height, loading: image.loading, decoding: image.decoding };
+			return { currentSrc: image.currentSrc, naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight, intrinsicWidth: image.getAttribute("width"), intrinsicHeight: image.getAttribute("height"), sizes: image.sizes, sizesMathSupported: CSS.supports("width", image.sizes), srcset: image.srcset, renderedWidth: box.width, renderedHeight: box.height, loading: image.loading, decoding: image.decoding };
 		});
 		// naturalWidth may be density-corrected. Decode the selected bytes separately.
 		const selected = await session.page.evaluate(async url => { const blob = await (await fetch(url)).blob(); const bitmap = await createImageBitmap(blob); const result = { width: bitmap.width, height: bitmap.height, bodyBytes: blob.size }; bitmap.close(); return result; }, sample.currentSrc);
-		report.images.push({ variant, width, dpr, ...sample, selected, resources: [...session.resources.values()] });
+		report.images.push({ variant, viewportWidth: width, dpr, ...sample, selected, resources: [...session.resources.values()] });
 		if (variant === "current") {
 			expect(sample.sizes.length > 0 && sample.srcset.length > 0, "Responsive screenshot lacks sizes/srcset");
 			expect(sample.sizesMathSupported, `Browser does not support the image sizes math: ${sample.sizes}`);
 			if (width === 1280 && dpr === 1) expect(selected.width <= 960, "Desktop image selection ignores the bounded 608px reading column");
-			expect(Number(sample.width) > 0 && Number(sample.height) > 0, "Screenshot lacks intrinsic dimensions");
+			expect(Number(sample.intrinsicWidth) > 0 && Number(sample.intrinsicHeight) > 0, "Screenshot lacks intrinsic dimensions");
 			expect(selected.width <= 1916, "Screenshot was upscaled");
 			expect(sample.loading === "lazy" && sample.decoding === "async", "Screenshot lost lazy/async policy");
 			expect(sample.renderedWidth <= width && Math.abs(sample.renderedHeight / sample.renderedWidth - 1210 / 1916) < 0.01, "Screenshot has incorrect geometry");
@@ -182,7 +182,10 @@ try {
 	}
 	for (const dpr of [1, 2]) {
 		const samples = report.images.filter(item => item.variant === "current" && item.dpr === dpr);
-		expect(samples.find(item => item.width === 320).selected.width < samples.find(item => item.width === 1280).selected.width, `Mobile screenshot did not select a smaller candidate at DPR ${dpr}`);
+		const mobile = samples.find(item => item.viewportWidth === 320);
+		const desktop = samples.find(item => item.viewportWidth === 1280);
+		expect(Boolean(mobile && desktop), `Responsive-image evidence is incomplete at DPR ${dpr}`);
+		expect(mobile.selected.width < desktop.selected.width, `Mobile screenshot did not select a smaller candidate at DPR ${dpr}`);
 	}
 	const fallback = await openSession(origins.current, { blockFonts: true, width: 320 });
 	await visit(fallback, "/asset-fixture/", "current-fonts-blocked");
