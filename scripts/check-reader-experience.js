@@ -147,11 +147,26 @@ try {
 	});
 	const navigate = async (variant, route) => {
 		await page.goto(`${origins[variant]}${route}`, { waitUntil: "load", timeout: 30_000 });
+		// Remove same-origin production faces before installing the evidence faces.
+		// Otherwise self-hosted IBM/DM faces would differ from baseline system fallbacks.
+		await page.evaluate(() => {
+			const removeFaces = owner => {
+				for (let index = owner.cssRules.length - 1; index >= 0; index--) {
+					const rule = owner.cssRules[index];
+					if (rule.type === CSSRule.FONT_FACE_RULE) owner.deleteRule(index);
+					else if (rule.cssRules) removeFaces(rule);
+				}
+			};
+			for (const sheet of document.styleSheets) {
+				try { removeFaces(sheet); } catch { /* External Google CSS is blocked. */ }
+			}
+		});
 		await page.addStyleTag({ content: fonts });
 		await page.evaluate(async () => {
-			await Promise.all([document.fonts.load('400 40px "Oswald"'), document.fonts.load('500 24px "Oswald"'), ...[300, 400, 500, 600].map(weight => document.fonts.load(`${weight} 18px "Bricolage Grotesque"`))]);
+			const loaded = await Promise.all([document.fonts.load('400 40px "Oswald"'), document.fonts.load('500 24px "Oswald"'), ...[300, 400, 500, 600].map(weight => document.fonts.load(`${weight} 18px "Bricolage Grotesque"`))]);
 			await document.fonts.ready;
-			if ([...document.fonts].some(face => face.status !== "loaded")) throw new Error("Evidence fonts failed to load");
+			// Unused production faces may remain unloaded; only these explicit normalization faces must load.
+			if (loaded.some(faces => faces.length === 0 || faces.some(face => face.status !== "loaded"))) throw new Error("Evidence fonts failed to load");
 		});
 	};
 	const routes = [
