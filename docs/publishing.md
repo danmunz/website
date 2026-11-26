@@ -56,6 +56,8 @@ The output check verifies social-image files and local page links. Required arti
 
 Before submitting changes, run `npm test`, `npm run build`, and `npm run check:site` on Node 24. Tests use disposable synthetic content rather than private local writing. Default tests do not launch a browser; Linux PR checks additionally run `npm run test:cards` for real rendering, then a complete production build. Transition fixtures cover withdrawal, rename, deletion, and case-sensitive route preservation. See [deployment and recovery](deployment.md) for the checked-artifact publishing process.
 
+The generated-site check parses the Atom feed and sitemap, checks their local destinations with exact path casing, and verifies that the feed contains the latest ten archive posts (or all posts when there are fewer). The sitemap must include all archive posts and the current home, About, archive, tag index, and feed URLs. The same check verifies local image sources and responsive variants. It reads the built files without requesting external links or media.
+
 No Webmentions credentials are required to build or preview. With a configured nonempty `WEBMENTION_IO_TOKEN`, the existing integration runs as before. Optional credential support does not settle the separate decision about retaining Webmentions.
 
 These checks cover the initial publishing-correctness changes. Broader delivery checks, complete authoring-workflow documentation, and a replacement for the historical implementation spec remain in the backlog.

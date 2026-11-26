@@ -90,3 +90,62 @@ test("rejects duplicate IDs, skipped heading levels, and missing or duplicate pa
 	assert.ok(errors.some(error => error.includes("skips from h1 to h3")));
 	assert.equal(errors.filter(error => error.includes("expected one page-level h1")).length, 2);
 });
+
+test("checks local image sources and responsive candidates without requesting external URLs", async t => {
+	const output = await fixture(t, {
+		"index.html": `${metadata()}<picture><source srcset='/img/share.png 320w, /img/missing.avif 640w'><img src='/img/Missing.png' srcset='data:image/png;base64,AAAA 1x, https://example.com/remote.png 2x'></picture>`,
+		"img/share.png": "fixture",
+	});
+	assert.deepEqual((await checkSite({ output })).errors.sort(), [
+		"index.html: missing local media asset /img/Missing.png",
+		"index.html: missing local media asset /img/missing.avif",
+	]);
+});
+
+const atomEntry = url => `<entry><id>${url}</id><link href="${url}"/><title>Article</title><updated>2026-01-02T00:00:00Z</updated><content type="html">&lt;p&gt;Article body&lt;/p&gt;</content></entry>`;
+const sitemapEntry = url => `<url><loc>${url}</loc></url>`;
+const atom = entries => `<feed xmlns="http://www.w3.org/2005/Atom"><link rel="self" href="https://danmu.nz/feed/feed.xml"/>${entries.map(atomEntry).join("")}</feed>`;
+const sitemap = entries => `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${entries.map(sitemapEntry).join("")}</urlset>`;
+
+async function publicationFixture(t) {
+	const paths = ["/blog/Original-Case/", ...Array.from({ length: 10 }, (_, i) => `/blog/post-${i}/`)];
+	const articleUrls = paths.map(route => `https://danmu.nz${route}`);
+	const sitemapUrls = [...articleUrls, ...["/", "/about/", "/blog/", "/tags/", "/feed/feed.xml"].map(route => `https://danmu.nz${route}`)];
+	const output = await fixture(t, {
+		"index.html": metadata(),
+		"about/index.html": metadata(),
+		"tags/index.html": metadata(),
+		"blog/index.html": metadata() + paths.map(route => `<a class="postlist-link" href="${route}">Article</a>`).join(""),
+		...Object.fromEntries(paths.map(route => [`${route.slice(1)}index.html`, metadata()])),
+		"img/share.png": "fixture",
+		"feed/feed.xml": atom(articleUrls.slice(0, 10)),
+		"sitemap.xml": sitemap(sitemapUrls),
+	});
+	return { output, articleUrls, sitemapUrls, options: { output, routes: [{ permalink: paths[0] }], checkIndexes: true } };
+}
+
+test("checks the latest ten feed entries and all sitemap articles including preserved mixed-case URLs", async t => {
+	const { options } = await publicationFixture(t);
+	assert.deepEqual((await checkSite(options)).errors, []);
+});
+
+test("rejects malformed XML and case-mismatched, missing, or duplicate index destinations", async t => {
+	const { output, articleUrls, sitemapUrls, options } = await publicationFixture(t);
+	await writeFile(path.join(output, "feed/feed.xml"), '<feed xmlns="http://www.w3.org/2005/Atom"><entry></feed>');
+	await writeFile(path.join(output, "sitemap.xml"), sitemap([articleUrls[0].toLowerCase(), sitemapUrls[1], ...sitemapUrls.slice(1)]));
+	const { errors } = await checkSite(options);
+	assert.ok(errors.some(error => error.startsWith("feed/feed.xml: ") && error.includes("line 1")), errors.join("\n"));
+	assert.ok(errors.includes(`sitemap.xml: missing local destination ${articleUrls[0].toLowerCase()}`));
+	assert.ok(errors.includes(`sitemap.xml: missing loc ${articleUrls[0]}`));
+	assert.ok(errors.includes(`sitemap.xml: duplicate loc ${sitemapUrls[1]}`));
+});
+
+test("rejects feed entries outside the latest archive articles and reports missing indexes", async t => {
+	const { output, articleUrls, options } = await publicationFixture(t);
+	await writeFile(path.join(output, "feed/feed.xml"), atom([...articleUrls.slice(1, 9), articleUrls[0], "https://example.com/foreign/"]));
+	await rm(path.join(output, "sitemap.xml"));
+	const { errors } = await checkSite(options);
+	assert.ok(errors.includes("feed/feed.xml: expected the latest 10 archive articles in archive order"));
+	assert.ok(errors.includes("feed/feed.xml: expected an absolute local entry link URL, got https://example.com/foreign/"));
+	assert.ok(errors.includes("sitemap.xml: missing publication index"));
+});
