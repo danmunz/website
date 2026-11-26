@@ -38,7 +38,7 @@ Some of the useful pieces of software that help me make this website:
 - Main framework: [11ty](https://www.11ty.dev/)
 - Particularly useful plugins: [markdown-it-footnote](https://github.com/markdown-it/markdown-it-footnote), [syntaxhighlight](https://github.com/11ty/eleventy-plugin-syntaxhighlight)
 - Supporting frameworks: [Node](https://nodejs.org/en), [npm](https://www.npmjs.com/), [git](https://git-scm.com/), [github](https://github.com/)
-- Typography: [Antonio, Bricolage Grotesque, DM Mono, and IBM Plex Serif](https://fonts.google.com/share?selection.family=Antonio|Bricolage+Grotesque|DM+Mono|IBM+Plex+Serif) via [Google Fonts](https://fonts.google.com/)
+- Typography: Oswald, Bricolage Grotesque, DM Mono, and IBM Plex Serif, self-hosted via [Fontsource](https://fontsource.org/)
 - Coding assistant: [GPT 4.1](https://openai.com/index/gpt-4-1/)
 - Code editor: [VSCode](https://code.visualstudio.com/)
 - Markdown editors: [Obsidian](https://obsidian.md/) (desktop), [Typewriter](https://apps.apple.com/us/app/typewriter-for-markdown/id1556419263) (iOS)

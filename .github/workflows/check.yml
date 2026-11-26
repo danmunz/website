@@ -43,6 +43,22 @@ jobs:
         env:
           SOCIAL_CARDS_NO_SANDBOX: "1"
       - run: npm run check:site
+      - name: Production asset delivery evidence (Linux only)
+        id: assets
+        run: npm run test:assets
+        env:
+          SOCIAL_CARDS_NO_SANDBOX: "1"
+          ASSET_BASELINE_REF: ${{ github.event.pull_request.base.sha || github.sha }}
+      - name: Upload asset evidence
+        if: always() && steps.assets.outcome != 'skipped'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: asset-evidence
+          overwrite: true
+          path: .cache/asset-evidence/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 3
       - name: Reader accessibility and before/after evidence (Linux only)
         id: reader
         run: npm run test:reader
