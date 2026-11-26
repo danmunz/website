@@ -1,6 +1,8 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import parseSrcset from "parse-srcset";
+import { checkPublicationIndexes } from "./check-publication-indexes.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const socialFields = ["og:image", "og:image:secure_url", "twitter:image"];
@@ -26,7 +28,7 @@ function attributes(tag) {
 		.map(([, key, double, single]) => [key.toLowerCase(), decode(double ?? single)]));
 }
 
-export async function checkSite({ output = path.join(root, "_site"), origin = "https://danmu.nz", routes = [] } = {}) {
+export async function checkSite({ output = path.join(root, "_site"), origin = "https://danmu.nz", routes = [], checkIndexes = false } = {}) {
 	const files = new Set(await inventory(output));
 	const errors = [];
 	const referencedCards = new Set();
@@ -59,7 +61,7 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 		documents.set(file, { html, ids });
 	}
 	const base = new URL(origin);
-	function checkDestination(value, source, { asset = false } = {}) {
+	function checkDestination(value, source, { asset, localOnly = false } = {}) {
 		let url;
 		try {
 			url = new URL(value, new URL(source === "index.html" ? "/" : `/${source.replace(/index\.html$/, "")}`, base));
@@ -67,16 +69,19 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 			errors.push(`${source}: invalid URL ${value}`);
 			return;
 		}
-		if (url.origin !== base.origin) return;
+		if (url.origin !== base.origin) {
+			if (localOnly) errors.push(`${source}: expected a local URL ${value}`);
+			return;
+		}
 		let pathname;
 		try { pathname = decodeURIComponent(url.pathname).slice(1); }
 		catch { errors.push(`${source}: invalid URL encoding ${value}`); return; }
-		if (asset && pathname.startsWith("og-images/")) referencedCards.add(pathname);
+		if (asset === "social image" && pathname.startsWith("og-images/")) referencedCards.add(pathname);
 		const candidates = asset ? [pathname] : [pathname, `${pathname}${pathname.endsWith("/") || !pathname ? "" : "/"}index.html`];
 		// Enumerating filenames also detects case errors on case-insensitive Macs.
 		const destination = candidates.find(candidate => files.has(candidate));
 		if (!destination) {
-			errors.push(`${source}: missing ${asset ? "social image" : "local destination"} ${value}`);
+			errors.push(`${source}: missing ${asset ?? "local destination"} ${value}`);
 			return;
 		}
 		// Text-fragment directives do not name an element; normal fragments do.
@@ -87,8 +92,9 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 				if (!documents.get(destination).ids.has(id)) errors.push(`${source}: missing local fragment ${value}`);
 			} catch { errors.push(`${source}: invalid fragment encoding ${value}`); }
 		}
+		return destination;
 	}
-	for (const route of routes) checkDestination(route.permalink, "public route baseline");
+	for (const route of routes) checkDestination(route.permalink, "public route baseline", { localOnly: true });
 	for (const file of files) {
 		if (/(^|\/)(copilot|\.obsidian|\.claude|\.cache)(\/|$)/i.test(file)) errors.push(`${file}: editor-only or cached content leaked into output`);
 		if (!documents.has(file)) continue;
@@ -96,6 +102,13 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 		for (const match of html.matchAll(/<(?:a|link)\b[^>]*>/gi)) {
 			const { href } = attributes(match[0]);
 			if (href) checkDestination(href, file);
+		}
+		for (const match of html.matchAll(/<(?:img|source)\b[^>]*>/gi)) {
+			const { src, srcset } = attributes(match[0]);
+			if (src) checkDestination(src, file, { asset: "local media asset" });
+			if (srcset) {
+				for (const { url } of parseSrcset(srcset)) checkDestination(url, file, { asset: "local media asset" });
+			}
 		}
 		const images = new Map();
 		for (const match of html.matchAll(/<meta\b[^>]*>/gi)) {
@@ -108,7 +121,7 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 		}
 		for (const key of socialFields) {
 			if (!images.get(key)) errors.push(`${file}: missing ${key}`);
-			else checkDestination(images.get(key), file, { asset: true });
+			else checkDestination(images.get(key), file, { asset: "social image" });
 		}
 		if (new Set(images.values()).size > 1) errors.push(`${file}: social image metadata disagrees`);
 	}
@@ -117,17 +130,26 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 			errors.push(`${file}: generated card has no current page metadata reference`);
 		}
 	}
+	if (checkIndexes) {
+		const archive = documents.get("blog/index.html");
+		const articleUrls = [...(archive?.html ?? "").matchAll(/<a\b[^>]*>/gi)]
+			.map(match => attributes(match[0]))
+			.filter(attrs => attrs.class?.split(/\s+/).includes("postlist-link"))
+			.map(attrs => attrs.href);
+		if (!archive) errors.push("blog/index.html: missing archive for publication index checks");
+		await checkPublicationIndexes({ output, base, files, errors, checkDestination, articleUrls, routes });
+	}
 	return { errors, htmlFiles: [...files].filter(file => file.endsWith(".html")).length, files: files.size };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
 	try {
 		const routes = JSON.parse(await readFile(path.join(root, "test/fixtures/public-routes.json"), "utf8"));
-		const result = await checkSite({ routes });
+		const result = await checkSite({ routes, checkIndexes: true });
 		if (result.errors.length) {
 			console.error(result.errors.join("\n"));
 			process.exitCode = 1;
-		} else console.log(`Site checks passed: ${result.htmlFiles} HTML pages, ${routes.length} preserved article routes, ${result.files} files.`);
+		} else console.log(`Site checks passed: ${result.htmlFiles} HTML pages, ${routes.length} preserved article routes, Atom feed and sitemap, ${result.files} files.`);
 	} catch (error) {
 		console.error(`Site check failed: ${error.message}`);
 		process.exitCode = 1;

@@ -31,6 +31,7 @@ The project remains Eleventy-based. Package metadata now points to this website 
 | Remove `fs`, Playwright, unused OG plugin, mkdirp, glob, zod, and zod-validation-error | Node supplies `fs`; Playwright and the alternate card plugin were unused; the new renderer no longer scans with glob; the current validator no longer uses zod. |
 | Retain Nunjucks, Prism, front-matter, and Webmentions | The renderer/templates/schema/config still use these packages. Webmentions remains optional, with its transitive sanitizer dependencies updated. |
 | Retain RSS 2, cross-env 7, and dotenv 17 | No remaining audit finding requires an unrelated major API change. Compatible patches were resolved where applicable. |
+| Direct `@rgrove/parse-xml` 5.1.0 and `parse-srcset` 1.0.2 | The generated-site checker imports these parsers for feed/sitemap structure and responsive image URLs. Both versions were already in the lockfile as transitive dependencies. |
 
 The image and renderer major upgrades were selected from their published releases: [Eleventy Image 7.1.1](https://github.com/11ty/image/releases/tag/v7.1.1) and [Puppeteer 25.16.0](https://github.com/puppeteer/puppeteer/releases/tag/puppeteer-v25.16.0). Their compatibility is established by the project's tests and full Linux build, not version numbers alone.
 
