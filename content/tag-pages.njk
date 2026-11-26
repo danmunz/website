@@ -11,7 +11,8 @@ const pagination = {
 const eleventyExcludeFromCollections = true;
 
 const eleventyComputed = {
-	title: "Tagged '{{ tag }}'",
+	title: data => `${data.tag} | Dan Munz`,
+	description: data => `Browse Dan Munz’s posts tagged ${data.tag}.`,
 	permalink: function(data) {
 		return this.tagUrl(data.tag);
 	}

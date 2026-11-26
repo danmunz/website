@@ -107,16 +107,17 @@ const sitemapEntry = url => `<url><loc>${url}</loc></url>`;
 const atom = entries => `<feed xmlns="http://www.w3.org/2005/Atom"><link rel="self" href="https://danmu.nz/feed/feed.xml"/>${entries.map(atomEntry).join("")}</feed>`;
 const sitemap = entries => `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${entries.map(sitemapEntry).join("")}</urlset>`;
 
-async function publicationFixture(t) {
+async function publicationFixture(t, syndicated = false) {
 	const paths = ["/blog/Original-Case/", ...Array.from({ length: 10 }, (_, i) => `/blog/post-${i}/`)];
 	const articleUrls = paths.map(route => `https://danmu.nz${route}`);
-	const sitemapUrls = [...articleUrls, ...["/", "/about/", "/blog/", "/tags/", "/feed/feed.xml"].map(route => `https://danmu.nz${route}`)];
+	const page = (route, url = `https://danmu.nz${route}`) => `<link rel="canonical" href="${url}">${metadata()}`;
+	const sitemapUrls = [...articleUrls.slice(syndicated ? 1 : 0), ...["/", "/about/", "/blog/", "/tags/"].map(route => `https://danmu.nz${route}`)];
 	const output = await fixture(t, {
-		"index.html": metadata(),
-		"about/index.html": metadata(),
-		"tags/index.html": metadata(),
-		"blog/index.html": metadata() + paths.map(route => `<a class="postlist-link" href="${route}">Article</a>`).join(""),
-		...Object.fromEntries(paths.map(route => [`${route.slice(1)}index.html`, metadata()])),
+		"index.html": page("/"),
+		"about/index.html": page("/about/"),
+		"tags/index.html": page("/tags/"),
+		"blog/index.html": page("/blog/") + paths.map(route => `<a class="postlist-link" href="${route}">Article</a>`).join(""),
+		...Object.fromEntries(paths.map((route, i) => [`${route.slice(1)}index.html`, page(route, syndicated && i === 0 ? "https://example.com/original/" : undefined)])),
 		"img/share.png": "fixture",
 		"feed/feed.xml": atom(articleUrls.slice(0, 10)),
 		"sitemap.xml": sitemap(sitemapUrls),
@@ -127,6 +128,16 @@ async function publicationFixture(t) {
 test("checks the latest ten feed entries and all sitemap articles including preserved mixed-case URLs", async t => {
 	const { options } = await publicationFixture(t);
 	assert.deepEqual((await checkSite(options)).errors, []);
+});
+
+test("accepts a syndicated local feed URL and excludes it from the sitemap", async t => {
+	const { output, articleUrls, sitemapUrls, options } = await publicationFixture(t, true);
+	assert.deepEqual((await checkSite(options)).errors, []);
+	await writeFile(path.join(output, "sitemap.xml"), sitemap([articleUrls[0], ...sitemapUrls])
+		.replace("</loc>", "</loc><lastmod>2026-02-30</lastmod>"));
+	const { errors } = await checkSite(options);
+	assert.ok(errors.includes(`sitemap.xml: unexpected loc ${articleUrls[0]}`));
+	assert.ok(errors.includes(`sitemap.xml: invalid lastmod for ${articleUrls[0]}`));
 });
 
 test("rejects malformed XML and case-mismatched, missing, or duplicate index destinations", async t => {

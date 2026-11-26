@@ -1,6 +1,8 @@
 import { DateTime } from "luxon";
+import { sitemapEntries } from "./page-metadata.js";
 
 export default function(eleventyConfig) {
+	eleventyConfig.addFilter("sitemapEntries", sitemapEntries);
 	// Keep tag-page permalinks and every link to them on the same URL rule.
 	const slugify = eleventyConfig.getFilter("slugify");
 	eleventyConfig.addFilter("tagUrl", tag => `/tags/${slugify(tag)}/`);

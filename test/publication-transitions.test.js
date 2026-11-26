@@ -57,7 +57,13 @@ test("clean HTML builds exclude helpers and remove withdrawn, deleted, and renam
       const sitemap = await readFile(path.join(checkout, "_site/sitemap.xml"), "utf8");
       assert.match(feed, /https:\/\/danmu\.nz\/blog\/Publication-Fixture\//);
       assert.match(sitemap, /<loc>https:\/\/danmu\.nz\/blog\/Publication-Fixture\/<\/loc>/);
-      assert.doesNotMatch(`${feed}\n${sitemap}`, /\/blog\/renamed-publication-fixture\//);
+      assert.doesNotMatch(`${feed}\n${sitemap}`, /\/blog\/publication-fixture\//);
+      const article = await readFile(path.join(checkout, "_site/blog/Publication-Fixture/index.html"), "utf8");
+      assert.match(article, /rel="canonical" href="https:\/\/danmu\.nz\/blog\/Publication-Fixture\/"/);
+      const previous = article.match(/class="links-nextprev-prev"[^>]*>[^<]*<br>\s*<a href="([^"]+)"/)?.[1];
+      assert.ok(previous?.startsWith("/blog/"), "previous link uses a published article route");
+      const neighbor = await readFile(path.join(checkout, "_site", previous, "index.html"), "utf8");
+      assert.match(neighbor, /class="links-nextprev-next"[^>]*>[^<]*<br>\s*<a href="\/blog\/Publication-Fixture\/"/);
       // Enumerated names are case-sensitive even on a case-insensitive filesystem.
       assert.ok((await readdir(path.join(checkout, "_site/blog"))).includes("Publication-Fixture"));
     };
@@ -68,6 +74,14 @@ test("clean HTML builds exclude helpers and remove withdrawn, deleted, and renam
     build();
     assert.equal(await exists("blog/Publication-Fixture/index.html"), true);
     await assertIdentity();
+    const sitemap = await readFile(path.join(checkout, "_site/sitemap.xml"), "utf8");
+    assert.match(sitemap, /<loc>https:\/\/danmu\.nz\/blog\/ai-is-a-software-uncrisis\/<\/loc>\s*<lastmod>2026-03-03<\/lastmod>/);
+    assert.match(sitemap, /<loc>https:\/\/danmu\.nz\/about\/<\/loc>\s*<\/url>/);
+    assert.doesNotMatch(sitemap, /\/feed\/feed\.xml|\/tags\/ai\/|\/404\.html/);
+    assert.match(await readFile(path.join(checkout, "_site/robots.txt"), "utf8"), /^Sitemap: https:\/\/danmu\.nz\/sitemap\.xml$/m);
+    const notFound = await readFile(path.join(checkout, "_site/404.html"), "utf8");
+    assert.match(notFound, /<meta name="robots" content="noindex">/);
+    assert.doesNotMatch(notFound, /rel="canonical"/);
     assert.equal((await readdir(path.join(checkout, "_site"))).includes("copilot"), false);
     for (const relative of ["feed/feed.xml", "sitemap.xml", "index.html", "blog/index.html"]) {
       assert.doesNotMatch(await readFile(path.join(checkout, "_site", relative), "utf8"), /copilot|EDITOR_HELPER_SENTINEL/);
@@ -86,13 +100,16 @@ test("clean HTML builds exclude helpers and remove withdrawn, deleted, and renam
 
     await writePost();
     build();
-    await rename(fixture, path.join(checkout, "content/blog/renamed-publication-fixture.md"));
+    const intermediate = path.join(checkout, "content/blog/temporary-case-rename.md");
+    const lowercase = path.join(checkout, "content/blog/publication-fixture.md");
+    await rename(fixture, intermediate);
+    await rename(intermediate, lowercase);
     build();
     assert.equal(await exists("blog/Publication-Fixture/index.html"), true);
-    assert.equal(await exists("blog/renamed-publication-fixture/index.html"), false);
     await assertIdentity();
 
-    await rename(path.join(checkout, "content/blog/renamed-publication-fixture.md"), fixture);
+    await rename(lowercase, intermediate);
+    await rename(intermediate, fixture);
     await writePost(false, "/blog/Moved-Fixture/");
     build();
     assert.equal(await exists("blog/Publication-Fixture/index.html"), false);

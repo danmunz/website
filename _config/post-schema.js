@@ -53,8 +53,8 @@ export function validatePostMetadata(attributes, {
 	if (attributes.updated !== undefined && !validDate(attributes.updated)) {
 		invalid(sourcePath, "updated", "must be a valid ISO date or timestamp when supplied.");
 	}
-	if (attributes.canonicalUrl !== undefined && !absoluteUrl(attributes.canonicalUrl, ["https:", "http:"])) {
-		invalid(sourcePath, "canonicalUrl", "must be an absolute HTTP(S) URL when supplied.");
+	if (attributes.canonicalUrl !== undefined && (!absoluteUrl(attributes.canonicalUrl, ["https:", "http:"]) || attributes.canonicalUrl.includes("#"))) {
+		invalid(sourcePath, "canonicalUrl", "must be an absolute HTTP(S) URL without a fragment when supplied.");
 	}
 	if (attributes.socialImage !== undefined
 		&& !(localPath(attributes.socialImage) && !attributes.socialImage.endsWith("/"))

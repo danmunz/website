@@ -1,4 +1,5 @@
 export default {
+	socialType: "article",
 	tags: [
 		"posts"
 	],

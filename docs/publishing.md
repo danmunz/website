@@ -22,6 +22,12 @@ The permalink is the article's persistent public identity. Changing the filename
 
 Optional fields are `updated` (a valid date), `canonicalUrl` (a valid canonical URL), and `socialImage` (an explicit image URL or site-local image path). Supplying an optional field requires a valid value. Utility pages such as the feed, sitemap, and 404 do not require article metadata.
 
+Use `updated` for a significant editorial change. It supplies the sitemap’s `lastmod`, expressed as a UTC calendar date. Without an explicit `updated` value, the page has no `lastmod`. The original `date` still controls the displayed publication date, article ordering, and feed ordering.
+
+Search canonicals default to the public permalink. Set `canonicalUrl` when an article intentionally points search engines to a different edition. The local permalink still identifies the site’s edition in the archive, Atom feed, article navigation, and sharing metadata. The sitemap lists the local edition only when it is self-canonical.
+
+“From PDF to platform” uses its danmu.nz permalink as the search canonical. The article links to the original Ad Hoc publication in its opening note.
+
 Tag labels keep their display casing; tag routes use the shared lowercase, hyphenated URL rule with a trailing slash. For example, `Software engineering` links to `/tags/software-engineering/`. Avoid changing an established tag label just to fix a link.
 
 ## Headings and footnotes
@@ -52,11 +58,11 @@ Articles opt into generated cards with an explicit `socialImage` path under `/og
 
 Fast HTML builds and development previews use `/img/share-img.png` for generated-card references. They do not launch a browser or require old committed cards. See [social-card generation](social-cards.md) for cache invalidation, local font provenance, and renderer checks.
 
-The output check verifies social-image files and local page links. Required article-body images and external asset failures remain tracked in [#33](https://github.com/danmunz/website/issues/33). `canonicalUrl` is validated when supplied, but rendering complete canonical metadata remains [#34](https://github.com/danmunz/website/issues/34).
+The output check verifies social-image files, local page links, and canonical tags. Required article-body images and external asset failures remain tracked in [#33](https://github.com/danmunz/website/issues/33).
 
 Before submitting changes, run `npm test`, `npm run build`, and `npm run check:site` on Node 24. Tests use disposable synthetic content rather than private local writing. Default tests do not launch a browser; Linux PR checks additionally run `npm run test:cards` for real rendering, then a complete production build. Transition fixtures cover withdrawal, rename, deletion, and case-sensitive route preservation. See [deployment and recovery](deployment.md) for the checked-artifact publishing process.
 
-The generated-site check parses the Atom feed and sitemap, checks their local destinations with exact path casing, and verifies that the feed contains the latest ten archive posts (or all posts when there are fewer). The sitemap must include all archive posts and the current home, About, archive, tag index, and feed URLs. The same check verifies local image sources and responsive variants. It reads the built files without requesting external links or media.
+The generated-site check parses the Atom feed and sitemap, checks exact path casing, and verifies that the feed contains the latest ten archive posts (or all posts when there are fewer). The sitemap lists self-canonical articles and discovery pages, including Home, About, Archive, and the Topics index. Individual tag lists remain available through the Topics index. The feed remains discoverable through its HTML alternate link, and the 404 page carries `noindex`. These URLs stay out of the sitemap. `robots.txt` points crawlers to the sitemap. The checker verifies local image sources and responsive variants and reads the built files without requesting external links or media.
 
 No Webmentions credentials are required to build or preview. With a configured nonempty `WEBMENTION_IO_TOKEN`, the existing integration runs as before. Optional credential support does not settle the separate decision about retaining Webmentions.
 

@@ -1,15 +1,16 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { parseXml } from "@rgrove/parse-xml";
+import { DateTime } from "luxon";
 
 const feed = "feed/feed.xml";
 const sitemap = "sitemap.xml";
 const feedLimit = 10;
-const sitemapPages = ["/", "/about/", "/blog/", "/tags/", `/${feed}`];
+const sitemapPages = ["/", "/about/", "/blog/", "/tags/"];
 
 const elements = (parent, name) => parent.children.filter(child => child.type === "element" && child.name === name);
 
-export async function checkPublicationIndexes({ output, base, files, errors, checkDestination, articleUrls, routes }) {
+export async function checkPublicationIndexes({ output, base, files, errors, checkDestination, articleUrls, routes, canonicalByFile }) {
 	async function readRoot(file, name, namespace) {
 		if (!files.has(file)) {
 			errors.push(`${file}: missing publication index`);
@@ -43,9 +44,10 @@ export async function checkPublicationIndexes({ output, base, files, errors, che
 
 	function checkPage(url, file) {
 		const destination = checkDestination(url, file);
-		if (destination && !destination.endsWith(".html") && !(file === sitemap && destination === feed)) {
+		if (destination && !destination.endsWith(".html")) {
 			errors.push(`${file}: expected a published page at ${url}`);
 		}
+		return destination;
 	}
 
 	const articles = articleUrls.map(url => indexUrl(url, "blog/index.html", "article", new URL("/blog/", base))).filter(Boolean);
@@ -82,6 +84,10 @@ export async function checkPublicationIndexes({ output, base, files, errors, che
 
 	const urlset = await readRoot(sitemap, "urlset", "http://www.sitemaps.org/schemas/sitemap/0.9");
 	if (urlset) {
+		const expected = new Set([...sitemapPages.map(route => new URL(route, base).href), ...articles].filter(url => {
+			const destination = checkDestination(url, sitemap);
+			return canonicalByFile.get(destination) === url;
+		}));
 		const seen = new Set();
 		for (const entry of elements(urlset, "url")) {
 			const locations = elements(entry, "loc");
@@ -89,9 +95,17 @@ export async function checkPublicationIndexes({ output, base, files, errors, che
 			if (!url) continue;
 			if (seen.has(url)) errors.push(`${sitemap}: duplicate loc ${url}`);
 			seen.add(url);
-			checkPage(url, sitemap);
+			const destination = checkPage(url, sitemap);
+			if (destination && (canonicalByFile.get(destination) !== url || /^tags\/.+\//.test(destination))) {
+				errors.push(`${sitemap}: unexpected loc ${url}`);
+			}
+			const dates = elements(entry, "lastmod");
+			const date = dates[0]?.text.trim();
+			if (dates.length > 1 || (dates.length === 1 && (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !DateTime.fromISO(date).isValid))) {
+				errors.push(`${sitemap}: invalid lastmod for ${url}`);
+			}
 		}
-		for (const url of [...sitemapPages.map(route => new URL(route, base).href), ...articles]) {
+		for (const url of expected) {
 			if (!seen.has(url)) errors.push(`${sitemap}: missing loc ${url}`);
 		}
 	}

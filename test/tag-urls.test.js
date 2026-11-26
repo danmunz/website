@@ -23,7 +23,8 @@ test("archive, post and tag-index links resolve to the same generated tag pages"
 		]) {
 			await writeFile(path.join(input, destination), await readFile(path.join(root, source)));
 		}
-		await writeFile(path.join(input, "_includes/layouts/base.njk"), "{{ content | safe }}");
+		await writeFile(path.join(input, "_includes/layouts/base.njk"), '<head><title>{{ title }}</title><meta name="description" content="{{ description }}"></head><body>{{ content | safe }}</body>');
+		await writeFile(path.join(input, "tags.11tydata.json"), JSON.stringify({ layout: "layouts/base.njk" }));
 		await writeFile(path.join(input, "article.md"), `---
 title: Fixture article
 description: A public article.
@@ -40,6 +41,10 @@ Fixture content.
 		});
 		const pages = await eleventy.toJSON();
 		const byUrl = new Map(pages.map(page => [page.url, page.content]));
+		const topics = byUrl.get("/tags/");
+		assert.ok(topics.includes("<title>Topics | Dan Munz</title>"));
+		assert.ok(topics.includes('<meta name="description" content="Browse the topics Dan Munz writes about.">'));
+		assert.doesNotMatch(topics, /title: Topics|description: Browse/);
 		const expected = new Map([
 			["AI", "/tags/ai/"],
 			["Apple", "/tags/apple/"],
