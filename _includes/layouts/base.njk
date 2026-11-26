@@ -9,15 +9,29 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
-<title>{{ title or metadata.title }}</title>
-<meta property='og:title' content='{{ title or metadata.title }}'/>
+{%- set previewTitle = title or metadata.title %}
+{%- set previewDescription = description or metadata.description %}
+		<title>{{ previewTitle | escape }}</title>
+		<meta name="description" content="{{ previewDescription | escape }}">
+		{% if page.url == "/404.html" %}
+		<meta name="robots" content="noindex">
+		{% elif pageUrls.canonicalUrl %}
+		<link rel="canonical" href="{{ pageUrls.canonicalUrl | escape }}">
+		{% endif %}
+		<meta property="og:title" content="{{ previewTitle | escape }}">
+		<meta property="og:description" content="{{ previewDescription | escape }}">
+		<meta property="og:type" content="{{ socialType or 'website' }}">
+		{% if pageUrls.publicUrl %}
+		<meta property="og:url" content="{{ pageUrls.publicUrl | escape }}">
+		{% endif %}
+		<meta name="twitter:title" content="{{ previewTitle | escape }}">
+		<meta name="twitter:description" content="{{ previewDescription | escape }}">
 
 <meta property="og:image" content="{{ resolvedSocialImage }}" />
 <meta property="og:image:secure_url" content="{{ resolvedSocialImage }}" />
 <meta name="twitter:image" content="{{ resolvedSocialImage }}" />
 
 
-<meta name="description" content="{{ description or metadata.description }}">
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:type" content="image/png" />

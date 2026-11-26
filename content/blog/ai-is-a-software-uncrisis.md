@@ -4,6 +4,7 @@ socialImage: /og-images/ai-is-a-software-uncrisis.png
 title: AI is a software un-crisis
 description: "I haven't asked her, but I bet Margaret Hamilton feels right at home bossing Claude around."
 date: 2026-02-12
+updated: 2026-03-03
 tags:
   - AI
   - software engineering

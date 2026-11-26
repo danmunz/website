@@ -32,6 +32,7 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 	const files = new Set(await inventory(output));
 	const errors = [];
 	const referencedCards = new Set();
+	const canonicalByFile = new Map();
 	const documents = new Map();
 	for (const file of files) {
 		if (!file.endsWith(".html")) continue;
@@ -99,9 +100,20 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 		if (/(^|\/)(copilot|\.obsidian|\.claude|\.cache)(\/|$)/i.test(file)) errors.push(`${file}: editor-only or cached content leaked into output`);
 		if (!documents.has(file)) continue;
 		const { html } = documents.get(file);
+		const canonicals = [];
 		for (const match of html.matchAll(/<(?:a|link)\b[^>]*>/gi)) {
-			const { href } = attributes(match[0]);
+			const { href, rel } = attributes(match[0]);
 			if (href) checkDestination(href, file);
+			if (/^<link\b/i.test(match[0]) && rel?.toLowerCase().split(/\s+/).includes("canonical")) canonicals.push(href);
+		}
+		if (checkIndexes && file !== "404.html") {
+			try {
+				const canonical = new URL(canonicals[0]);
+				if (canonicals.length !== 1 || !["http:", "https:"].includes(canonical.protocol) || canonical.username || canonical.password || canonical.hash) throw new Error();
+				canonicalByFile.set(file, canonical.href);
+			} catch {
+				errors.push(`${file}: expected one absolute HTTP(S) canonical URL without a fragment`);
+			}
 		}
 		for (const match of html.matchAll(/<(?:img|source)\b[^>]*>/gi)) {
 			const { src, srcset } = attributes(match[0]);
@@ -137,7 +149,7 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 			.filter(attrs => attrs.class?.split(/\s+/).includes("postlist-link"))
 			.map(attrs => attrs.href);
 		if (!archive) errors.push("blog/index.html: missing archive for publication index checks");
-		await checkPublicationIndexes({ output, base, files, errors, checkDestination, articleUrls, routes });
+		await checkPublicationIndexes({ output, base, files, errors, checkDestination, articleUrls, routes, canonicalByFile });
 	}
 	return { errors, htmlFiles: [...files].filter(file => file.endsWith(".html")).length, files: files.size };
 }

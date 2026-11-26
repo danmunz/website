@@ -1,4 +1,6 @@
 ---js
+const title = "About Dan Munz";
+const description = "About Dan Munz, his work in digital government, and how this site is made.";
 const eleventyNavigation = {
 	key: "About",
 	order: 3

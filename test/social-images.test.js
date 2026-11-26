@@ -27,7 +27,7 @@ test("real base layout uses one explicit or fallback image independent of source
 		for (const name of ["about", "archive", "tags", "tag-detail", "404", "nested/no-card"]) {
 			await writeFile(path.join(input, `${name}.njk`), "---\nlayout: layouts/base.njk\n---\nFixture page");
 		}
-		await writeFile(path.join(input, "nested/renamed-post.njk"), "---\nlayout: layouts/base.njk\npermalink: /blog/original-route/\nsocialImage: /og-images/original-card.png\n---\nFixture post");
+		await writeFile(path.join(input, "nested/renamed-post.njk"), "---\nlayout: layouts/base.njk\npermalink: /blog/Original-Route/\nsocialType: article\ntitle: 'Article & a \"quote\"'\ndescription: 'An & example'\ncanonicalUrl: https://example.com/original/\nsocialImage: /og-images/original-card.png\n---\nFixture post");
 		await writeFile(path.join(input, "external-image.njk"), "---\nlayout: layouts/base.njk\nsocialImage: https://images.example.com/card.png\n---\nFixture post");
 		const eleventy = new Eleventy(input, path.join(temporary, "output"), {
 			configPath: false,
@@ -48,11 +48,19 @@ test("real base layout uses one explicit or fallback image independent of source
 		const pages = await eleventy.toJSON();
 		assert.equal(pages.length, 8);
 		for (const page of pages) {
-			const expected = page.url === "/blog/original-route/"
+			const expected = page.url === "/blog/Original-Route/"
 				? "https://danmu.nz/og-images/original-card.png"
 				: page.url === "/external-image/" ? "https://images.example.com/card.png" : "https://danmu.nz/img/share-img.png";
 			const images = [...page.content.matchAll(/<meta (?:property|name)="(?:og:image|og:image:secure_url|twitter:image)" content="([^"]+)"/g)].map(match => match[1]);
 			assert.deepEqual(images, [expected, expected, expected], page.url);
+			assert.ok(page.content.includes(`<meta property="og:url" content="https://danmu.nz${page.url}">`), page.url);
+			const canonical = page.url === "/blog/Original-Route/" ? "https://example.com/original/" : `https://danmu.nz${page.url}`;
+			assert.ok(page.content.includes(`<link rel="canonical" href="${canonical}">`), page.url);
+			if (page.url === "/blog/Original-Route/") {
+				assert.match(page.content, /<title>Article &amp; a &quot;quote&quot;<\/title>/);
+				assert.match(page.content, /<meta property="og:type" content="article">/);
+				assert.match(page.content, /<meta name="twitter:description" content="An &amp; example">/);
+			}
 		}
 	} finally {
 		await rm(temporary, { recursive: true, force: true });
