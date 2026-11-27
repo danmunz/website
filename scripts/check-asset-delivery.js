@@ -188,6 +188,21 @@ try {
 		expect(Boolean(mobile && desktop), `Responsive-image evidence is incomplete at DPR ${dpr}`);
 		expect(mobile.selected.width < desktop.selected.width, `Mobile screenshot did not select a smaller candidate at DPR ${dpr}`);
 	}
+	const reddit = await openSession(origins.current);
+	const redditVisit = await visit(reddit, "/blog/ai-thinking-fast-and-slow/", "current-reddit-reference-blocked-third-parties");
+	report.redditReference = await reddit.page.$eval(".post-content", article => {
+		const link = article.querySelector('a[href*="/comments/1m4lsso/"]');
+		return {
+			visibleSource: Boolean(link?.getClientRects().length),
+			visibleSummary: article.innerText.includes("a Replit coding agent deleted a production database and tried to cover it up"),
+			hasEmbed: Boolean(article.querySelector('iframe, script[src*="reddit.com"], .reddit-embed-bq')),
+		};
+	});
+	expect(report.redditReference.visibleSource && report.redditReference.visibleSummary && !report.redditReference.hasEmbed,
+		"Reddit reference does not render as a visible summary and source link");
+	expect(!redditVisit.resources.some(({ url }) => /^https?:\/\/(?:[^/]+\.)?reddit\.com\//i.test(url)),
+		"Article requested a Reddit resource before the reader followed a link");
+	await reddit.context.close();
 	const fallback = await openSession(origins.current, { blockFonts: true, width: 320 });
 	await visit(fallback, "/asset-fixture/", "current-fonts-blocked");
 	await fallback.page.evaluate(() => { document.documentElement.style.fontSize = "200%"; });

@@ -60,7 +60,7 @@ Articles opt into generated cards with an explicit `socialImage` path under `/og
 
 Fast HTML builds and development previews use `/img/share-img.png` for generated-card references. They do not launch a browser or require old committed cards. See [social-card generation](social-cards.md) for cache invalidation, local font provenance, and renderer checks.
 
-The output check verifies social-image files, local page links, and canonical tags. Required article-body images and external asset failures remain tracked in [#33](https://github.com/danmunz/website/issues/33).
+The output check verifies social-image files, local page links, and canonical tags. See [asset delivery](assets.md) for the required-image and optional-remote-image policies.
 
 Before submitting changes, run `npm test`, `npm run build`, and `npm run check:site` on Node 24. Tests use disposable synthetic content rather than private local writing. Default tests do not launch a browser; Linux PR checks additionally run `npm run test:cards` for real rendering, then a complete production build. Transition fixtures cover withdrawal, rename, deletion, and case-sensitive route preservation. See [deployment and recovery](deployment.md) for the checked-artifact publishing process.
 

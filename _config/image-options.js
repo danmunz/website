@@ -4,7 +4,8 @@ export const imageOptions = {
 	formats: ["avif", "webp", "auto"],
 	widths: [320, 640, 960, 1280],
 	// Eleventy caps raster candidates at their source width; never upscale them.
-	failOnError: false,
+	failOnError: true,
+	cacheOptions: { duration: "7d", timeout: "10s" },
 	htmlOptions: {
 		imgAttributes: {
 			loading: "lazy",
