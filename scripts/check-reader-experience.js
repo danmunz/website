@@ -131,7 +131,7 @@ try {
 	for (const directory of [baseline, current]) {
 		await symlink(path.join(root, "node_modules"), path.join(directory, "node_modules"), "dir");
 	}
-	const interactionFixture = `---\ntitle: Reader interaction fixture\ndescription: Synthetic browser evidence.\ndate: 2020-01-02\npermalink: /reader-fixture/\ntags: [Accessibility, software engineering]\n---\nA sentence with a [normal link](/about/) and a first reference.[^repeat] Another reference to the same note.[^repeat]\n\n<div class="note"><a href="/about/">Note link</a></div>\n\n> A quotation with a [quote link](/about/).\n\n## Reading section\n\n[^repeat]: A footnote with a [footnote link](/about/).\n`;
+	const interactionFixture = `---\ntitle: Reader interaction fixture\ndescription: Synthetic browser evidence.\ndate: 2020-01-02\npermalink: /reader-fixture/\ntags: [Accessibility, software engineering]\n---\nA sentence with a [normal link](/about/) and a first reference.[^repeat] Another reference to the same note.[^repeat]\n\n<div class="note"><a href="/about/">Note link</a></div>\n\n> A quotation with a [quote link](/about/).\n\n## Reading section\n\n\`\`\`js\nfunction example() {\n  return true;\n}\n\`\`\`\n\n\`\`\`text\nPlain text for the copy fixture.\n\`\`\`\n\n[^repeat]: A footnote with a [footnote link](/about/).\n`;
 	for (const directory of [baseline, current]) command(process.execPath, ["node_modules/@11ty/eleventy/cmd.cjs", "--quiet"], directory);
 	const origins = { baseline: await serve(path.join(baseline, "_site")), current: await serve(path.join(current, "_site")) };
 	const fonts = await fontStyles();
@@ -259,6 +259,80 @@ try {
 			report.keyboard.push({ referenceId, label, destination, backLabel, returned });
 		}
 	}
+
+	const clipboardStub = await page.evaluateOnNewDocument(() => {
+		globalThis.clipboardFixture = { value: "", denied: false };
+		Object.defineProperty(navigator, "clipboard", {
+			configurable: true,
+			value: {
+				async writeText(text) {
+					if (globalThis.clipboardFixture.denied) throw new DOMException("Denied", "NotAllowedError");
+					globalThis.clipboardFixture.value = text;
+				},
+			},
+		});
+	});
+	async function checkCopy(button, target, expected, label) {
+		await page.waitForSelector(button);
+		await page.keyboard.press("Tab");
+		await page.focus(button);
+		const control = await page.$eval(button, el => {
+			const toolbar = el.closest(".copy-controls");
+			const style = getComputedStyle(el);
+			return {
+				name: el.getAttribute("aria-label") ?? el.textContent.trim(),
+				outlined: style.outlineStyle !== "none" && parseFloat(style.outlineWidth) >= 2,
+				outsideContent: toolbar.getBoundingClientRect().bottom <= toolbar.nextElementSibling.getBoundingClientRect().top + 1,
+			};
+		});
+		expect(control.name.startsWith(label) && control.name !== label, `${label} lacks the content's context`);
+		expect(control.outlined && control.outsideContent, `${label} lacks keyboard focus or overlaps the content`);
+		await page.keyboard.press("Enter");
+		await page.waitForFunction(selector => document.querySelector(selector).closest(".copy-controls").querySelector('[role="status"]').textContent.includes("Copied"), {}, button);
+		const copied = await page.evaluate(() => globalThis.clipboardFixture.value);
+		expect(copied === expected, `${label} changed the underlying text or included controls`);
+		await page.evaluate(() => { globalThis.clipboardFixture.denied = true; });
+		await page.keyboard.press("Enter");
+		await page.waitForFunction(selector => /copy command/i.test(document.querySelector(selector).closest(".copy-controls").querySelector('[role="status"]').textContent), {}, button);
+		const manual = await page.$eval(target, el => {
+			const selection = getSelection();
+			return selection.rangeCount > 0 && el.contains(selection.getRangeAt(0).commonAncestorContainer) && !selection.isCollapsed;
+		});
+		expect(manual, `${label} did not select only the intended text after clipboard denial`);
+		report.keyboard.push({ check: label, ...control, copied: copied === expected, manual });
+	}
+	for (const width of [320, 1280]) {
+		await page.setViewport({ width, height: 900, deviceScaleFactor: 1 });
+		await navigate("current", "/reader-fixture/");
+		const codeButton = '.copy-button[aria-label^="Copy code"]';
+		const code = await page.$eval("pre.language-js code", el => ({
+			text: el.textContent,
+			background: getComputedStyle(el.closest("pre")).backgroundColor,
+			tokens: [...el.querySelectorAll(".token")].map(token => getComputedStyle(token).color),
+		}));
+		const codeBackground = colorChannels(code.background);
+		expect(codeBackground[3] === 1 && code.tokens.length > 0 && code.tokens.every(color => contrast(colorChannels(color), codeBackground) >= 4.5),
+			`Highlighted code loses readable token contrast at ${width}px`);
+		await checkCopy(codeButton, "pre.language-js code", code.text, "Copy code");
+		await page.evaluate(() => { Object.defineProperty(navigator, "clipboard", { configurable: true, value: undefined }); });
+		const plainButton = '.copy-button[aria-label^="Copy text"]';
+		await page.focus(plainButton);
+		await page.keyboard.press("Enter");
+		await page.waitForFunction(selector => /copy command/i.test(document.querySelector(selector).closest(".copy-controls").querySelector('[role="status"]').textContent), {}, plainButton);
+		const plainSelected = await page.evaluate(() => getSelection().toString().includes("Plain text for the copy fixture."));
+		expect(plainSelected, `Plain text was not selected without Clipboard API at ${width}px`);
+		await navigate("current", "/blog/chat-gpt-historian-prompt/");
+		const prompt = await page.$$eval("[data-copy-prompt] p", paragraphs => paragraphs.map(el => el.textContent.trim()).join("\n\n"));
+		await checkCopy('.copy-button[aria-label^="Copy prompt"]', "[data-copy-prompt]", prompt, "Copy prompt");
+	}
+	await page.removeScriptToEvaluateOnNewDocument(clipboardStub.identifier);
+
+	await page.setJavaScriptEnabled(false);
+	await page.goto(`${origins.current}/blog/chat-gpt-historian-prompt/`, { waitUntil: "domcontentloaded" });
+	const promptHtml = await page.content();
+	expect(promptHtml.includes("You are a meticulous historical analyst") && !promptHtml.includes('class="copy-controls"'), "Prompt is not readable as ordinary page content without JavaScript");
+	await page.setJavaScriptEnabled(true);
+	await navigate("current", "/reader-fixture/");
 
 	await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
 	const motion = await page.evaluate(() => {

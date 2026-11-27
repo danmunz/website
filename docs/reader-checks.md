@@ -14,6 +14,8 @@ Post-list entries use IDs derived from the complete public URL. Each listing als
 
 The command records computed contrast and background colors, target geometry, keyboard skip/footnote behavior, title and opening-paragraph positions, horizontal overflow, reduced-motion styles, and print behavior. It captures matching baseline/current views at 320px, 375px, and desktop widths, plus print evidence. Artifacts stay under `.cache/reader-evidence/`, outside the published `_site` tree.
 
+The current-site check also exercises code and prompt copy controls by keyboard at mobile and desktop widths. A browser-side clipboard stub covers success and denial. A separate check exercises the fallback with the API unavailable and confirms that the prompt remains readable with JavaScript disabled.
+
 Both snapshots use the same locally packaged Oswald and Bricolage Grotesque font faces for repeatable comparisons; external requests are blocked. Production font-face declarations are removed from these temporary comparison pages; other font families retain their system fallbacks. The separate asset-delivery check measures actual production fonts without this normalization. This normalizes the evidence environment and does not change production font delivery.
 
 The enlarged-text check scales root text to 200%; it is a reflow approximation, not a browser zoom or screen-reader test. Browser privacy masks actual visited-link colors, so visited palette rules are tested through a declared-style surrogate rather than a history-state claim. Review the generated measurements and screenshots as well as the pass/fail result.

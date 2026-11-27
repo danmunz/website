@@ -204,100 +204,78 @@ code:not([class*="language-"]) {
     border-radius: 4px;
 }
 
-/* Prism-highlighted blocks */
-pre[class*="language-"]:not(.language-text):not(.language-prompt) {
-    position: relative;
-    background: #2b2d42; /* graphite */
-    color: #eceff4; /* ivory on dark */
+pre {
+    background: #2b2d42;
+    color: #eceff4;
     font-family: var(--font-monospace);
     font-size: 0.95em;
     line-height: 1.6;
-    padding: 1.25em 1.5em;
+    padding: 1em;
     margin: 2em 0;
-    border-left: 4px solid #42a5f5; /* sky accent */
+    border-left: 4px solid #42a5f5;
     border-radius: 6px;
-    overflow-x: auto;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-/* Fallback <pre> blocks */
-pre:not([class*="language-"]) {
-    background: #1e272e;
-    color: #e2e8f0;
-    font-family: var(--font-monospace);
-    font-size: 0.95em;
-    line-height: 1.25;
-    padding: 1.25em 1.5em;
-    margin: 2em 0;
-    border-radius: 8px;
     overflow-x: auto;
     white-space: pre;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Prose-style blocks */
-pre.language-text,
-pre.language-prompt,
-code.language-text,
-code.language-prompt {
-    white-space: pre-wrap !important;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-    overflow-x: visible;
+pre > code:not([class*="language-"]),
+pre > code[class*="language-"] {
+    font: inherit;
+    background: transparent;
+    color: inherit;
+    padding: 0;
 }
 
 pre.language-text,
+pre.language-plaintext,
 pre.language-prompt {
-    background: #ebf5ff; /* pale sky */
-    color: #2f3d34; /* dark body text */
-    padding: 1.5em;
-    margin: 2em 0;
-    border-left: 4px solid #324a5e;
-    border-radius: 6px;
-    font-family: var(--font-monospace);
-    font-size: 1em;
-    line-height: 1.7;
+    background: var(--color-gray-20);
+    color: #1d2f3d;
+    border-left-color: #324a5e;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
-pre[class*="language-"]::before {
-    content: attr(data-lang);
-    position: absolute;
-    top: 0.5rem;
-    right: 0.75rem;
-    font-size: 0.65em;
-    font-family: var(--font-monospace);
-    color: #ccc;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.15em 0.5em;
-    border-radius: 4px;
-    text-transform: uppercase;
-    pointer-events: none;
+pre.language-prompt {
+    font-family: var(--font-serif);
+    font-size: 1em;
 }
 
-pre[class*="language-"] {
-    position: relative;
+.copy-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35em 0.75em;
+    margin: 1em 0 0.5em;
+    font-size: 0.9em;
+}
+
+.copy-controls + pre,
+.copy-controls + blockquote {
+    margin-top: 0;
 }
 
 .copy-button {
-    position: absolute;
-    top: 0.5rem;
-    left: 0.75rem;
-    font-size: 0.65em;
-    font-family: var(--font-monospace);
-    color: #ccc;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.15em 0.5em;
+    font: inherit;
+    font-weight: 600;
+    color: #1d2f3d;
+    background: var(--color-gray-20);
+    border: 1px solid var(--text-color-link);
+    padding: 0.35em 0.65em;
     border-radius: 4px;
     cursor: pointer;
-    opacity: 0.6;
-    transition: opacity 0.2s;
 }
 
 .copy-button:hover {
-    opacity: 1;
+    color: #fff;
+    background: var(--text-color-link);
+}
+
+.copy-button:focus-visible {
+    outline: 2px solid var(--text-color-link-active);
+    outline-offset: 2px;
 }
 
 /* Header */
@@ -746,8 +724,7 @@ tbody tr:nth-child(odd) {
     @view-transition {
         navigation: none;
     }
-    a[href],
-    .copy-button {
+    a[href] {
         transition: none;
     }
     ::view-transition-old(root),
@@ -784,7 +761,7 @@ tbody tr:nth-child(odd) {
     nav,
     #skip-link,
     .links-nextprev,
-    .copy-button,
+    .copy-controls,
     .footnote-backref {
         display: none !important;
     }
