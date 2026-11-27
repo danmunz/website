@@ -93,12 +93,22 @@ test("rejects duplicate IDs, skipped heading levels, and missing or duplicate pa
 
 test("checks local image sources and responsive candidates without requesting external URLs", async t => {
 	const output = await fixture(t, {
-		"index.html": `${metadata()}<picture><source srcset='/img/share.png 320w, /img/missing.avif 640w'><img src='/img/Missing.png' srcset='data:image/png;base64,AAAA 1x, https://example.com/remote.png 2x'></picture>`,
+		"index.html": `${metadata()}<picture><source srcset='/img/share.png 320w, /img/missing.avif 640w'><img alt='A fixture image' src='/img/Missing.png' srcset='data:image/png;base64,AAAA 1x, https://example.com/remote.png 2x'></picture>`,
 		"img/share.png": "fixture",
 	});
 	assert.deepEqual((await checkSite({ output })).errors.sort(), [
 		"index.html: missing local media asset /img/Missing.png",
 		"index.html: missing local media asset /img/missing.avif",
+	]);
+});
+
+test("requires an alt attribute on images and accepts an explicit decorative alternative", async t => {
+	const output = await fixture(t, {
+		"index.html": `${metadata()}<img src='/img/share.png' alt=''><img src='https://example.com/photo.png' data-alt='A photo'>`,
+		"img/share.png": "fixture",
+	});
+	assert.deepEqual((await checkSite({ output })).errors, [
+		"index.html: image missing alt attribute (https://example.com/photo.png)",
 	]);
 });
 

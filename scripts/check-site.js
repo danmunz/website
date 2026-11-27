@@ -116,7 +116,10 @@ export async function checkSite({ output = path.join(root, "_site"), origin = "h
 			}
 		}
 		for (const match of html.matchAll(/<(?:img|source)\b[^>]*>/gi)) {
-			const { src, srcset } = attributes(match[0]);
+			const { src, srcset, alt } = attributes(match[0]);
+			if (/^<img\b/i.test(match[0]) && alt === undefined) {
+				errors.push(`${file}: image missing alt attribute (${src || srcset || "no source"})`);
+			}
 			if (src) checkDestination(src, file, { asset: "local media asset" });
 			if (srcset) {
 				for (const { url } of parseSrcset(srcset)) checkDestination(url, file, { asset: "local media asset" });

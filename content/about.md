@@ -18,7 +18,7 @@ You can also find me on:
 - [Bluesky](https://bsky.app/profile/danmunz.bsky.social)
 - [Github](https://github.com/danmunz)
 ## Professional stuff
-I've had kind of a Chili's Sampler Platter of jobs. I've been a public sector management consultant, comms director for a global democracy nonprofit, founding member of the CFPB tech team (<span alt="RIP">🪦</span>), digital diplomacy & analytics leader at the State Department, and even worked in the factory that puts together your Scholastic book orders. But most relevant here, I held increasingly senior/executive roles in the federal government tech/product/digital services space.
+I've had kind of a Chili's Sampler Platter of jobs. I've been a public sector management consultant, comms director for a global democracy nonprofit, founding member of the CFPB tech team (<span role="img" aria-label="Rest in peace">🪦</span>), digital diplomacy & analytics leader at the State Department, and even worked in the factory that puts together your Scholastic book orders. But most relevant here, I held increasingly senior/executive roles in the federal government tech/product/digital services space.
 
 Right now I'm leading federal civilian accounts at [Ad Hoc](https://adhoc.team/about/), a digital services firm. I lead teams working with NASA, Library of Congress, IRS, FDIC, and others to deliver great tech and try to make government work a little better.
 

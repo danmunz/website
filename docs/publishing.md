@@ -54,6 +54,8 @@ Git ignores control version tracking; Eleventy exclusions control publishing. Be
 
 ## Social previews and verification
 
+Give each informative image a short alternative that explains what matters in context. For charts and diagrams, also put the takeaway and important values or steps in nearby prose. Use a visible `<figcaption>` for jokes, commentary, or credits. Use `alt=""` when an image is decorative or its content is fully redundant. The generated-site check catches omitted `alt` attributes. Review the wording against the image and article when editing.
+
 Articles opt into generated cards with an explicit `socialImage` path under `/og-images/`, for example `/og-images/a-useful-article.png`. The full production build generates those paths from the same validated published collection used by the site, including nested articles and inherited draft settings. Keep an existing card path stable when renaming a source file. Other local paths and external HTTPS images are supplied separately; pages without an assigned card use `/img/share-img.png`. Open Graph and Twitter derive their image URL from the same value, and an explicit local image must exist in the finished output.
 
 Fast HTML builds and development previews use `/img/share-img.png` for generated-card references. They do not launch a browser or require old committed cards. See [social-card generation](social-cards.md) for cache invalidation, local font provenance, and renderer checks.
