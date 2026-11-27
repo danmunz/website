@@ -1,73 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-	
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://danmu.nz/blog/a-rocket-powered-onion-peeler/</loc>
-		<lastmod>2025-06-11</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/blog/WWDC-Apples-AI-device-strategy/</loc>
-		<lastmod>2025-06-18</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/blog/chat-gpt-historian-prompt/</loc>
-		<lastmod>2025-07-05</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/blog/anthropic-llms-learn-things-we-dont-teach-them/</loc>
-		<lastmod>2025-07-23</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/blog/a-few-thoughts-on-seeing-the-pixies-live/</loc>
-		<lastmod>2025-07-28</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/blog/ai-thinking-fast-and-slow/</loc>
-		<lastmod>2025-08-02</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/blog/the-end-of-civic-techs-interface-era/</loc>
-		<lastmod>2025-08-06</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/blog/ai-is-a-software-uncrisis/</loc>
-		<lastmod>2026-02-12</lastmod>
+		<lastmod>2026-03-03</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/blog/from-pdf-to-platform/</loc>
-		<lastmod>2026-02-25</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/about/</loc>
-		<lastmod>2026-11-26</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/blog/</loc>
-		<lastmod>2026-11-26</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/</loc>
-		<lastmod>2026-11-26</lastmod>
 	</url>
-	
 	<url>
 		<loc>https://danmu.nz/tags/</loc>
-		<lastmod>2026-11-26</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://danmu.nz/feed/feed.xml</loc>
-		<lastmod>2026-11-26</lastmod>
 	</url>
 </urlset>
