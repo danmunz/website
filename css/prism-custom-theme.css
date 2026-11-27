@@ -1,15 +1,8 @@
-/* Layout inherited from index.css */
-code[class*="language-"],
-pre[class*="language-"] {
-  background: inherit;
-  color: inherit;
-}
-
 /* Gentle token palette */
 .token.comment,
 .token.prolog,
 .token.doctype {
-  color: #6C7B8A;    /* slate-gray */
+  color: #A5ADB9;    /* slate-gray */
   font-style: italic;
 }
 
@@ -22,7 +15,7 @@ pre[class*="language-"] {
 }
 
 .token.function {
-  color: #8C6DA5;    /* lilac */
+  color: #C5A9DC;    /* lilac */
   font-weight: 600;
 }
 
@@ -38,5 +31,5 @@ pre[class*="language-"] {
 
 .token.variable,
 .token.attr-name {
-  color: #4C6272;    /* storm-slate */
+  color: #A9BCCB;    /* storm-slate */
 }
