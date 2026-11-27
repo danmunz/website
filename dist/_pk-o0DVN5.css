@@ -202,11 +202,11 @@ img[src$=".svg"] {
     max-width: none;
 }
 video,
-iframe {
+iframe.video-embed {
     width: 100%;
     height: auto;
 }
-iframe {
+iframe.video-embed {
     aspect-ratio: 16/9;
 }
 
