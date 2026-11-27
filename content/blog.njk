@@ -1,6 +1,6 @@
 ---js
 const title = "Writing archive | Dan Munz";
-const description = "Browse all of Dan Munz’s writing by date or category.";
+const description = "Browse all of Dan Munz’s writing by date or topic.";
 const eleventyNavigation = {
 	key: "Archive",
 	order: 2
@@ -11,7 +11,9 @@ const eleventyNavigation = {
 
 "So...that's it. All of my darkest fears, and everything I'm capable of. That's me." <span style="display:inline-block">—George Costanza</span>
 
-<h2>Categories</h2>
+<p>To get new posts as they’re published, copy the <a href="/feed/feed.xml">feed address</a> into an RSS or Atom reader.</p>
+
+<h2 id="categories">Topics</h2>
 
 {% set allTags = [] %}
 {% for post in collections.posts %}

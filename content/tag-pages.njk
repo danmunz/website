@@ -12,16 +12,16 @@ const eleventyExcludeFromCollections = true;
 
 const eleventyComputed = {
 	title: data => `${data.tag} | Dan Munz`,
-	description: data => `Browse Dan Munz’s posts tagged ${data.tag}.`,
+	description: data => `Browse Dan Munz’s writing on ${data.tag}.`,
 	permalink: function(data) {
 		return this.tagUrl(data.tag);
 	}
 };
 ---
-<h1>Tagged “{{ tag }}”</h1>
+<h1 id="tagged-{{ tag | slugify }}">Topic: {{ tag }}</h1>
 
 {% set postslist = collections[ tag ] %}
 {% set postlistHeadingLevel = 2 %}
 {% include "postslist.njk" %}
 
-<p>See <a href="tags.njk">all tags</a>.</p>
+<p>See <a href="/tags/">all topics</a>.</p>

@@ -9,13 +9,14 @@ import filters from "../_config/filters.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 
-test("archive, post and tag-index links resolve to the same generated tag pages", async () => {
+test("discovery pages link to existing topic routes, the feed, and 404 recovery destinations", async () => {
 	const temporary = await mkdtemp(path.join(os.tmpdir(), "website-tags-"));
 	try {
 		const input = path.join(temporary, "content");
 		await mkdir(path.join(input, "_includes/layouts"), { recursive: true });
 		for (const [source, destination] of [
-			["content/blog.njk", "archive.njk"],
+			["content/blog.njk", "blog.njk"],
+			["content/404.md", "404.md"],
 			["content/tags.njk", "tags.njk"],
 			["content/tag-pages.njk", "tag-pages.njk"],
 			["_includes/layouts/post.njk", "_includes/layouts/post.njk"],
@@ -25,6 +26,7 @@ test("archive, post and tag-index links resolve to the same generated tag pages"
 		}
 		await writeFile(path.join(input, "_includes/layouts/base.njk"), '<head><title>{{ title }}</title><meta name="description" content="{{ description }}"></head><body>{{ content | safe }}</body>');
 		await writeFile(path.join(input, "tags.11tydata.json"), JSON.stringify({ layout: "layouts/base.njk" }));
+		await writeFile(path.join(input, "404.11tydata.json"), JSON.stringify({ layout: "layouts/base.njk" }));
 		await writeFile(path.join(input, "article.md"), `---
 title: Fixture article
 description: A public article.
@@ -45,6 +47,13 @@ Fixture content.
 		assert.ok(topics.includes("<title>Topics | Dan Munz</title>"));
 		assert.ok(topics.includes('<meta name="description" content="Browse the topics Dan Munz writes about.">'));
 		assert.doesNotMatch(topics, /title: Topics|description: Browse/);
+		assert.match(topics, /<h1 id="tags">Topics<\/h1>/);
+		const archive = byUrl.get("/blog/");
+		assert.match(archive, /<h2 id="categories">Topics<\/h2>/);
+		assert.match(archive, /<a href="\/feed\/feed\.xml">feed address<\/a> into an RSS or Atom reader/);
+		const notFound = byUrl.get("/404.html");
+		assert.match(notFound, /<title>Page not found \| Dan Munz<\/title>/);
+		assert.match(notFound, /<a href="\/">go home<\/a> or <a href="\/blog\/">browse the writing archive<\/a>/);
 		const expected = new Map([
 			["AI", "/tags/ai/"],
 			["Apple", "/tags/apple/"],
@@ -53,8 +62,11 @@ Fixture content.
 			["software engineering", "/tags/software-engineering/"],
 		]);
 		for (const [label, url] of expected) {
-			assert.ok(byUrl.has(url), `Missing generated tag page: ${url}`);
-			for (const source of ["/archive/", "/article/", "/tags/"]) {
+			const detail = byUrl.get(url);
+			assert.ok(detail, `Missing generated tag page: ${url}`);
+			assert.ok(detail.includes(`<h1 id="tagged-${url.split("/")[2]}">Topic: ${label}</h1>`), url);
+			assert.match(detail, /<a href="\/tags\/">all topics<\/a>/);
+			for (const source of ["/blog/", "/article/", "/tags/"]) {
 				assert.ok(byUrl.get(source)?.includes(`href="${url}" class="post-tag">${label}</a>`), `${source} must preserve label ${label} and link to ${url}`);
 			}
 		}
