@@ -11,7 +11,9 @@ tags:
 ---
 Everyone’s having a good laugh at this image going around Twitter:
 
-![](/blog/images/waterfall-agile-ai.jpg)
+![Three cartoon rows show Waterfall, Agile, and AI taking different paths to the same pink car.](/blog/images/waterfall-agile-ai.jpg)
+
+Waterfall builds the car one piece at a time, from a wheel to an axle to a chassis. Agile gives you something you can ride at every step, from a skateboard to a scooter, bicycle, and motorcycle. AI starts with an over-the-top cartoon car and strips away the extras until it’s just a car.
 
 But I think it’s actually a surprisingly useful way of thinking about AI: Not as a technology but as a product methodology. A rocket-powered onion peeler.
 

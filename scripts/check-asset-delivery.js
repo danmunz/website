@@ -158,7 +158,8 @@ try {
 	for (const variant of ["baseline", "current"]) for (const dpr of [1, 2]) for (const width of [320, 1280]) {
 		const session = await openSession(origins[variant], { baseline: variant === "baseline", width, dpr });
 		await visit(session, "/blog/from-pdf-to-platform/", `${variant}-image-${width}-${dpr}`);
-		const selector = 'img[alt="A screenshot of the experimental copyright compendium"]';
+		// The lead article image is the compendium screenshot in both versions.
+		const selector = ".post-content img";
 		await session.page.$eval(selector, image => image.scrollIntoView({ block: "center" }));
 		await session.page.waitForFunction(selector => { const image = document.querySelector(selector); return image?.complete && image.naturalWidth > 0; }, {}, selector);
 		const sample = await session.page.$eval(selector, image => {

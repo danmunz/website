@@ -18,7 +18,7 @@ At the same time, many foundational policy documents were created for a hard-cop
 
 As part of February’s Free and Open Source Software Month, we’re [open-sourcing an example](http://compendium.adhocteam.us/) of how agencies can responsibly use large language models (LLMs) to transform long-form policy documents into a structured, user-friendly digital experience. In this blog post, we’ll share more details on our approach.
 
-![A screenshot of the experimental copyright compendium](/blog/images/compendium-screenshot.png)
+![The unofficial Copyright Compendium prototype showing section search, a chapter menu, and a contents sidebar beside the main text.](/blog/images/compendium-screenshot.png)
 
 ## The Copyright Compendium
 

@@ -25,7 +25,10 @@ Booch credits Margaret Hamilton as the first person to call it "software enginee
 
 >I fought to bring the software legitimacy so that it—and those building it—would be given its due respect and thus I began to use the term 'software engineering' to distinguish it from hardware and other kinds of engineering, yet treat each type of engineering as part of the overall systems engineering process. When I first started using this phrase, it was considered to be quite amusing. It was an ongoing joke for a long time. They liked to kid me about my radical ideas. Software eventually and necessarily gained the same respect as any other discipline.
 
-![The very first software engineer](https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Margaret_Hamilton_in_action.jpg/960px-Margaret_Hamilton_in_action.jpg)
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Margaret_Hamilton_in_action.jpg/960px-Margaret_Hamilton_in_action.jpg" alt="Margaret Hamilton reclines beneath an Apollo control panel and reaches up to a switch.">
+  <figcaption>The very first software engineer</figcaption>
+</figure>
 
 Whatever laughs Hamilton's term got, it was plausible enough. At the time, software engineering genuinely *wasn't* coding. Booch describes an *explicit* division of labor – **the thinking and the typing were literally different jobs.** 
 
@@ -37,7 +40,12 @@ As early as 1947, von Neumann and Goldstine's [*Planning and Coding of Problems 
 
 By 1959, the Department of Labor's survey of computing occupations [formally distinguished](https://cacm.acm.org/opinion/the-myth-of-the-coder/) between systems analysts, programmers, and coding clerks as separate jobs.
 
-![I dunno, "Tape Librarian" sounds like a pretty cool gig](https://cacm.acm.org/wp-content/uploads/2024/08/3639562_fig01.jpg)
+<figure>
+  <img src="https://cacm.acm.org/wp-content/uploads/2024/08/3639562_fig01.jpg" alt="Organization chart for an electronic data-processing system, from project planning through production.">
+  <figcaption>I dunno, “Tape Librarian” sounds like a pretty cool gig.</figcaption>
+</figure>
+
+The chart puts project planning first, then breaks out problem formulation and systems design as separate jobs. Systems design leads into programming, where programmers and coding clerks have their own roles and a tape library supports their work. Production and maintenance are separate jobs again.
 
 The Cold War helped keep the momentum up. At a time when it was otherwise hard to find funding for computery things, the defense establishment couldn't throw money at it fast enough, and governments throwing money at things like to make them sound official. What could be more official than [a NATO conference](http://homepages.cs.ncl.ac.uk/brian.randell/Papers-Articles/174.pdf)?
 
@@ -49,7 +57,10 @@ The Cold War helped keep the momentum up. At a time when it was otherwise hard t
 >
 >— Brian Randell, *Memories of the NATO Software Engineering Conferences*, *IEEE Annals of the History of Computing*, 01/01/1998.
 
-![uh, guys, I don't think we're at OSCON](https://miro.medium.com/v2/resize:fit:4800/format:webp/0*n2LiDzpKgzpFRwQ6.png)
+<figure>
+  <img src="https://miro.medium.com/v2/resize:fit:4800/format:webp/0*n2LiDzpKgzpFRwQ6.png" alt="Black-and-white photo of NATO software engineering conference attendees seated around a long table, with more attendees facing them in rows.">
+  <figcaption>uh, guys, I don't think we're at OSCON</figcaption>
+</figure>
 
 In the early days of computing, there was both a self-conscious attempt to tuck software-making under the umbrella of "engineering," and an operational separation between the work of conceiving and architecting software and the work of physically making it.
 
@@ -87,7 +98,12 @@ I haven't asked her, but I bet Margaret Hamilton feels right at home bossing Cla
 
 **Postscript 3/3/26**: Caught this chart today:
 
-![MOAR developerz](/blog/images/coder-developer-graph.jpg)
+<figure>
+  <img src="/blog/images/coder-developer-graph.jpg" alt="Line chart comparing quarterly U.S. employment of software developers and computer programmers, with ChatGPT’s release marked.">
+  <figcaption>MOAR developerz</figcaption>
+</figure>
+
+From the early 2000s to January 2026, software developer employment rose from about 750,000 to nearly 2.5 million. Computer programmer employment fell overall, from a little over 500,000 to about 350,000. The gap was already widening before ChatGPT’s late-2022 release, and it widened further afterward.
 
 h/t [Timothy B. Lee](https://x.com/binarybits/status/2028868131846812128?s=46)
 
