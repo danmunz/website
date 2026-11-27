@@ -26,7 +26,7 @@ Booch credits Margaret Hamilton as the first person to call it "software enginee
 >I fought to bring the software legitimacy so that it—and those building it—would be given its due respect and thus I began to use the term 'software engineering' to distinguish it from hardware and other kinds of engineering, yet treat each type of engineering as part of the overall systems engineering process. When I first started using this phrase, it was considered to be quite amusing. It was an ongoing joke for a long time. They liked to kid me about my radical ideas. Software eventually and necessarily gained the same respect as any other discipline.
 
 <figure>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Margaret_Hamilton_in_action.jpg/960px-Margaret_Hamilton_in_action.jpg" alt="Margaret Hamilton reclines beneath an Apollo control panel and reaches up to a switch.">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Margaret_Hamilton_in_action.jpg/960px-Margaret_Hamilton_in_action.jpg" alt="Margaret Hamilton reclines beneath an Apollo control panel and reaches up to a switch." eleventy:optional="placeholder">
   <figcaption>The very first software engineer</figcaption>
 </figure>
 
@@ -41,7 +41,7 @@ As early as 1947, von Neumann and Goldstine's [*Planning and Coding of Problems 
 By 1959, the Department of Labor's survey of computing occupations [formally distinguished](https://cacm.acm.org/opinion/the-myth-of-the-coder/) between systems analysts, programmers, and coding clerks as separate jobs.
 
 <figure>
-  <img src="https://cacm.acm.org/wp-content/uploads/2024/08/3639562_fig01.jpg" alt="Organization chart for an electronic data-processing system, from project planning through production.">
+  <img src="https://cacm.acm.org/wp-content/uploads/2024/08/3639562_fig01.jpg" alt="Organization chart for an electronic data-processing system, from project planning through production." eleventy:optional="placeholder">
   <figcaption>I dunno, “Tape Librarian” sounds like a pretty cool gig.</figcaption>
 </figure>
 
@@ -58,7 +58,7 @@ The Cold War helped keep the momentum up. At a time when it was otherwise hard t
 >— Brian Randell, *Memories of the NATO Software Engineering Conferences*, *IEEE Annals of the History of Computing*, 01/01/1998.
 
 <figure>
-  <img src="https://miro.medium.com/v2/resize:fit:4800/format:webp/0*n2LiDzpKgzpFRwQ6.png" alt="Black-and-white photo of NATO software engineering conference attendees seated around a long table, with more attendees facing them in rows.">
+  <img src="https://miro.medium.com/v2/resize:fit:4800/format:webp/0*n2LiDzpKgzpFRwQ6.png" alt="Black-and-white photo of NATO software engineering conference attendees seated around a long table, with more attendees facing them in rows." eleventy:optional="placeholder">
   <figcaption>uh, guys, I don't think we're at OSCON</figcaption>
 </figure>
 

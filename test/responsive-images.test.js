@@ -1,9 +1,13 @@
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { createServer } from "node:http";
 import { once } from "node:events";
 import os from "node:os";
 import path from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
+import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 import test from "node:test";
 import Eleventy from "@11ty/eleventy";
 import Image, { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
@@ -15,7 +19,7 @@ async function raster(width, height, format = "png") {
 	return result[format][0].buffer;
 }
 
-async function fixture(t, markup, files = {}) {
+async function fixture(t, markup, files = {}, { cacheOptions = {}, freshProcess = false } = {}) {
 	const temporary = await mkdtemp(path.join(os.tmpdir(), "website-images-"));
 	t.after(() => rm(temporary, { recursive: true, force: true }));
 	const input = path.join(temporary, "input");
@@ -23,14 +27,24 @@ async function fixture(t, markup, files = {}) {
 	await mkdir(input);
 	await writeFile(path.join(input, "index.html"), markup);
 	for (const [name, bytes] of Object.entries(files)) await writeFile(path.join(input, name), bytes);
-	await new Eleventy(input, output, {
-		configPath: false, quietMode: true,
-		config: config => config.addPlugin(eleventyImageTransformPlugin, {
-			...imageOptions,
-			transformOnRequest: false,
-			cacheOptions: { directory: path.join(temporary, "cache") },
-		}),
-	}).write();
+	const options = {
+		...imageOptions,
+		transformOnRequest: false,
+		cacheOptions: { ...imageOptions.cacheOptions, directory: path.join(temporary, "cache"), ...cacheOptions },
+	};
+	if (freshProcess) {
+		// Eleventy Fetch memoizes successful requests for the life of a process.
+		const configPath = path.join(temporary, "eleventy.config.mjs");
+		await writeFile(configPath, `import { eleventyImageTransformPlugin } from ${JSON.stringify(import.meta.resolve("@11ty/eleventy-img"))};
+export default config => config.addPlugin(eleventyImageTransformPlugin, ${JSON.stringify(options)});`);
+		const cli = fileURLToPath(new URL("../node_modules/@11ty/eleventy/cmd.cjs", import.meta.url));
+		await promisify(execFile)(process.execPath, [cli, `--input=${input}`, `--output=${output}`, `--config=${configPath}`, "--quiet"]);
+	} else {
+		await new Eleventy(input, output, {
+			configPath: false, quietMode: true,
+			config: config => config.addPlugin(eleventyImageTransformPlugin, options),
+		}).write();
+	}
 	return { html: await readFile(path.join(output, "index.html"), "utf8"), output };
 }
 
@@ -83,6 +97,17 @@ test("small sources are never upscaled to the candidate ladder", async t => {
 	await assertCandidates(html, output, [200], 2);
 });
 
+test("a missing required local image rejects the build with its source template and filename", async t => {
+	await assert.rejects(fixture(t, '<img src="./missing-required.png" alt="Required fixture">'), error => {
+		const messages = [];
+		for (let cause = error; cause; cause = cause.originalError ?? cause.cause) messages.push(cause.message);
+		const diagnostic = messages.join("\n");
+		assert.match(diagnostic, /input\/index\.html/);
+		assert.match(diagnostic, /missing-required\.png/);
+		return true;
+	});
+});
+
 test("a source between candidate widths supplies its original width without upscaling", async t => {
 	const { html, output } = await fixture(t, '<img src="./medium.png" alt="Fixture image">', { "medium.png": await raster(850, 425) });
 	await assertCandidates(html, output, [320, 640, 850], 2);
@@ -105,6 +130,36 @@ test("remote WebP can remain a single img while supplying local responsive candi
 	assert.doesNotMatch(html, /<picture/);
 	// Image avoids a near-duplicate 1000px candidate beside the 960px one.
 	await assertCandidates(html, output, [320, 640, 960], 2);
+});
+
+test("optional remote images reuse expired cached bytes or emit a local placeholder during an outage", async t => {
+	const bytes = await raster(200, 100, "webp");
+	const cache = await mkdtemp(path.join(os.tmpdir(), "website-image-cache-"));
+	t.after(() => rm(cache, { recursive: true, force: true }));
+	let available = true;
+	const requests = [];
+	const server = createServer((request, response) => {
+		requests.push(request.url);
+		response.writeHead(available ? 200 : 503, { "Content-Type": "image/webp" });
+		response.end(available ? bytes : undefined);
+	});
+	server.listen(0, "127.0.0.1");
+	await once(server, "listening");
+	t.after(() => new Promise(resolve => server.close(resolve)));
+	const origin = `http://127.0.0.1:${server.address().port}`;
+	const figure = name => `<figure><img src="${origin}/${name}.webp" alt="Fixture image" eleventy:optional="placeholder"><figcaption>Historical context in text.</figcaption></figure>`;
+	const cacheOptions = { directory: cache, duration: "1s" };
+	const first = await fixture(t, figure("cached"), {}, { cacheOptions });
+	await assertCandidates(first.html, first.output, [200], 2);
+	await delay(1100);
+	available = false;
+	const stale = await fixture(t, figure("cached"), {}, { cacheOptions, freshProcess: true });
+	await assertCandidates(stale.html, stale.output, [200], 2);
+	const cold = await fixture(t, figure("uncached"), {}, { cacheOptions });
+	assert.deepEqual(requests, ["/cached.webp", "/cached.webp", "/uncached.webp"]);
+	assert.match(cold.html, /<img src="data:image\/png;base64,[^"]+" alt="Fixture image">/);
+	assert.match(cold.html, /<figcaption>Historical context in text\.<\/figcaption>/);
+	assert.doesNotMatch(cold.html, /127\.0\.0\.1|eleventy:optional/);
 });
 
 test("default social image remains a decodable 1200 by 630 PNG", async () => {
